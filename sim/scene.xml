@@ -1,0 +1,60 @@
+<mujoco model="so101_ballsort">
+  <include file="so101.xml"/>
+
+  <statistic center="0.2 0 0.1" extent="0.6"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.35 0.35 0.35" specular="0 0 0"/>
+    <global azimuth="180" elevation="-35" offwidth="640" offheight="480"/>
+  </visual>
+
+  <worldbody>
+    <light pos="0.2 0 1.2" dir="0 0 -1" directional="true"/>
+    <geom name="floor" type="plane" size="2 2 0.05" pos="0 0 -0.75" rgba="0.55 0.55 0.55 1"/>
+    <!-- 책상 60(y) x 40(x) cm, 윗면 z=0, 로봇은 뒤쪽 가장자리(x=0) 중앙 -->
+    <geom name="table" type="box" size="0.20 0.30 0.01" pos="0.20 0 -0.01" rgba="0.82 0.68 0.50 1"
+      friction="0.8 0.005 0.0001"/>
+
+    <body name="cam_target" pos="0.20 0 0"/>
+    <!-- 책상 위 0.85m. 앞쪽 가장자리 위에서 로봇 쪽을 내려다봄. Task 4에서 보정 -->
+    <camera name="top" pos="0.62 0 0.85" mode="targetbody" target="cam_target" fovy="50"/>
+
+    <!-- 투명 원통형 통: 지름 9cm, 높이 7cm. 바닥판 + 벽 조각 16개 -->
+    <body name="bin" pos="0.12 -0.19 0">
+      <geom name="bin_bottom" type="cylinder" size="0.046 0.0015" pos="0 0 0.0015" rgba="0.85 0.9 0.95 0.35"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0450 0.0000 0.035" euler="0 0 0.0000"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0416 0.0172 0.035" euler="0 0 0.3927"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0318 0.0318 0.035" euler="0 0 0.7854"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0172 0.0416 0.035" euler="0 0 1.1781"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0000 0.0450 0.035" euler="0 0 1.5708"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0172 0.0416 0.035" euler="0 0 1.9635"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0318 0.0318 0.035" euler="0 0 2.3562"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0416 0.0172 0.035" euler="0 0 2.7489"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0450 0.0000 0.035" euler="0 0 3.1416"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0416 -0.0172 0.035" euler="0 0 3.5343"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0318 -0.0318 0.035" euler="0 0 3.9270"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0172 -0.0416 0.035" euler="0 0 4.3197"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="-0.0000 -0.0450 0.035" euler="0 0 4.7124"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0172 -0.0416 0.035" euler="0 0 5.1051"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0318 -0.0318 0.035" euler="0 0 5.4978"/>
+      <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0416 -0.0172 0.035" euler="0 0 5.8905"/>
+    </body>
+
+    <!-- 스펀지 공 지름 4cm, 10g -->
+    <body name="ball_red" pos="0.20 0.10 0.02">
+      <freejoint name="ball_red"/>
+      <geom name="ball_red" type="sphere" size="0.02" mass="0.01" rgba="0.85 0.05 0.05 1"
+        friction="1.5 0.01 0.001" solref="0.02 1" condim="4"/>
+    </body>
+    <body name="ball_black" pos="0.20 0.00 0.02">
+      <freejoint name="ball_black"/>
+      <geom name="ball_black" type="sphere" size="0.02" mass="0.01" rgba="0.05 0.05 0.05 1"
+        friction="1.5 0.01 0.001" solref="0.02 1" condim="4"/>
+    </body>
+    <body name="ball_sky_blue" pos="0.25 0.15 0.02">
+      <freejoint name="ball_sky_blue"/>
+      <geom name="ball_sky_blue" type="sphere" size="0.02" mass="0.01" rgba="0.45 0.75 0.95 1"
+        friction="1.5 0.01 0.001" solref="0.02 1" condim="4"/>
+    </body>
+  </worldbody>
+</mujoco>
