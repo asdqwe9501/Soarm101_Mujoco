@@ -24,13 +24,13 @@
   - 이미지: `observation.images.top`, `observation.images.front`, 둘 다 480×640×3 uint8
 - 단위: 관절 5개는 LeRobot `RANGE_M100_100`, 그리퍼는 `RANGE_0_100`. 제어 주기는 30Hz다.
 - 명령문: `grab the {red|black|sky blue} ball and put it in the box`
-- 제자리 자세(정규화 단위): `[-2.8, 0.1, 93.7, 71.7, -0.7, 1.5]`
+- 제자리 자세(정규화 단위): 실제 `HOME_NORM = [-2.8, 0.1, 93.7, 71.7, -0.7, 1.5]`. 시뮬레이션은 `calib.SIM_HOME_NORM`(wrist_flex 43.7)을 쓴다(Task 4 보정, docs/alignment/NOTES.md).
 - 성공 기준:
   - 명령된 공이 통 안에 있다(중심 수평거리 < 0.045m, 높이 < 0.07m).
   - 다른 공은 통 안에 없다.
   - 모든 관절이 제자리 자세와 5 단위 이내다.
   - 900스텝 안에 끝난다.
-- 좌표: 원점은 로봇 받침이고, z=0이 책상 윗면, +x는 로봇의 정면, +y는 로봇 기준 왼쪽이다. 통 중심은 (0.12, -0.19)이다.
+- 좌표: 원점은 로봇 받침이고, z=0이 책상 윗면, +x는 로봇의 정면, +y는 로봇 기준 왼쪽이다. 통 중심은 (0.165, -0.205)이다(Task 4 보정).
 - 실제 데이터셋: `C:\Users\asdqw\.cache\huggingface\lerobot\taeyoungss\SmolVla_grab_blackball` (repo_id `taeyoungss/SmolVla_grab_blackball`)
 - 캘리브레이션 파일: `C:\Users\asdqw\.cache\huggingface\lerobot\calibration\robots\so_follower\ty_follower_arm.json`
 - 모든 명령은 저장소 루트 `C:\Users\asdqw\so101_ballsort`에서 실행한다.
@@ -828,6 +828,9 @@ git commit -m "feat: calibrate joint offsets, cameras and bin pose against real 
 
 ---
 
+
+> **Task 4 이후 변경 사항 (Task 5~8에 적용):** 시뮬레이션 제자리 자세는 `SIM_HOME_NORM`이다. 데이터셋 키 `observation.images.top`은 손목 카메라, `observation.images.front`는 위쪽 카메라 영상이다. `BIN_CENTER = (0.165, -0.205)`. `MID_RAD = [0.02, -1.68, 1.29, 1.86, 0, 0]`. wrist_flex 관절 상한은 2.22rad로 넓혔다. 시연 스크립트의 높이 상수(PRE_Z 등)는 Task 5 IK 테스트 결과에 따라 조정될 수 있다.
+
 ### Task 5: 역기구학 (`expert/ik.py`)
 
 **Files:**
@@ -846,7 +849,7 @@ git commit -m "feat: calibrate joint offsets, cameras and bin pose against real 
 import numpy as np
 import pytest
 
-from calib import HOME_NORM, Calib
+from calib import SIM_HOME_NORM, Calib
 from expert.ik import IK
 from sim.env import BALL_R_MAX, BALL_X, BALL_Y, BIN_CENTER, BIN_JITTER, BallSortEnv
 
@@ -854,7 +857,7 @@ from sim.env import BALL_R_MAX, BALL_X, BALL_Y, BIN_CENTER, BIN_JITTER, BallSort
 @pytest.fixture(scope="module")
 def ik_and_home():
     env = BallSortEnv(render=False)
-    return IK(env.model), Calib().norm_to_rad(HOME_NORM)
+    return IK(env.model), Calib().norm_to_rad(SIM_HOME_NORM)
 
 
 def _grid():
@@ -971,7 +974,7 @@ git commit -m "feat: add multi-start damped least-squares IK for gripper site"
 - Create: `expert/scripted.py`, `tests/test_expert.py`
 
 **Interfaces:**
-- Consumes: `IK` (Task 5), `BallSortEnv` 특권 정보 (Task 3), `HOME_NORM` (Task 2)
+- Consumes: `IK` (Task 5), `BallSortEnv` 특권 정보 (Task 3), `SIM_HOME_NORM` (Task 2)
 - Produces:
   - `min_jerk(a, b, s) -> array`
   - `class ScriptedExpert(env, seed=0, dart_sigma=0.5)`
@@ -984,7 +987,7 @@ git commit -m "feat: add multi-start damped least-squares IK for gripper site"
 ```python
 import numpy as np
 
-from calib import HOME_NORM
+from calib import SIM_HOME_NORM
 from expert.scripted import ScriptedExpert, min_jerk
 from sim.env import BallSortEnv
 
@@ -1004,7 +1007,7 @@ def test_trajectory_starts_and_ends_at_home():
     assert ex.n_steps < 900
     first = ex.act()[1]
     np.testing.assert_allclose(first, env.joint_norm(), atol=1.5)
-    np.testing.assert_allclose(ex.traj[-1], HOME_NORM, atol=1e-6)
+    np.testing.assert_allclose(ex.traj[-1], SIM_HOME_NORM, atol=1e-6)
 
 
 def run_episode(env, ex, seed):
@@ -1040,7 +1043,7 @@ Expected: FAIL (`ModuleNotFoundError: expert.scripted`)
 
 import numpy as np
 
-from calib import HOME_NORM
+from calib import SIM_HOME_NORM
 from expert.ik import IK
 from sim.env import FPS
 
@@ -1087,7 +1090,7 @@ class ScriptedExpert:
         bin_ = env.bin_pos()
         jit = lambda: rng.uniform(-XY_JITTER, XY_JITTER, 2)
         start = env.joint_norm()
-        q0 = env.calib.norm_to_rad(HOME_NORM)
+        q0 = env.calib.norm_to_rad(SIM_HOME_NORM)
 
         pre, q = self._pose([*(ball[:2] + jit()), PRE_Z], q0, GRIP_OPEN)
         grasp, q = self._pose([ball[0], ball[1], GRASP_Z], q, GRIP_OPEN)
@@ -1097,7 +1100,7 @@ class ScriptedExpert:
         above_bin, q = self._pose([*(bin_[:2] + jit()), RELEASE_Z], q, GRIP_CLOSED)
         release = above_bin.copy()
         release[5] = GRIP_OPEN
-        home = HOME_NORM.copy()
+        home = SIM_HOME_NORM.copy()
 
         keys = [start, pre, grasp, closed, lift, above_bin, release, home, home]
         scale = rng.uniform(0.85, 1.15, len(DURATIONS))
@@ -1173,7 +1176,7 @@ git commit -m "feat: add scripted pick-and-place expert with min-jerk and DART n
 - [ ] **Step 1: 실패하는 테스트 작성** `tests/test_evaluate.py`
 
 ```python
-from calib import HOME_NORM
+from calib import SIM_HOME_NORM
 from eval.evaluate import ExpertPolicy, classify_failure, evaluate, evaluate_sequential
 
 
@@ -1182,7 +1185,7 @@ class StayHome:
         pass
 
     def act(self, obs):
-        return HOME_NORM
+        return SIM_HOME_NORM
 
 
 def test_classify_failure():
