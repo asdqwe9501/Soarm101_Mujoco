@@ -119,3 +119,15 @@ def test_keep_scene(env):
         assert info["target"] != "red"
         for c in COLORS:
             np.testing.assert_allclose(env.ball_pos(c), pos[c], atol=0.003)
+
+
+def test_keep_scene_previous_ball_does_not_block_success(env):
+    env.reset(seed=9, options={"target": "red"})
+    b = env.bin_pos()
+    _teleport(env, "red", [b[0] + 0.021, b[1], 0.025])
+    env.step(HOME_NORM)
+    env.reset(options={"keep_scene": True, "target": "black"})
+    _teleport(env, "black", [b[0] - 0.021, b[1], 0.025])
+    _, reward, _, _, info = env.step(HOME_NORM)
+    assert info["target_in_bin"] and not info["wrong_in_bin"] and info["success"]
+    assert reward == pytest.approx(2.0)

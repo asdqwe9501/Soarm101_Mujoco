@@ -71,6 +71,7 @@ class BallSortEnv(gym.Env):
         self._steps = 0
         self._target_rewarded = False
         self._wrong_penalized = set()
+        self._in_bin_at_reset = set()
 
     # ---------- 특권 정보 (시연 스크립트, 보상, 평가 전용) ----------
     def ball_pos(self, color: str) -> np.ndarray:
@@ -128,7 +129,11 @@ class BallSortEnv(gym.Env):
             "target": self.target,
             "success": success,
             "target_in_bin": self.ball_in_bin(self.target),
-            "wrong_in_bin": any(self.ball_in_bin(c) for c in COLORS if c != self.target),
+            "wrong_in_bin": any(
+                self.ball_in_bin(c)
+                for c in COLORS
+                if c != self.target and c not in self._in_bin_at_reset
+            ),
         }
 
     # ---------- Gymnasium API ----------
@@ -160,7 +165,8 @@ class BallSortEnv(gym.Env):
         self.target, self.task = target, task_text(target)
         self._steps = 0
         self._target_rewarded = False
-        self._wrong_penalized = {c for c in COLORS if c != target and self.ball_in_bin(c)}
+        self._in_bin_at_reset = {c for c in COLORS if self.ball_in_bin(c)}
+        self._wrong_penalized = set()
         return self._obs(), self._info()
 
     def step(self, action):
@@ -174,7 +180,12 @@ class BallSortEnv(gym.Env):
             self._target_rewarded = True
             reward += 1.0
         for c in COLORS:
-            if c != self.target and c not in self._wrong_penalized and self.ball_in_bin(c):
+            if (
+                c != self.target
+                and c not in self._in_bin_at_reset
+                and c not in self._wrong_penalized
+                and self.ball_in_bin(c)
+            ):
                 self._wrong_penalized.add(c)
                 reward -= 1.0
 
