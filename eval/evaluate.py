@@ -107,16 +107,24 @@ def evaluate_sequential(policy, n_trials, seed=0, render=False):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--policy", choices=["expert"], default="expert")
+    ap.add_argument("--policy", choices=["expert", "smolvla"], default="expert")
+    ap.add_argument("--checkpoint", default=None, help="--policy smolvla일 때 pretrained_model 경로")
+    ap.add_argument("--n-action-steps", type=int, default=None)
     ap.add_argument("--n-per-color", type=int, default=50)
     ap.add_argument("--sequential", type=int, default=0, help="연속 명령 시험 횟수 (0이면 생략)")
     ap.add_argument("--seed", type=int, default=10_000)
     ap.add_argument("--video-dir", default=None)
     args = ap.parse_args()
-    policy = ExpertPolicy()
-    result = {"single": evaluate(policy, args.n_per_color, args.seed, video_dir=args.video_dir)}
+    if args.policy == "smolvla":
+        from policies.smolvla_policy import SmolVLAPolicyAdapter
+
+        policy = SmolVLAPolicyAdapter(args.checkpoint, n_action_steps=args.n_action_steps)
+    else:
+        policy = ExpertPolicy()
+    render = args.policy == "smolvla"
+    result = {"single": evaluate(policy, args.n_per_color, args.seed, render=render, video_dir=args.video_dir)}
     if args.sequential:
-        result["sequential"] = evaluate_sequential(policy, args.sequential, args.seed)
+        result["sequential"] = evaluate_sequential(policy, args.sequential, args.seed, render=render)
     print(json.dumps(result, indent=2))
 
 
