@@ -15,12 +15,12 @@
     <geom name="table" type="box" size="0.20 0.30 0.01" pos="0.20 0 -0.01" rgba="0.82 0.68 0.50 1"
       friction="0.8 0.005 0.0001"/>
 
-    <body name="cam_target" pos="0.20 0 0"/>
-    <!-- 책상 위 0.85m. 앞쪽 가장자리 위에서 로봇 쪽을 내려다봄. Task 4에서 보정 -->
-    <camera name="top" pos="0.62 0 0.85" mode="targetbody" target="cam_target" fovy="50"/>
+    <body name="cam_target" pos="0.1875 0.0245 0"/>
+    <!-- 실제 영상의 책상 모서리 4개에 맞춘 값(Task 4). 사용자 추정 0.85m가 아니라 책상 위 약 0.54m. 데이터셋 키 observation.images.front에 해당 -->
+    <camera name="top" pos="0.494 0.025 0.542" mode="targetbody" target="cam_target" fovy="52.5"/>
 
     <!-- 투명 원통형 통: 지름 9cm, 높이 7cm. 바닥판 + 벽 조각 16개 -->
-    <body name="bin" pos="0.12 -0.19 0">
+    <body name="bin" pos="0.165 -0.205 0">
       <geom name="bin_bottom" type="cylinder" size="0.046 0.0015" pos="0 0 0.0015" rgba="0.85 0.9 0.95 0.35"/>
       <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0450 0.0000 0.035" euler="0 0 0.0000"/>
       <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0416 0.0172 0.035" euler="0 0 0.3927"/>

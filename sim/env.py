@@ -16,7 +16,7 @@ MAX_STEPS = 900
 HOME_TOL = 5.0
 HOME_NOISE = 1.0
 
-BIN_CENTER = (0.12, -0.19)
+BIN_CENTER = (0.165, -0.205)
 BIN_JITTER = 0.02
 BIN_R_IN = 0.045
 BIN_H = 0.07
@@ -29,8 +29,9 @@ BALL_MIN_GAP = 0.07
 BALL_BIN_GAP = 0.12
 BALL_REST_TIP_GAP = 0.06  # 제자리 자세 그리퍼 끝과의 최소 거리
 
-TOP_CAM = "top"
-FRONT_CAM = "wrist_cam"
+# 실제 데이터셋의 카메라 키는 이름과 반대다: images.top = 손목 카메라, images.front = 위쪽 카메라
+TOP_CAM = "wrist_cam"
+FRONT_CAM = "top"  # MuJoCo 위쪽 카메라 이름
 IMG_H, IMG_W = 480, 640
 
 
