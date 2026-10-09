@@ -24,28 +24,30 @@ class IK:
         mujoco.mj_comPos(self.model, self.data)
         return self.data.site_xpos[self.site], self.data.site_xmat[self.site].reshape(3, 3)
 
-    def _descend(self, target, q, w):
+    def _descend(self, target, q, w, down):
         for _ in range(self.iters):
             p, R = self._fk(q)
             ep = target - p
-            eo = np.cross(R[:, 0], DOWN)
+            eo = np.cross(R[:, 0], down)
             mujoco.mj_jacSite(self.model, self.data, self._jp, self._jr, self.site)
             J = np.vstack([self._jp, w * self._jr])[:, :4]
             e = np.concatenate([ep, w * eo])
             dq = J.T @ np.linalg.solve(J @ J.T + self.damping * np.eye(6), e)
             q[:4] = np.clip(q[:4] + np.clip(dq, -self.max_dq, self.max_dq), self.lo[:4], self.hi[:4])
         p, R = self._fk(q)
-        tilt = np.degrees(np.arccos(np.clip(R[:, 0] @ DOWN, -1.0, 1.0)))
+        tilt = np.degrees(np.arccos(np.clip(R[:, 0] @ down, -1.0, 1.0)))
         return q, float(np.linalg.norm(target - p)), float(tilt)
 
-    def solve(self, target_xyz, q_init, ori_weight=0.1):
+    def solve(self, target_xyz, q_init, ori_weight=0.1, down=None):
+        """down: 그리퍼(사이트 x축)가 향할 단위벡터. 기본은 연직 아래. tilt는 down 기준 각도."""
         target = np.asarray(target_xyz, dtype=float)
+        down = DOWN if down is None else np.asarray(down, dtype=float)
         starts = [np.array(q_init, dtype=float)]
         for _ in range(self.n_seeds):
             q = np.array(q_init, dtype=float)
             q[0] = np.arctan2(-target[1], target[0])  # pan +방향 = -y
             q[1:4] = self.rng.uniform(self.lo[1:4], self.hi[1:4])
             starts.append(q)
-        results = [self._descend(target, s.copy(), ori_weight) for s in starts]
+        results = [self._descend(target, s.copy(), ori_weight, down) for s in starts]
         ok = [r for r in results if r[1] < 0.003]
         return min(ok, key=lambda r: r[2]) if ok else min(results, key=lambda r: r[1])
