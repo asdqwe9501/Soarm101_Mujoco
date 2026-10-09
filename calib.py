@@ -18,7 +18,7 @@ TICKS_PER_REV = 4096
 MID_TICK = 2047
 # 2047 tick(= 실제 캘리브레이션 중앙 = 제자리 자세)에 해당하는 MuJoCo 관절각.
 # tools/align_overlay.py로 실제 영상과 겹쳐 보며 보정한다.
-MID_RAD = np.array([0.0, -1.70, 1.57, 1.35, 0.0, 0.0])
+MID_RAD = np.array([0.0, -1.70, 1.54, 1.20, 0.0, 0.0])
 
 
 class Calib:
