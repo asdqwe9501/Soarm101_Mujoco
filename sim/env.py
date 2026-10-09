@@ -6,7 +6,7 @@ import gymnasium as gym
 import mujoco
 import numpy as np
 
-from calib import HOME_NORM, Calib
+from calib import SIM_HOME_NORM, Calib
 
 SCENE_XML = Path(__file__).resolve().parent / "scene.xml"
 COLORS = ("red", "black", "sky blue")
@@ -90,7 +90,7 @@ class BallSortEnv(gym.Env):
         return self.calib.rad_to_norm(self.data.qpos[:6])
 
     def at_home(self) -> bool:
-        return bool(np.all(np.abs(self.joint_norm() - HOME_NORM) < HOME_TOL))
+        return bool(np.all(np.abs(self.joint_norm() - SIM_HOME_NORM) < HOME_TOL))
 
     # ---------- 내부 ----------
     def _set_ball(self, color, xy):
@@ -143,7 +143,7 @@ class BallSortEnv(gym.Env):
         options = options or {}
         if not options.get("keep_scene"):
             mujoco.mj_resetData(self.model, self.data)
-            home = HOME_NORM + self.np_random.uniform(-HOME_NOISE, HOME_NOISE, 6)
+            home = SIM_HOME_NORM + self.np_random.uniform(-HOME_NOISE, HOME_NOISE, 6)
             q = self.calib.norm_to_rad(home)
             self.data.qpos[:6] = q
             self.data.ctrl[:6] = np.clip(q, self._ctrl_lo, self._ctrl_hi)

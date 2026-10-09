@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from calib import HOME_NORM
+from calib import SIM_HOME_NORM as HOME_NORM  # 시뮬레이션 제자리 자세
 from sim.env import BALL_R_MAX, COLORS, MAX_STEPS, BallSortEnv, task_text
 
 

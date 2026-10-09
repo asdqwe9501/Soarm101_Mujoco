@@ -13,12 +13,15 @@ DEFAULT_CALIB = (
 
 # 실제 데이터셋 에피소드 시작/끝 평균 (정규화 단위)
 HOME_NORM = np.array([-2.8, 0.1, 93.7, 71.7, -0.7, 1.5])
+# 시뮬레이션 제자리 자세. 보정된 MID_RAD에서 실제 HOME_NORM은 그리퍼가 어깨에 35mm 박히므로
+# wrist_flex만 28 단위 펴서 충돌을 없앤 값. 실제와의 차이는 docs/alignment/NOTES.md 참고.
+SIM_HOME_NORM = np.array([-2.8, 0.1, 93.7, 43.7, -0.7, 1.5])
 
 TICKS_PER_REV = 4096
 MID_TICK = 2047
 # 2047 tick(= 실제 캘리브레이션 중앙 = 제자리 자세)에 해당하는 MuJoCo 관절각.
-# tools/align_overlay.py로 실제 영상과 겹쳐 보며 보정한다.
-MID_RAD = np.array([0.0, -1.70, 1.54, 1.20, 0.0, 0.0])
+# 에피소드 10개의 공 잡기/통 놓기 프레임을 위쪽 카메라로 겹쳐 최소제곱 보정 (Task 4, docs/alignment/NOTES.md).
+MID_RAD = np.array([0.02, -1.68, 1.29, 1.86, 0.0, 0.0])
 
 
 class Calib:
