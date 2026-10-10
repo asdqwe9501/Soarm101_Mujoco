@@ -110,6 +110,7 @@ def main():
     ap.add_argument("--policy", choices=["expert", "smolvla"], default="expert")
     ap.add_argument("--checkpoint", default=None, help="--policy smolvla일 때 pretrained_model 경로")
     ap.add_argument("--n-action-steps", type=int, default=None)
+    ap.add_argument("--zero-state", action="store_true", help="상태를 0으로 학습한 체크포인트용")
     ap.add_argument("--n-per-color", type=int, default=50)
     ap.add_argument("--sequential", type=int, default=0, help="연속 명령 시험 횟수 (0이면 생략)")
     ap.add_argument("--seed", type=int, default=10_000)
@@ -118,7 +119,7 @@ def main():
     if args.policy == "smolvla":
         from policies.smolvla_policy import SmolVLAPolicyAdapter
 
-        policy = SmolVLAPolicyAdapter(args.checkpoint, n_action_steps=args.n_action_steps)
+        policy = SmolVLAPolicyAdapter(args.checkpoint, n_action_steps=args.n_action_steps, zero_state=args.zero_state)
     else:
         policy = ExpertPolicy()
     render = args.policy == "smolvla"
