@@ -6,7 +6,12 @@ JOB=$1; STEPS=$2; BS=$3; shift 3
 DATASET=${DATASET:-so101_ballsort_sim}
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # Windows: lerobot가 policy.path를 Path로 바꿔 "lerobot\smolvla_base"가 되어 HF repo id 검증에 실패한다. 로컬 스냅샷 경로를 넘긴다.
-BASE=$(python -c "from huggingface_hub import snapshot_download; print(snapshot_download('lerobot/smolvla_base'))" | tail -1)
+# INIT로 이전 체크포인트(pretrained_model 경로)에서 시작할 수 있다. 옵티마이저와 학습률 일정은 새로 시작한다.
+if [ -n "${INIT:-}" ]; then
+  BASE="$INIT"
+else
+  BASE=$(python -c "from huggingface_hub import snapshot_download; print(snapshot_download('lerobot/smolvla_base'))" | tail -1)
+fi
 lerobot-train \
   --policy.path="$BASE" \
   --policy.device=cuda \
