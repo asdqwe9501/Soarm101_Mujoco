@@ -1,6 +1,18 @@
 <mujoco model="so101_ballsort">
   <include file="so101.xml"/>
 
+  <!-- 마찰 미끄러짐 제거(noslip). 소프트 제약의 마찰은 힘을 받는 동안 조금씩 미끄러져, 집게 가장자리에 1cm만 비껴 잡혀도
+       공이 옆으로 짜여 나갔다. 실제 스펀지는 집게를 감싸 버티므로 noslip이 더 가깝다(docs/results/grasp_tolerance.md) -->
+  <option noslip_iterations="10"/>
+
+  <!-- 통은 매끈한 투명 플라스틱: 공(priority 2)보다 높은 우선순위로 낮은 마찰을 쓴다. noslip에서 공 마찰 1.5가 그대로
+       적용되면 운반 중 통 가장자리에 스친 공이 걸려 빠지지 않았다 -->
+  <default>
+    <default class="bin">
+      <geom priority="3" condim="3" friction="0.5 0.005 0.0001"/>
+    </default>
+  </default>
+
   <statistic center="0.2 0 0.1" extent="0.6"/>
 
   <visual>
@@ -20,7 +32,7 @@
     <camera name="top" pos="0.494 0.025 0.542" mode="targetbody" target="cam_target" fovy="52.5"/>
 
     <!-- 투명 원통형 통: 지름 9cm, 높이 7cm. 바닥판 + 벽 조각 16개 -->
-    <body name="bin" pos="0.165 -0.205 0">
+    <body name="bin" pos="0.165 -0.205 0" childclass="bin">
       <geom name="bin_bottom" type="cylinder" size="0.046 0.0015" pos="0 0 0.0015" rgba="0.85 0.9 0.95 0.35"/>
       <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0450 0.0000 0.035" euler="0 0 0.0000"/>
       <geom type="box" size="0.0015 0.0102 0.035" rgba="0.85 0.9 0.95 0.35" pos="0.0416 0.0172 0.035" euler="0 0 0.3927"/>
