@@ -39,3 +39,32 @@ def test_expert_success_rate():
     ex = ScriptedExpert(env, seed=0)
     wins = sum(run_episode(env, ex, s) for s in range(20))
     assert wins >= 19, wins  # 95% 이상
+
+
+def test_correction_labels_point_to_true_pre_pose():
+    """보정 모드: 빗나간 구간의 라벨은 실행 명령보다 항상 올바른 공 위 자세에 가깝거나 같다."""
+    env = BallSortEnv(render=False)
+    ex = ScriptedExpert(env, seed=1, correction=True)
+    for s in range(200, 205):
+        env.reset(seed=s)
+        ex.reset()
+        assert ex.n_steps < 800
+        off = np.flatnonzero(ex._off_mask)
+        assert len(off) > 30
+        pre = ex.pre_pose[:5]
+        for t in range(ex.n_steps):
+            executed, clean = ex.act()
+            if ex._off_mask[t]:
+                d_label = np.linalg.norm(clean[:5] - pre)
+                d_exec = np.linalg.norm(executed[:5] - pre)
+                assert d_label <= d_exec + 1e-9, (s, t, d_label, d_exec)
+            env.step(executed)
+        # 빗나간 지점은 실제로 joint 공간에서 올바른 자세와 떨어져 있어야 한다
+        assert np.linalg.norm(ex.traj[off[-1], :5] - pre) > 2.0
+
+
+def test_correction_success_rate():
+    env = BallSortEnv(render=False)
+    ex = ScriptedExpert(env, seed=0, correction=True)
+    wins = sum(run_episode(env, ex, s) for s in range(100, 120))
+    assert wins >= 19, wins

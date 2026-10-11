@@ -20,10 +20,10 @@ FEATURES = {
 }
 
 
-def collect(repo_id, root, n_per_color, seed=0):
+def collect(repo_id, root, n_per_color, seed=0, correction=False):
     ds = LeRobotDataset.create(repo_id, FPS, FEATURES, root=root, robot_type="so_follower", use_videos=True)
     env = BallSortEnv(render=True)
-    expert = ScriptedExpert(env, seed=seed)
+    expert = ScriptedExpert(env, seed=seed, correction=correction)
     saved, discarded, per_color = 0, 0, Counter()
     ep_seed = seed
     try:
@@ -66,8 +66,9 @@ def main():
     ap.add_argument("--root", default="data/so101_ballsort_sim")
     ap.add_argument("--n-per-color", type=int, default=200)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--correction", action="store_true", help="보정 시연 모드(빗나갔다가 올바른 자세로 보정)")
     args = ap.parse_args()
-    print(json.dumps(collect(args.repo_id, args.root, args.n_per_color, args.seed), indent=2))
+    print(json.dumps(collect(args.repo_id, args.root, args.n_per_color, args.seed, args.correction), indent=2))
 
 
 if __name__ == "__main__":
