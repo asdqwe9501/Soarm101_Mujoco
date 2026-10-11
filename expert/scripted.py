@@ -160,5 +160,5 @@ class ScriptedExpert:
             cur = self.env.joint_norm()
             lim = np.maximum(CORR_MAX_STEP, np.abs(executed[:5] - cur[:5]))
             clean[:5] = cur[:5] + np.clip(self.pre_pose[:5] - cur[:5], -lim, lim)
-            clean[5] = GRIP_OPEN
+            # clean[5]는 최소저크 궤적의 그리퍼 값 그대로 둔다 (점프 방지)
         return executed, clean

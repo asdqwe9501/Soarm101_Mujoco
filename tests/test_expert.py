@@ -52,12 +52,26 @@ def test_correction_labels_point_to_true_pre_pose():
         off = np.flatnonzero(ex._off_mask)
         assert len(off) > 30
         pre = ex.pre_pose[:5]
+        prev_grip = None
         for t in range(ex.n_steps):
+            cur = env.joint_norm()
             executed, clean = ex.act()
             if ex._off_mask[t]:
+                # (a) 팔 관절 라벨은 현재값과 올바른 자세 사이(오버슈트 없음)
+                lo = np.minimum(cur[:5], pre) - 1e-6
+                hi = np.maximum(cur[:5], pre) + 1e-6
+                assert np.all((clean[:5] >= lo) & (clean[:5] <= hi)), (s, t)
+                # (b) 그리퍼 라벨은 최소저크 궤적 값이며 스텝 간 급변 없음
+                assert abs(clean[5] - ex.traj[t][5]) < 1e-9, (s, t)
+                if prev_grip is not None:
+                    assert abs(clean[5] - prev_grip) < 5.0, (s, t)
+                prev_grip = clean[5]
+                # (c) L2 조건
                 d_label = np.linalg.norm(clean[:5] - pre)
                 d_exec = np.linalg.norm(executed[:5] - pre)
                 assert d_label <= d_exec + 1e-9, (s, t, d_label, d_exec)
+            if not ex._off_mask[t]:
+                prev_grip = None
             env.step(executed)
         # 빗나간 지점은 실제로 joint 공간에서 올바른 자세와 떨어져 있어야 한다
         assert np.linalg.norm(ex.traj[off[-1], :5] - pre) > 2.0
