@@ -7,7 +7,7 @@
   2. 조명과 배경 다양화
   3. 네거티브 샘플링
 
-**목표:** 300개(배치 100개 × 명령 3종)를 수집한다. 기존 1,200개와 합쳐 sft_v3에서 30k 스텝 이어서 학습한다. 반사실 시험에서 맞는 공 첫 시도 95%를 노린다.
+**목표:** 300개(배치 100개 × 명령 3종)를 수집한다. 이 300개만으로(기존 1,200개 제외) sft_v3에서 30k 스텝 이어서 학습한다. 반사실 시험에서 맞는 공 첫 시도 95%를 노린다.
 
 ## Global Constraints
 
@@ -65,11 +65,11 @@
 
   배치당 명령 수가 장면에 따라 2~3개이므로, 색별 100개를 채울 때까지 배치를 계속 늘린다.
 
-## Task 4: 병합 + 학습 + 평가
+## Task 4: 학습 + 평가 (사용자 결정: 기존 1,200개는 합치지 않음)
 
-1. **병합:** `python tools/merge_datasets.py data/so101_ballsort_sim_all5 data/so101_ballsort_sim data/so101_ballsort_sim_corr data/so101_ballsort_sim_v5`
-2. **학습:** `INIT=<sft_v3 last> DATASET=so101_ballsort_sim_all5 bash train/sft.sh sft_v5 30000 16 --policy.scheduler_decay_steps=30000`
-3. **평가:**
+1. **학습:** 새 300개만으로 학습한다. 시작점은 sft_v3 가중치이며, 집기와 운반 동작을 유지하기 위해서다.
+   - `INIT=<sft_v3 last> DATASET=so101_ballsort_sim_v5 bash train/sft.sh sft_v5 30000 16 --policy.scheduler_decay_steps=30000`
+2. **평가:**
    - 반사실 시험(배치 30개, 새 배치 방식)을 **sft_v3와 sft_v5 둘 다**로 다시 잰다.
    - sft_v5는 가드를 켠 경우도 잰다.
    - 기본 조명과 무작위 조명 두 조건으로 각각 잰다.
