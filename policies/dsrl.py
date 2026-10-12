@@ -93,3 +93,25 @@ class NoiseSteeredSmolVLA:
         actions = self.adapter.policy.predict_action_chunk(batch, noise=noise)
         actions = self.adapter.post(actions)
         return actions[0].float().cpu().numpy().astype(np.float32)
+
+
+class DSRLPolicyAdapter:
+    """평가기 프로토콜(reset(env), act(obs)). 큐가 비면 features → actor(결정적) → chunk 앞 EXEC_STEPS개."""
+
+    def __init__(self, checkpoint, actor_path, device="cuda"):
+        from rl.sac import SAC
+
+        self.steer = NoiseSteeredSmolVLA(checkpoint, device=device)
+        self.sac = SAC(self.steer.feat_dim, LATENT_DIM, LATENT_SCALE, device=device)
+        self.sac.load(actor_path)
+        self.queue = []
+
+    def reset(self, env):
+        self.steer.reset(env)
+        self.queue = []
+
+    def act(self, obs):
+        if not self.queue:
+            latent = self.sac.act(self.steer.features(obs), deterministic=True)
+            self.queue = list(self.steer.chunk(obs, latent)[:EXEC_STEPS])
+        return self.queue.pop(0)

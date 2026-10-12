@@ -107,8 +107,9 @@ def evaluate_sequential(policy, n_trials, seed=0, render=False):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--policy", choices=["expert", "smolvla"], default="expert")
-    ap.add_argument("--checkpoint", default=None, help="--policy smolvla일 때 pretrained_model 경로")
+    ap.add_argument("--policy", choices=["expert", "smolvla", "dsrl"], default="expert")
+    ap.add_argument("--checkpoint", default=None, help="--policy smolvla/dsrl일 때 pretrained_model 경로")
+    ap.add_argument("--actor", default=None, help="--policy dsrl일 때 SAC 체크포인트(.pt)")
     ap.add_argument("--n-action-steps", type=int, default=None)
     ap.add_argument("--zero-state", action="store_true", help="상태를 0으로 학습한 체크포인트용")
     ap.add_argument("--n-per-color", type=int, default=50)
@@ -120,9 +121,13 @@ def main():
         from policies.smolvla_policy import SmolVLAPolicyAdapter
 
         policy = SmolVLAPolicyAdapter(args.checkpoint, n_action_steps=args.n_action_steps, zero_state=args.zero_state)
+    elif args.policy == "dsrl":
+        from policies.dsrl import DSRLPolicyAdapter
+
+        policy = DSRLPolicyAdapter(args.checkpoint, args.actor)
     else:
         policy = ExpertPolicy()
-    render = args.policy == "smolvla"
+    render = args.policy in ("smolvla", "dsrl")
     result = {"single": evaluate(policy, args.n_per_color, args.seed, render=render, video_dir=args.video_dir)}
     if args.sequential:
         result["sequential"] = evaluate_sequential(policy, args.sequential, args.seed, render=render)
