@@ -145,3 +145,118 @@ def test_color_positions_are_balanced(env):
     # 고정 순서 배정 시: 평균 y 차이 약 0.013, 오른쪽 비율 차이 약 0.057
     assert max(means) - min(means) < 0.006, means
     assert max(right) - min(right) < 0.03, right
+
+
+# ---------- Plan 5: 시각 무작위화와 장면 구성 ----------
+def _same_image(a, b):
+    # GPU 렌더링은 부하에 따라 극소수 픽셀이 1 차이 날 수 있다
+    d = np.abs(a.astype(int) - b.astype(int))
+    assert d.max() <= 2 and (d > 0).mean() < 1e-4, (d.max(), (d > 0).mean())
+
+
+def _visual_state(e):
+    t = e.model.geom("table").id
+    return (
+        e.model.light_diffuse.copy(),
+        e.model.vis.headlight.diffuse.copy(),
+        e.model.geom_rgba[t].copy(),
+        e.model.geom_rgba[e.model.geom("floor").id].copy(),
+    )
+
+
+@pytest.fixture
+def renv():
+    e = BallSortEnv(render=True)
+    yield e
+    e.close()
+
+
+def test_randomize_same_seed_same_render_and_different_seed_differs(renv):
+    o1, _ = renv.reset(seed=11, options={"randomize": True})
+    v1 = _visual_state(renv)
+    o2, _ = renv.reset(seed=11, options={"randomize": True})
+    _same_image(o1["observation.images.front"], o2["observation.images.front"])
+    _same_image(o1["observation.images.top"], o2["observation.images.top"])
+    renv.reset(seed=12, options={"randomize": True})
+    v3 = _visual_state(renv)
+    assert not np.allclose(v1[0], v3[0])  # 조명
+    assert not np.allclose(v1[2], v3[2])  # 책상 색
+
+
+def test_randomize_off_restores_defaults(renv):
+    o0, _ = renv.reset(seed=13)
+    v0 = _visual_state(renv)
+    balls0 = renv.model.geom_rgba[[renv.model.geom("ball_" + c.replace(" ", "_")).id for c in COLORS]].copy()
+    renv.reset(seed=14, options={"randomize": True})
+    o1, _ = renv.reset(seed=13)
+    for a, b in zip(v0, _visual_state(renv)):
+        np.testing.assert_array_equal(a, b)
+    balls1 = renv.model.geom_rgba[[renv.model.geom("ball_" + c.replace(" ", "_")).id for c in COLORS]]
+    np.testing.assert_array_equal(balls0, balls1)
+    _same_image(o0["observation.images.front"], o1["observation.images.front"])
+
+
+def test_randomize_ball_colors_change_little(env):
+    ids = [env.model.geom("ball_" + c.replace(" ", "_")).id for c in COLORS]
+    env.reset(seed=15)
+    base = env.model.geom_rgba[ids].copy()
+    for s in range(20):
+        env.reset(seed=s, options={"randomize": True})
+        assert np.all(np.abs(env.model.geom_rgba[ids] - base) <= 0.05 + 1e-9)
+
+
+def test_randomize_does_not_change_layout(env):
+    env.reset(seed=16)
+    p0 = {c: env.ball_pos(c) for c in COLORS}
+    env.reset(seed=16, options={"randomize": True})
+    for c in COLORS:
+        np.testing.assert_allclose(env.ball_pos(c), p0[c], atol=1e-9)
+
+
+def _on_table(env, c):
+    p = env.ball_pos(c)
+    return 0.0 <= p[0] <= 0.4 and -0.3 <= p[1] <= 0.3 and abs(p[2] - 0.02) < 0.005 and not env.ball_in_bin(c)
+
+
+@pytest.mark.parametrize("scene", ["two", "prebinned"])
+def test_reduced_scenes_keep_target_on_table(env, scene):
+    for s in range(20):
+        _, info = env.reset(seed=s, options={"scene": scene})
+        t = info["target"]
+        assert _on_table(env, t), (s, t)
+        others = [c for c in COLORS if c != t]
+        n_table = sum(_on_table(env, c) for c in others)
+        assert n_table == 1, (s, scene)
+        aside = [c for c in others if not _on_table(env, c)][0]
+        if scene == "two":
+            assert env.ball_pos(aside)[2] < -0.5  # 책상 아래
+        else:
+            assert env.ball_in_bin(aside)
+
+
+def test_scene_aside_option(env):
+    _, info = env.reset(seed=17, options={"scene": "two", "aside": "red", "target": "black"})
+    assert env.ball_pos("red")[2] < -0.5 and info["target"] == "black"
+    with pytest.raises(ValueError):
+        env.reset(seed=17, options={"scene": "two", "aside": "red", "target": "red"})
+
+
+def test_prebinned_ball_does_not_block_success(env):
+    _, info = env.reset(seed=18, options={"scene": "prebinned", "aside": "sky blue", "target": "red"})
+    assert not info["wrong_in_bin"]
+    b = env.bin_pos()
+    sb = env.ball_pos("sky blue")
+    # 미리 들어 있던 공의 반대쪽에 명령한 공을 넣는다
+    d = (b[:2] - sb[:2]) / max(np.hypot(*(b[:2] - sb[:2])), 1e-6)
+    _teleport(env, "red", [*(b[:2] + 0.021 * d), 0.025])
+    _, reward, terminated, _, info = env.step(HOME_NORM)
+    assert info["target_in_bin"] and not info["wrong_in_bin"] and info["success"] and terminated
+    assert reward == pytest.approx(2.0)
+
+
+def test_two_scene_aside_ball_does_not_block_success(env):
+    _, info = env.reset(seed=19, options={"scene": "two", "aside": "black", "target": "red"})
+    b = env.bin_pos()
+    _teleport(env, "red", [b[0], b[1], 0.025])
+    _, reward, terminated, _, info = env.step(HOME_NORM)
+    assert info["success"] and terminated and reward == pytest.approx(2.0)

@@ -29,6 +29,16 @@ BALL_MIN_GAP = 0.07
 BALL_BIN_GAP = 0.12
 BALL_REST_TIP_GAP = 0.06  # 제자리 자세 그리퍼 끝과의 최소 거리
 
+# Plan 5: reset(options={"randomize": True})일 때 시각 무작위화 범위
+LIGHT_SCALE = (0.6, 1.4)     # 밝기 배율
+LIGHT_TINT = (0.85, 1.15)    # 색온도: R, B 채널 배율
+TABLE_JITTER = 0.15          # 책상 RGB 각 채널 ±
+FLOOR_GRAY = (0.3, 0.8)
+BALL_COLOR_JITTER = 0.05     # 공 RGB 각 채널 ± (색 구분 유지)
+# 장면 구성: "three"(기본), "two"(명령하지 않은 공 하나를 책상 아래로 치움), "prebinned"(하나를 통에 넣고 시작)
+SCENES = ("three", "two", "prebinned")
+ASIDE_XYZ = (0.20, 0.0, -0.72)  # 책상 아래, 바닥(z=-0.75) 바로 위
+
 # 실제 데이터셋의 카메라 키는 이름과 반대다: images.top = 손목 카메라, images.front = 위쪽 카메라
 TOP_CAM = "wrist_cam"
 FRONT_CAM = "top"  # MuJoCo 위쪽 카메라 이름
@@ -59,6 +69,18 @@ class BallSortEnv(gym.Env):
         self._ctrl_lo = self.model.actuator_ctrlrange[:, 0].copy()
         self._ctrl_hi = self.model.actuator_ctrlrange[:, 1].copy()
 
+        # 시각 무작위화 기본값 (randomize가 꺼지면 되돌린다)
+        self._table_gid = self.model.geom("table").id
+        self._floor_gid = self.model.geom("floor").id
+        self._ball_gid = {c: self.model.geom("ball_" + c.replace(" ", "_")).id for c in COLORS}
+        self._default_visual = (
+            self.model.light_diffuse.copy(),
+            self.model.light_ambient.copy(),
+            self.model.vis.headlight.diffuse.copy(),
+            self.model.vis.headlight.ambient.copy(),
+            self.model.geom_rgba.copy(),
+        )
+
         self.action_space = gym.spaces.Box(-100.0, 100.0, (6,), np.float32)
         spaces = {"observation.state": gym.spaces.Box(-100.0, 100.0, (6,), np.float32)}
         if render:
@@ -86,6 +108,10 @@ class BallSortEnv(gym.Env):
         p, b = self.ball_pos(color), self.bin_pos()
         return bool(np.hypot(p[0] - b[0], p[1] - b[1]) < BIN_R_IN and p[2] < BIN_H)
 
+    def ball_on_table(self, color: str) -> bool:
+        """통 안도 아니고 책상 아래로 치워지지도 않은 공."""
+        return not self.ball_in_bin(color) and self.ball_pos(color)[2] > -0.1
+
     def joint_norm(self) -> np.ndarray:
         return self.calib.rad_to_norm(self.data.qpos[:6])
 
@@ -97,6 +123,27 @@ class BallSortEnv(gym.Env):
         a = self._ball_adr[color]
         self.data.qpos[a : a + 3] = [xy[0], xy[1], BALL_RADIUS]
         self.data.qpos[a + 3 : a + 7] = [1, 0, 0, 0]
+
+    def _apply_visual(self, randomize):
+        ld, la, hd, ha, rgba = self._default_visual
+        m = self.model
+        m.light_diffuse[:], m.light_ambient[:] = ld, la
+        m.vis.headlight.diffuse[:], m.vis.headlight.ambient[:] = hd, ha
+        m.geom_rgba[:] = rgba
+        if not randomize:
+            return
+        rng = self.np_random
+        k = rng.uniform(*LIGHT_SCALE) * np.array([rng.uniform(*LIGHT_TINT), 1.0, rng.uniform(*LIGHT_TINT)])
+        m.light_diffuse[:] = ld * k
+        m.light_ambient[:] = la * k
+        m.vis.headlight.diffuse[:] = hd * k
+        m.vis.headlight.ambient[:] = ha * k
+        t = self._table_gid
+        m.geom_rgba[t, :3] = np.clip(rgba[t, :3] + rng.uniform(-TABLE_JITTER, TABLE_JITTER, 3), 0.0, 1.0)
+        m.geom_rgba[self._floor_gid, :3] = rng.uniform(*FLOOR_GRAY)
+        for c in COLORS:
+            g = self._ball_gid[c]
+            m.geom_rgba[g, :3] = np.clip(rgba[g, :3] + rng.uniform(-BALL_COLOR_JITTER, BALL_COLOR_JITTER, 3), 0.0, 1.0)
 
     def _sample_layout(self, rest_tip_xy):
         rng = self.np_random
@@ -154,11 +201,30 @@ class BallSortEnv(gym.Env):
             order = self.np_random.permutation(len(COLORS))
             for c, p in zip(COLORS, (pts[i] for i in order)):
                 self._set_ball(c, p)
+            scene = options.get("scene", "three")
+            if scene not in SCENES:
+                raise ValueError(f"unknown scene {scene!r}")
+            if scene != "three":
+                aside = options.get("aside")
+                if aside is None:
+                    cands = [c for c in COLORS if c != options.get("target")]
+                    aside = cands[self.np_random.integers(len(cands))]
+                if aside == options.get("target"):
+                    raise ValueError(f"target {aside!r} cannot be set aside")
+                a = self._ball_adr[aside]
+                if scene == "two":
+                    self.data.qpos[a : a + 3] = ASIDE_XYZ
+                else:  # prebinned: 통 바닥 위, 가운데에서 조금 벗어난 곳 (명령한 공이 들어갈 자리를 남긴다)
+                    b = self.bin_pos()
+                    th = self.np_random.uniform(0, 2 * np.pi)
+                    xy = b[:2] + 0.018 * np.array([np.cos(th), np.sin(th)])
+                    self.data.qpos[a : a + 3] = [*xy, BALL_RADIUS + 0.003]
+            self._apply_visual(bool(options.get("randomize")))
             mujoco.mj_forward(self.model, self.data)
             for _ in range(N_SUBSTEPS * 6):  # 0.2초 정착
                 mujoco.mj_step(self.model, self.data)
 
-        remaining = [c for c in COLORS if not self.ball_in_bin(c)]
+        remaining = [c for c in COLORS if self.ball_on_table(c)]
         if not remaining:
             raise RuntimeError("all balls are already in the bin")
         target = options.get("target")
