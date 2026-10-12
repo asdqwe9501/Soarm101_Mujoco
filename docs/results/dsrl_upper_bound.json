@@ -1,0 +1,1371 @@
+{
+  "checkpoint": "outputs/train/sft_v3/checkpoints/last/pretrained_model",
+  "layouts": 30,
+  "tries": 8,
+  "seed": 20000,
+  "reachable_rate": 0.9222222222222223,
+  "reachable_rate_by_color": {
+    "red": 0.9,
+    "black": 0.9333333333333333,
+    "sky blue": 0.9333333333333333
+  },
+  "per_try_target_rate": 0.6472222222222223,
+  "per_try_target_rate_by_color": {
+    "red": 0.7291666666666666,
+    "black": 0.5375,
+    "sky blue": 0.675
+  },
+  "runtime_s": 1787.094631433487,
+  "detail": [
+    {
+      "layout": 0,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 0,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "red",
+        "red",
+        "none",
+        "red",
+        "black",
+        "red",
+        "sky blue"
+      ],
+      "hits": 2
+    },
+    {
+      "layout": 0,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 1,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "timeout",
+        "sky blue",
+        "red",
+        "red"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 1,
+      "command": "black",
+      "outcomes": [
+        "red",
+        "timeout",
+        "black",
+        "red",
+        "timeout",
+        "red",
+        "red",
+        "timeout"
+      ],
+      "hits": 1
+    },
+    {
+      "layout": 1,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 2,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "sky blue",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 2,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "sky blue",
+        "black",
+        "black"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 2,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "red",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 3,
+      "command": "red",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 3,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "sky blue",
+        "black",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "black"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 3,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "red",
+        "red",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 4,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "timeout",
+        "black"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 4,
+      "command": "black",
+      "outcomes": [
+        "red",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "red",
+        "none"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 4,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 5,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "none"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 5,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 5,
+      "command": "sky blue",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 6,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "none",
+        "black",
+        "none",
+        "red",
+        "red",
+        "black",
+        "black"
+      ],
+      "hits": 3
+    },
+    {
+      "layout": 6,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "red",
+        "none",
+        "black"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 6,
+      "command": "sky blue",
+      "outcomes": [
+        "red",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "red",
+        "sky blue",
+        "sky blue",
+        "none"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 7,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "none",
+        "red",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 7,
+      "command": "black",
+      "outcomes": [
+        "none",
+        "timeout",
+        "timeout",
+        "black",
+        "black",
+        "none",
+        "black",
+        "timeout"
+      ],
+      "hits": 3
+    },
+    {
+      "layout": 7,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 8,
+      "command": "red",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 8,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "timeout",
+        "black",
+        "black",
+        "black",
+        "black",
+        "red",
+        "none"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 8,
+      "command": "sky blue",
+      "outcomes": [
+        "red",
+        "sky blue",
+        "red",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 9,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "none"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 9,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "red",
+        "sky blue",
+        "none",
+        "black",
+        "black",
+        "none",
+        "red"
+      ],
+      "hits": 3
+    },
+    {
+      "layout": 9,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 10,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "black",
+        "red",
+        "black",
+        "red",
+        "red",
+        "black",
+        "red"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 10,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "none",
+        "black",
+        "timeout",
+        "black",
+        "red",
+        "black"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 10,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "red",
+        "sky blue",
+        "red",
+        "none",
+        "red",
+        "red",
+        "sky blue"
+      ],
+      "hits": 3
+    },
+    {
+      "layout": 11,
+      "command": "red",
+      "outcomes": [
+        "timeout",
+        "red",
+        "red",
+        "none",
+        "red",
+        "red",
+        "red",
+        "none"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 11,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue",
+        "black"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 11,
+      "command": "sky blue",
+      "outcomes": [
+        "black",
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "timeout",
+        "sky blue",
+        "none"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 12,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "timeout",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 12,
+      "command": "black",
+      "outcomes": [
+        "timeout",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 12,
+      "command": "sky blue",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 13,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 13,
+      "command": "black",
+      "outcomes": [
+        "sky blue",
+        "none",
+        "black",
+        "black",
+        "sky blue",
+        "sky blue",
+        "black",
+        "black"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 13,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 14,
+      "command": "red",
+      "outcomes": [
+        "none",
+        "red",
+        "red",
+        "red",
+        "timeout",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 14,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 14,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "timeout",
+        "none"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 15,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 15,
+      "command": "black",
+      "outcomes": [
+        "red",
+        "black",
+        "black",
+        "black",
+        "red",
+        "red",
+        "black",
+        "red"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 15,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 16,
+      "command": "red",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 16,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "none",
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 2
+    },
+    {
+      "layout": 16,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "timeout",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none",
+        "timeout"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 17,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 17,
+      "command": "black",
+      "outcomes": [
+        "timeout",
+        "timeout",
+        "black",
+        "black",
+        "black",
+        "timeout",
+        "timeout",
+        "black"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 17,
+      "command": "sky blue",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "sky blue",
+        "red"
+      ],
+      "hits": 1
+    },
+    {
+      "layout": 18,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 18,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "sky blue",
+        "black",
+        "red",
+        "red",
+        "sky blue",
+        "black",
+        "sky blue"
+      ],
+      "hits": 3
+    },
+    {
+      "layout": 18,
+      "command": "sky blue",
+      "outcomes": [
+        "none",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 19,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "black",
+        "red",
+        "red",
+        "red",
+        "red",
+        "black",
+        "red"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 19,
+      "command": "black",
+      "outcomes": [
+        "red",
+        "black",
+        "black",
+        "red",
+        "black",
+        "black",
+        "black",
+        "red"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 19,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 20,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 20,
+      "command": "black",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 20,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 21,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 21,
+      "command": "black",
+      "outcomes": [
+        "timeout",
+        "timeout",
+        "timeout",
+        "red",
+        "timeout",
+        "timeout",
+        "black",
+        "black"
+      ],
+      "hits": 2
+    },
+    {
+      "layout": 21,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 22,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 22,
+      "command": "black",
+      "outcomes": [
+        "sky blue",
+        "none",
+        "black",
+        "red",
+        "black",
+        "sky blue",
+        "black",
+        "black"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 22,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 23,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "none",
+        "red",
+        "none",
+        "red",
+        "red",
+        "timeout",
+        "red"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 23,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "sky blue",
+        "black",
+        "black",
+        "black",
+        "black",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 23,
+      "command": "sky blue",
+      "outcomes": [
+        "black",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 2
+    },
+    {
+      "layout": 24,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "sky blue",
+        "red",
+        "sky blue",
+        "red",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 24,
+      "command": "black",
+      "outcomes": [
+        "none",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 24,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 25,
+      "command": "red",
+      "outcomes": [
+        "black",
+        "red",
+        "red",
+        "black",
+        "red",
+        "red",
+        "none",
+        "red"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 25,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "none",
+        "black",
+        "sky blue",
+        "black",
+        "red",
+        "black",
+        "black"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 25,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 26,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 26,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 26,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 27,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "none",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 27,
+      "command": "black",
+      "outcomes": [
+        "sky blue",
+        "red",
+        "red",
+        "none",
+        "none",
+        "red",
+        "red",
+        "sky blue"
+      ],
+      "hits": 0
+    },
+    {
+      "layout": 27,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "black",
+        "sky blue"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 28,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "red",
+        "none",
+        "red",
+        "red",
+        "red",
+        "red",
+        "none"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 28,
+      "command": "black",
+      "outcomes": [
+        "black",
+        "black",
+        "none",
+        "black",
+        "black",
+        "sky blue",
+        "black",
+        "timeout"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 28,
+      "command": "sky blue",
+      "outcomes": [
+        "black",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 29,
+      "command": "red",
+      "outcomes": [
+        "red",
+        "sky blue",
+        "sky blue",
+        "black",
+        "red",
+        "timeout",
+        "red",
+        "red"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 29,
+      "command": "black",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "black",
+        "none",
+        "timeout",
+        "sky blue",
+        "none",
+        "sky blue"
+      ],
+      "hits": 2
+    },
+    {
+      "layout": 29,
+      "command": "sky blue",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "sky blue",
+        "black",
+        "sky blue",
+        "none",
+        "sky blue",
+        "black"
+      ],
+      "hits": 4
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "policy": "smolvla",
+  "checkpoint": "outputs/train/sft_v3/checkpoints/last/pretrained_model",
+  "actor": null,
+  "layouts": 30,
+  "seed": 20000,
+  "episodes": 90,
+  "confusion": {
+    "red": {
+      "black": 3,
+      "none": 1,
+      "red": 22,
+      "sky blue": 3,
+      "timeout": 1
+    },
+    "black": {
+      "black": 20,
+      "none": 4,
+      "red": 2,
+      "sky blue": 4,
+      "timeout": 0
+    },
+    "sky blue": {
+      "black": 5,
+      "none": 0,
+      "red": 4,
+      "sky blue": 19,
+      "timeout": 2
+    }
+  },
+  "target_attempt_rate": 0.6777777777777778,
+  "target_attempt_rate_by_color": {
+    "red": 0.7333333333333333,
+    "black": 0.6666666666666666,
+    "sky blue": 0.6333333333333333
+  },
+  "wrong_color_rate": 0.23333333333333334,
+  "miss_rate": 0.05555555555555555,
+  "timeout_rate": 0.03333333333333333,
+  "other_rate": 0.0,
+  "layouts_all_3_correct": 9
+}
