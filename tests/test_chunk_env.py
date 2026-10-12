@@ -3,6 +3,7 @@ import numpy as np
 from calib import SIM_HOME_NORM
 from expert.scripted import ScriptedExpert
 from rl.chunk_env import ChunkEnv
+from rl.staged_reward import ATTEMPT_TIMEOUT_STEPS
 from sim.env import BallSortEnv
 
 
@@ -92,7 +93,7 @@ def test_wrong_attempt_stops_at_that_env_step():
 
 def test_attempt_timeout_through_chunks():
     _, info, n = rollout(make(HomeSteer()))
-    assert info["end_reason"] == "attempt_timeout" and info["env_steps"] == 360 and n == 36
+    assert info["end_reason"] == "attempt_timeout" and info["env_steps"] == ATTEMPT_TIMEOUT_STEPS and n == ATTEMPT_TIMEOUT_STEPS // 10
 
 
 def test_action_is_clipped_to_scale():
