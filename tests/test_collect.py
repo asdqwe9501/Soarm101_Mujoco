@@ -25,3 +25,20 @@ def test_collect_small_dataset(tmp_path):
     info = json.loads((root / "meta" / "info.json").read_text())
     assert info["fps"] == 30 and info["robot_type"] == "so_follower"
     assert info["features"]["action"]["names"][0] == "shoulder_pan.pos"
+
+
+def test_same_layout_gives_identical_first_frames_for_three_commands(tmp_path):
+    root = tmp_path / "ds_same"
+    stats = collect("local/test_same", root, n_per_color=1, seed=7, same_layout=True)
+    assert stats["saved"] == 3
+
+    from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
+    ds = LeRobotDataset("local/test_same", root=root, video_backend="pyav")
+    starts = [int(i) for i in ds.meta.episodes["dataset_from_index"]]
+    firsts = [ds[i] for i in starts]
+    assert len({f["task"] for f in firsts}) == 3
+    for f in firsts[1:]:
+        assert (f["observation.state"] == firsts[0]["observation.state"]).all()
+        diff = (f["observation.images.front"] - firsts[0]["observation.images.front"]).abs().mean()
+        assert diff < 0.01  # 같은 배치 (영상 압축 오차만 허용)
