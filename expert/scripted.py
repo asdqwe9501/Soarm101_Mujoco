@@ -33,6 +33,9 @@ CORR_DURATION = 1.2          # 보정 이동 시간 [s] (DURATIONS처럼 ±15%)
 CORR_MAX_STEP = 3.0          # 빗나간 구간 라벨의 한 스텝 최대 이동 [정규화 단위]. 평소 최고 속도(≈2)보다 약간 크게
 CORR_BALL_GAP = 0.04         # 빗나간 지점과 다른 공 사이 최소 수평 거리
 CORR_BIN_GAP = 0.09          # 빗나간 지점과 통 중심 사이 최소 수평 거리
+# 네거티브 시연 모드(Plan 5): 명령하지 않은 색 공 위(PRE_Z)로 먼저 갔다가 멈춘 뒤 명령한 공으로 옮겨 간다.
+# 멈춤 시간과 라벨 규칙은 보정 모드와 같다.
+WRONG_MOVE_DURATION = 2.0    # 잘못된 공 위 → 명령한 공 위 이동 시간 [s] (±15%)
 
 
 def min_jerk(a, b, s):
@@ -42,7 +45,7 @@ def min_jerk(a, b, s):
 
 
 class ScriptedExpert:
-    def __init__(self, env, seed=0, dart_sigma=0.5, correction=False):
+    def __init__(self, env, seed=0, dart_sigma=0.5, correction=False, wrong_approach=False):
         self.env = env
         self.ik = IK(env.model)
         self._gripper_body = env.model.body("gripper").id
@@ -51,6 +54,8 @@ class ScriptedExpert:
         self.rng = np.random.default_rng(seed)
         self.dart_sigma = dart_sigma
         self.correction = correction
+        self.wrong_approach = wrong_approach
+        self.wrong_color = None
         self.traj = None
         self.t = 0
 
@@ -107,13 +112,21 @@ class ScriptedExpert:
             traj += [min_jerk(a, b, j / (n - 1)) for j in range(n)]
             gate += [0.0 if i in QUIET_SEGMENTS else 1.0] * n
         off_mask = np.zeros(len(traj), dtype=bool)
-        off = self._offset_pose(pre_xy, bin_, q0) if self.correction else None
+        off, move_duration = None, CORR_DURATION
+        self.wrong_color = None
+        if self.wrong_approach:
+            off = self._wrong_ball_pose(q0)
+            move_duration = WRONG_MOVE_DURATION
+            if off is None:  # 책상 위에 다른 공이 없으면 보정 모드로 대신한다
+                move_duration = CORR_DURATION
+        if off is None and (self.correction or self.wrong_approach):
+            off = self._offset_pose(pre_xy, bin_, q0)
         if off is not None:
             # 첫 구간(제자리 → 공 위)을 [제자리 → 빗나간 지점, 멈춤, 보정 이동]으로 바꾼다.
             # 빗나간 구간과 멈춤 동안은 DART 노이즈를 넣지 않는다(빗나감 자체가 교란).
             n0 = max(2, int(round(DURATIONS[0] * scale[0] * FPS)))
             n_dwell = int(round(rng.uniform(*CORR_DWELL) * FPS))
-            n_corr = max(2, int(round(CORR_DURATION * rng.uniform(0.85, 1.15) * FPS)))
+            n_corr = max(2, int(round(move_duration * rng.uniform(0.85, 1.15) * FPS)))
             head = [min_jerk(start, off, j / (n0 - 1)) for j in range(n0)] + [off.copy()] * n_dwell
             corr = [min_jerk(off, pre, j / (n_corr - 1)) for j in range(n_corr)]
             traj = head + corr + traj[n0:]
@@ -126,6 +139,22 @@ class ScriptedExpert:
         self.pre_pose = pre
         self.t = 0
         self._noise = np.zeros(6)
+
+    def _wrong_ball_pose(self, q0):
+        """책상 위의 명령하지 않은 색 공 하나(무작위) 위 PRE_Z 자세. 그런 공이 없거나 IK가 실패하면 None."""
+        env, rng = self.env, self.rng
+        others = [c for c in COLORS if c != env.target and env.ball_on_table(c)]
+        if not others:
+            return None
+        color = others[rng.integers(len(others))]
+        xy = env.ball_pos(color)[:2]
+        q, err, _ = self.ik.solve([*xy, PRE_Z], q0, down=self._down(xy))
+        if err >= 0.003:
+            return None
+        self.wrong_color = color
+        v = env.calib.rad_to_norm(q)
+        v[5] = GRIP_OPEN
+        return v
 
     def _offset_pose(self, pre_xy, bin_, q0):
         """올바른 공 위 지점(pre_xy)에서 무작위 방향으로 CORR_R만큼 빗나간 공 위 자세. 못 찾으면 None."""
