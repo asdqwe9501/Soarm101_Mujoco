@@ -52,3 +52,33 @@ def test_gaussian_latent_matches_base_policy_scale(setup):
     rng = np.random.default_rng(0)
     ends = np.stack([steer.chunk(obs, rng.standard_normal(LATENT_DIM).astype(np.float32))[-1] for _ in range(4)])
     assert np.all(np.isfinite(ends)) and np.all(np.abs(ends[:, :5]) < 100)
+
+
+def test_blocks_standardized(setup):
+    env, steer, obs = setup
+    f = steer.features(obs)
+    assert steer.feat_dim == 960 + 512 + 960 + 6
+    for name in ("wrist", "top", "lang"):
+        b = f[steer.blocks[name]]
+        assert abs(b.mean()) < 1e-3 and abs(b.std() - 1.0) < 1e-2, name
+    state = steer.adapter.pre(steer.adapter._batch(obs))["observation.state"][0, :6].float().cpu().numpy()
+    np.testing.assert_allclose(f[steer.blocks["state"]], state, atol=1e-6)
+
+
+def test_language_block_separates_similar_colors(setup):
+    env, steer, obs = setup
+    steer.task = "grab the red ball and put it in the box"
+    f_red = steer.features(obs)[steer.blocks["lang"]]
+    steer.task = "grab the sky blue ball and put it in the box"
+    f_sky = steer.features(obs)[steer.blocks["lang"]]
+    steer.reset(env)
+    assert np.linalg.norm(f_red - f_sky) > 0.1 * np.linalg.norm(f_red)
+
+
+def test_overhead_block_depends_on_layout(setup):
+    env, steer, obs = setup
+    f0 = steer.features(obs)[steer.blocks["top"]]
+    obs1, _ = env.reset(seed=1, options={"target": "red"})
+    steer.reset(env)
+    f1 = steer.features(obs1)[steer.blocks["top"]]
+    assert np.linalg.norm(f0 - f1) > 0.05 * np.linalg.norm(f0)

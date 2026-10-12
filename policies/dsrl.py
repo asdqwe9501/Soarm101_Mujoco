@@ -13,6 +13,15 @@ from policies.dsrl_constants import ACT_DIM, CHUNK, EXEC_STEPS, LATENT_DIM, LATE
 from policies.smolvla_policy import SmolVLAPolicyAdapter
 
 N_REAL_CAMERAS = 2  # camera1(손목), camera2(위쪽). 그 뒤에 empty_cameras=1 빈 카메라가 붙는다.
+TOKEN_GRID = 8  # 이미지당 64 토큰 = 8x8. SmolVLM connector pixel_shuffle 출력은 행 우선(row*8 + col).
+POOL_GRID = 4  # 위쪽 카메라를 4x4 칸으로 평균 풀링
+PROJ_DIM = 32  # 칸마다 고정 무작위 투영 960 -> 32
+PROJ_SEED = 1234  # 투영 행렬 생성용 고정 시드
+
+
+def _standardize(x):
+    """파라미터 없는 블록 단위 layer norm."""
+    return (x - x.mean()) / (x.std(unbiased=False) + 1e-6)
 
 
 class NoiseSteeredSmolVLA:
@@ -21,7 +30,15 @@ class NoiseSteeredSmolVLA:
         self.adapter = SmolVLAPolicyAdapter(checkpoint, device=device)
         self.gen = torch.Generator(device=device).manual_seed(seed)
         hidden = self.adapter.policy.model.vlm_with_expert.config.text_config.hidden_size
-        self.feat_dim = 3 * hidden + ACT_DIM
+        proj = np.random.default_rng(PROJ_SEED).standard_normal((hidden, PROJ_DIM)) / np.sqrt(hidden)
+        self.proj = torch.as_tensor(proj, dtype=torch.float32, device=device)
+        n_top = POOL_GRID * POOL_GRID * PROJ_DIM
+        sizes = {"wrist": hidden, "top": n_top, "lang": hidden, "state": ACT_DIM}
+        self.blocks, start = {}, 0
+        for name, n in sizes.items():
+            self.blocks[name] = slice(start, start + n)
+            start += n
+        self.feat_dim = start  # 960 + 512 + 960 + 6 = 2438
 
     @property
     def task(self):
@@ -36,7 +53,13 @@ class NoiseSteeredSmolVLA:
 
     @torch.inference_mode()
     def features(self, obs):
-        """[손목 이미지 토큰 평균, 위쪽 이미지 토큰 평균, 언어 토큰 평균, 정규화 관절 6개]."""
+        """블록별로 표준화한 특징을 이어 붙인다 (위치는 self.blocks).
+
+        wrist(960): 손목 이미지 토큰 평균. top(512): 위쪽 이미지 8x8 토큰을 4x4 칸으로 평균 풀링하고
+        칸마다 고정 무작위 행렬로 960->32 투영. lang(960): 유효 언어 토큰 평균.
+        wrist/top/lang은 각 블록 안에서 평균 0, 표준편차 1로 표준화한다.
+        state(6): 전처리된 observation.state 앞 6개(정규화 단위, 표준화하지 않음).
+        """
         policy = self.adapter.policy
         batch = self.adapter.pre(self.adapter._batch(obs))
         images, img_masks = policy.prepare_images(batch)
@@ -50,11 +73,13 @@ class NoiseSteeredSmolVLA:
         assert not policy.config.add_image_special_tokens and n_img_total % len(images) == 0
         n_img = n_img_total // len(images)
         embs = embs[0].float()
-        parts = [embs[i * n_img : (i + 1) * n_img].mean(0) for i in range(N_REAL_CAMERAS)]
-        lang = embs[n_img_total : n_img_total + n_lang]
-        m = lang_masks[0].bool()
-        parts.append(lang[m].mean(0))
-        parts.append(batch[OBS_STATE][0, :ACT_DIM].float())
+        assert n_img == TOKEN_GRID * TOKEN_GRID
+        wrist = embs[:n_img].mean(0)
+        k = TOKEN_GRID // POOL_GRID
+        top = embs[n_img : 2 * n_img].reshape(POOL_GRID, k, POOL_GRID, k, -1).mean((1, 3))  # (4, 4, 960)
+        top = (top.reshape(POOL_GRID * POOL_GRID, -1) @ self.proj).flatten()
+        lang = embs[n_img_total : n_img_total + n_lang][lang_masks[0].bool()].mean(0)
+        parts = [_standardize(wrist), _standardize(top), _standardize(lang), batch[OBS_STATE][0, :ACT_DIM].float()]
         return torch.cat(parts).cpu().numpy().astype(np.float32)
 
     @torch.inference_mode()
