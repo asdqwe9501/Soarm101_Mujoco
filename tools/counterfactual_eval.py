@@ -4,6 +4,9 @@
 --policy smolvla: NoiseSteeredSmolVLA + N(0,1) 잠재 행동(±LATENT_SCALE로 clip), 잠재 1개당 EXEC_STEPS 스텝
                   (DSRL과 같은 실행 단위의 '조종 없음' 기준선).
 --policy dsrl:    DSRLPolicyAdapter.
+--guard:          정책을 ColorGuard(손목 카메라 색 확인 + 재시도)로 감싼다. 집계는 실제로 실행된 행동에 StagedReward를
+                  적용하므로 가드가 막은 닫기는 시도로 세지 않는다. 가드 판별마다 그 순간 노린 공(StagedReward 기준,
+                  평가용 정답)을 기록해 거부가 맞았는지 센다.
 """
 import sys, os, argparse, json; sys.path.insert(0, '.')
 import numpy as np
@@ -56,19 +59,32 @@ def main():
     ap.add_argument('--layouts', type=int, default=30)
     ap.add_argument('--seed', type=int, default=20000)
     ap.add_argument('--out', default=None)
+    ap.add_argument('--guard', action='store_true')
     args = ap.parse_args()
     if args.policy == 'dsrl':
         from policies.dsrl import DSRLPolicyAdapter
         pol = DSRLPolicyAdapter(args.checkpoint, args.actor)
     else:
         pol = RandomLatentPolicy(args.checkpoint)
+    if args.guard:
+        from policies.color_guard import ColorGuard
+        pol = ColorGuard(pol)
     env = BallSortEnv(render=True); sr = StagedReward(env)
-    conf = Counter(); lay_ok = 0
+    conf = Counter(); lay_ok = 0; guard_log = []
+
+    def act_fn(obs):
+        a = pol.act(obs)
+        if args.guard and len(pol.stats['checks']) > len(guard_log[-1]['checks']):
+            chk = dict(pol.stats['checks'][-1], aimed=sr._aimed_ball())  # 평가용 정답: 지금 집게가 노린 공
+            guard_log[-1]['checks'].append(chk)
+        return a
     for L in range(args.layouts):
         res = {}
         for color in COLORS:
             obs, _ = env.reset(seed=args.seed + L, options={'target': color}); pol.reset(env); sr.reset()
-            res[color], _ = run_attempt(env, sr, pol.act, obs)
+            guard_log.append({'layout': L, 'command': color, 'checks': []})
+            res[color], _ = run_attempt(env, sr, act_fn, obs)
+            guard_log[-1]['outcome'] = res[color]
             conf[(color, res[color])] += 1
         lay_ok += all(res[c] == c for c in COLORS)
         print(L, res, flush=True)
@@ -88,6 +104,24 @@ def main():
         'other_rate': sum(v for (c, o), v in conf.items() if o not in tuple(COLORS) + ('none', 'timeout')) / tot,
         'layouts_all_3_correct': lay_ok,
     }
+    if args.guard:
+        checks = [c for e in guard_log for c in e['checks']]
+        rej = [c for c in checks if c['rejected']]
+        passed = [c for c in checks if not c['rejected']]
+        summary['guard'] = {
+            'checks': len(checks),
+            'rejections': len(rej),
+            'episodes_with_rejection': sum(any(c['rejected'] for c in e['checks']) for e in guard_log),
+            'rejections_correct': sum(c['aimed'] is not None and c['aimed'] != c['commanded'] for c in rej),
+            'rejections_of_target': sum(c['aimed'] == c['commanded'] for c in rej),
+            'rejections_no_ball_aimed': sum(c['aimed'] is None for c in rej),
+            'passed_wrong_ball': sum(c['aimed'] is not None and c['aimed'] != c['commanded'] for c in passed),
+            'passed_wrong_ball_seen': Counter(str(c['seen']) for c in passed
+                                              if c['aimed'] is not None and c['aimed'] != c['commanded']),
+            'seen_vs_aimed': Counter(f"{c['seen']}|{c['aimed']}" for c in checks),
+            'episodes': guard_log,
+        }
+        print({k: v for k, v in summary['guard'].items() if k != 'episodes'})
     print('confusion (command -> first attempt):')
     for c in COLORS: print(' ', c, table[c])
     print({k: v for k, v in summary.items() if k.endswith('rate')}, 'all3', lay_ok, '/', n)

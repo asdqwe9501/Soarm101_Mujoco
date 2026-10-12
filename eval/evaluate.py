@@ -116,6 +116,7 @@ def main():
     ap.add_argument("--sequential", type=int, default=0, help="연속 명령 시험 횟수 (0이면 생략)")
     ap.add_argument("--seed", type=int, default=10_000)
     ap.add_argument("--video-dir", default=None)
+    ap.add_argument("--guard", action="store_true", help="손목 카메라 색 확인 + 재시도(ColorGuard)로 감싼다")
     args = ap.parse_args()
     if args.policy == "smolvla":
         from policies.smolvla_policy import SmolVLAPolicyAdapter
@@ -127,7 +128,11 @@ def main():
         policy = DSRLPolicyAdapter(args.checkpoint, args.actor)
     else:
         policy = ExpertPolicy()
-    render = args.policy in ("smolvla", "dsrl")
+    if args.guard:
+        from policies.color_guard import ColorGuard
+
+        policy = ColorGuard(policy)
+    render = args.policy in ("smolvla", "dsrl") or args.guard
     result = {"single": evaluate(policy, args.n_per_color, args.seed, render=render, video_dir=args.video_dir)}
     if args.sequential:
         result["sequential"] = evaluate_sequential(policy, args.sequential, args.seed, render=render)

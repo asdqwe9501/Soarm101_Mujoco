@@ -1,0 +1,1356 @@
+{
+  "policy": "smolvla",
+  "checkpoint": "outputs/train/sft_v3/checkpoints/last/pretrained_model",
+  "actor": null,
+  "layouts": 30,
+  "seed": 20000,
+  "episodes": 90,
+  "confusion": {
+    "red": {
+      "black": 0,
+      "none": 3,
+      "red": 22,
+      "sky blue": 0,
+      "timeout": 5
+    },
+    "black": {
+      "black": 19,
+      "none": 4,
+      "red": 0,
+      "sky blue": 0,
+      "timeout": 7
+    },
+    "sky blue": {
+      "black": 0,
+      "none": 2,
+      "red": 0,
+      "sky blue": 21,
+      "timeout": 7
+    }
+  },
+  "target_attempt_rate": 0.6888888888888889,
+  "target_attempt_rate_by_color": {
+    "red": 0.7333333333333333,
+    "black": 0.6333333333333333,
+    "sky blue": 0.7
+  },
+  "wrong_color_rate": 0.0,
+  "miss_rate": 0.1,
+  "timeout_rate": 0.2111111111111111,
+  "other_rate": 0.0,
+  "layouts_all_3_correct": 11,
+  "guard": {
+    "checks": 95,
+    "rejections": 24,
+    "episodes_with_rejection": 23,
+    "rejections_correct": 21,
+    "rejections_of_target": 1,
+    "rejections_no_ball_aimed": 2,
+    "passed_wrong_ball": 0,
+    "passed_wrong_ball_seen": {},
+    "seen_vs_aimed": {
+      "black|black": 26,
+      "sky blue|sky blue": 28,
+      "black|red": 1,
+      "black|None": 3,
+      "None|None": 6,
+      "red|red": 27,
+      "None|red": 1,
+      "sky blue|None": 2,
+      "None|sky blue": 1
+    },
+    "episodes": [
+      {
+        "layout": 0,
+        "command": "red",
+        "checks": [],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 0,
+        "command": "black",
+        "checks": [
+          {
+            "step": 234,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 0,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 201,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 1,
+        "command": "red",
+        "checks": [
+          {
+            "step": 449,
+            "commanded": "red",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 1,
+        "command": "black",
+        "checks": [
+          {
+            "step": 285,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 1,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 287,
+            "commanded": "sky blue",
+            "seen": null,
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 2,
+        "command": "red",
+        "checks": [
+          {
+            "step": 163,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 2,
+        "command": "black",
+        "checks": [
+          {
+            "step": 192,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 2,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 198,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 3,
+        "command": "red",
+        "checks": [
+          {
+            "step": 238,
+            "commanded": "red",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 3,
+        "command": "black",
+        "checks": [
+          {
+            "step": 240,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 3,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 196,
+            "commanded": "sky blue",
+            "seen": "red",
+            "rejected": true,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 4,
+        "command": "red",
+        "checks": [
+          {
+            "step": 249,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 4,
+        "command": "black",
+        "checks": [
+          {
+            "step": 238,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 4,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 194,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 5,
+        "command": "red",
+        "checks": [
+          {
+            "step": 193,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 5,
+        "command": "black",
+        "checks": [
+          {
+            "step": 218,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 5,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 175,
+            "commanded": "sky blue",
+            "seen": "red",
+            "rejected": true,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 6,
+        "command": "red",
+        "checks": [
+          {
+            "step": 239,
+            "commanded": "red",
+            "seen": null,
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 6,
+        "command": "black",
+        "checks": [
+          {
+            "step": 275,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 6,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 376,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 7,
+        "command": "red",
+        "checks": [
+          {
+            "step": 174,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 7,
+        "command": "black",
+        "checks": [
+          {
+            "step": 208,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 7,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 241,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 8,
+        "command": "red",
+        "checks": [
+          {
+            "step": 242,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 8,
+        "command": "black",
+        "checks": [
+          {
+            "step": 203,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 8,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 483,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 9,
+        "command": "red",
+        "checks": [
+          {
+            "step": 159,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 9,
+        "command": "black",
+        "checks": [
+          {
+            "step": 443,
+            "commanded": "black",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 9,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 288,
+            "commanded": "sky blue",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 10,
+        "command": "red",
+        "checks": [
+          {
+            "step": 234,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 10,
+        "command": "black",
+        "checks": [],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 10,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 226,
+            "commanded": "sky blue",
+            "seen": "red",
+            "rejected": true,
+            "aimed": "red"
+          },
+          {
+            "step": 540,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 11,
+        "command": "red",
+        "checks": [
+          {
+            "step": 237,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 11,
+        "command": "black",
+        "checks": [
+          {
+            "step": 289,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 11,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 288,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 12,
+        "command": "red",
+        "checks": [
+          {
+            "step": 299,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 12,
+        "command": "black",
+        "checks": [],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 12,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 203,
+            "commanded": "sky blue",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 13,
+        "command": "red",
+        "checks": [
+          {
+            "step": 285,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 13,
+        "command": "black",
+        "checks": [
+          {
+            "step": 512,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 13,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 237,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 14,
+        "command": "red",
+        "checks": [
+          {
+            "step": 250,
+            "commanded": "red",
+            "seen": "black",
+            "rejected": true,
+            "aimed": null
+          },
+          {
+            "step": 529,
+            "commanded": "red",
+            "seen": null,
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 14,
+        "command": "black",
+        "checks": [
+          {
+            "step": 187,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 14,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 241,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 15,
+        "command": "red",
+        "checks": [
+          {
+            "step": 215,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 15,
+        "command": "black",
+        "checks": [
+          {
+            "step": 209,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 15,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 181,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 16,
+        "command": "red",
+        "checks": [
+          {
+            "step": 199,
+            "commanded": "red",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          },
+          {
+            "step": 470,
+            "commanded": "red",
+            "seen": null,
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 16,
+        "command": "black",
+        "checks": [
+          {
+            "step": 412,
+            "commanded": "black",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          },
+          {
+            "step": 582,
+            "commanded": "black",
+            "seen": null,
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 16,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 148,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 17,
+        "command": "red",
+        "checks": [
+          {
+            "step": 161,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 17,
+        "command": "black",
+        "checks": [
+          {
+            "step": 228,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 17,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 233,
+            "commanded": "sky blue",
+            "seen": "red",
+            "rejected": true,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 18,
+        "command": "red",
+        "checks": [
+          {
+            "step": 219,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 18,
+        "command": "black",
+        "checks": [
+          {
+            "step": 218,
+            "commanded": "black",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 18,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 254,
+            "commanded": "sky blue",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 19,
+        "command": "red",
+        "checks": [
+          {
+            "step": 180,
+            "commanded": "red",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          },
+          {
+            "step": 593,
+            "commanded": "red",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": null
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 19,
+        "command": "black",
+        "checks": [
+          {
+            "step": 174,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 19,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 193,
+            "commanded": "sky blue",
+            "seen": null,
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 20,
+        "command": "red",
+        "checks": [
+          {
+            "step": 211,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 20,
+        "command": "black",
+        "checks": [
+          {
+            "step": 205,
+            "commanded": "black",
+            "seen": "red",
+            "rejected": true,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 20,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 155,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 21,
+        "command": "red",
+        "checks": [
+          {
+            "step": 227,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 21,
+        "command": "black",
+        "checks": [],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 21,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 238,
+            "commanded": "sky blue",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 22,
+        "command": "red",
+        "checks": [
+          {
+            "step": 222,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 22,
+        "command": "black",
+        "checks": [
+          {
+            "step": 182,
+            "commanded": "black",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          },
+          {
+            "step": 353,
+            "commanded": "black",
+            "seen": null,
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 22,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 148,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 23,
+        "command": "red",
+        "checks": [
+          {
+            "step": 196,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 23,
+        "command": "black",
+        "checks": [
+          {
+            "step": 331,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 23,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 299,
+            "commanded": "sky blue",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          },
+          {
+            "step": 514,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 24,
+        "command": "red",
+        "checks": [
+          {
+            "step": 211,
+            "commanded": "red",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 24,
+        "command": "black",
+        "checks": [
+          {
+            "step": 198,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 24,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 169,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 25,
+        "command": "red",
+        "checks": [
+          {
+            "step": 349,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 25,
+        "command": "black",
+        "checks": [
+          {
+            "step": 159,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 25,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 210,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 26,
+        "command": "red",
+        "checks": [
+          {
+            "step": 347,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 26,
+        "command": "black",
+        "checks": [
+          {
+            "step": 139,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 26,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 221,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 27,
+        "command": "red",
+        "checks": [
+          {
+            "step": 292,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 27,
+        "command": "black",
+        "checks": [
+          {
+            "step": 276,
+            "commanded": "black",
+            "seen": "red",
+            "rejected": true,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "timeout"
+      },
+      {
+        "layout": 27,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 189,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 28,
+        "command": "red",
+        "checks": [
+          {
+            "step": 172,
+            "commanded": "red",
+            "seen": "red",
+            "rejected": false,
+            "aimed": "red"
+          }
+        ],
+        "outcome": "red"
+      },
+      {
+        "layout": 28,
+        "command": "black",
+        "checks": [
+          {
+            "step": 282,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 28,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 214,
+            "commanded": "sky blue",
+            "seen": "black",
+            "rejected": true,
+            "aimed": "black"
+          },
+          {
+            "step": 533,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      },
+      {
+        "layout": 29,
+        "command": "red",
+        "checks": [
+          {
+            "step": 174,
+            "commanded": "red",
+            "seen": "sky blue",
+            "rejected": true,
+            "aimed": "sky blue"
+          },
+          {
+            "step": 494,
+            "commanded": "red",
+            "seen": null,
+            "rejected": false,
+            "aimed": null
+          }
+        ],
+        "outcome": "none"
+      },
+      {
+        "layout": 29,
+        "command": "black",
+        "checks": [
+          {
+            "step": 217,
+            "commanded": "black",
+            "seen": "black",
+            "rejected": false,
+            "aimed": "black"
+          }
+        ],
+        "outcome": "black"
+      },
+      {
+        "layout": 29,
+        "command": "sky blue",
+        "checks": [
+          {
+            "step": 183,
+            "commanded": "sky blue",
+            "seen": "sky blue",
+            "rejected": false,
+            "aimed": "sky blue"
+          }
+        ],
+        "outcome": "sky blue"
+      }
+    ]
+  }
+}
