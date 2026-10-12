@@ -14,7 +14,7 @@ import numpy as np
 import torch
 
 from policies.dsrl import NoiseSteeredSmolVLA
-from policies.dsrl_constants import EXEC_STEPS, LATENT_DIM, LATENT_SCALE
+from policies.dsrl_constants import EXEC_STEPS, LATENT_SCALE, STEER_DIM
 from rl.chunk_env import ChunkEnv
 from rl.sac import SAC, ReplayBuffer
 from sim.env import COLORS, BallSortEnv
@@ -89,9 +89,9 @@ def main():
     np.random.seed(args.seed)  # ReplayBuffer.sample이 전역 난수를 쓴다
 
     steer = NoiseSteeredSmolVLA(args.checkpoint, device="cuda", seed=args.seed)
-    ce = ChunkEnv(BallSortEnv(render=True), steer, EXEC_STEPS, LATENT_DIM, LATENT_SCALE)
-    sac = SAC(steer.feat_dim, LATENT_DIM, LATENT_SCALE, device="cuda")
-    buf = ReplayBuffer(steer.feat_dim, LATENT_DIM, args.capacity, dtype=np.float16)
+    ce = ChunkEnv(BallSortEnv(render=True), steer, EXEC_STEPS, STEER_DIM, LATENT_SCALE, seed=args.seed)
+    sac = SAC(steer.feat_dim, STEER_DIM, LATENT_SCALE, device="cuda")
+    buf = ReplayBuffer(steer.feat_dim, STEER_DIM, args.capacity, dtype=np.float16)
 
     metrics_path = out / "metrics.csv"
     start_ep, env_steps_total, wall0 = 0, 0, 0.0
@@ -129,7 +129,7 @@ def main():
             o, _ = ce.reset(seed=SEED_BASE + ep, options={"target": color})
             ret, n_rl = 0.0, 0
             while True:
-                a = (np.clip(rng.standard_normal(LATENT_DIM), -LATENT_SCALE, LATENT_SCALE).astype(np.float32)
+                a = (np.clip(rng.standard_normal(STEER_DIM), -LATENT_SCALE, LATENT_SCALE).astype(np.float32)
                      if warm else sac.act(o))
                 o2, r, term, trunc, info = ce.step(a)
                 if args.max_env_steps is not None and info["env_steps"] >= args.max_env_steps and not term:

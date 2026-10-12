@@ -9,7 +9,8 @@ import numpy as np
 import torch
 from lerobot.utils.constants import OBS_LANGUAGE_ATTENTION_MASK, OBS_LANGUAGE_TOKENS, OBS_STATE
 
-from policies.dsrl_constants import ACT_DIM, CHUNK, EXEC_STEPS, LATENT_DIM, LATENT_SCALE, MAX_DIM  # noqa: F401
+from policies.dsrl_constants import ACT_DIM, CHUNK, EXEC_STEPS, LATENT_DIM, LATENT_SCALE, MAX_DIM, STEER_DIM  # noqa: F401
+from policies.dsrl_latent import SteerLatent
 from policies.smolvla_policy import SmolVLAPolicyAdapter
 
 N_REAL_CAMERAS = 2  # camera1(손목), camera2(위쪽). 그 뒤에 empty_cameras=1 빈 카메라가 붙는다.
@@ -96,13 +97,14 @@ class NoiseSteeredSmolVLA:
 
 
 class DSRLPolicyAdapter:
-    """평가기 프로토콜(reset(env), act(obs)). 큐가 비면 features → actor(결정적) → chunk 앞 EXEC_STEPS개."""
+    """평가기 프로토콜(reset(env), act(obs)). 큐가 비면 features → actor(결정적) z → SteerLatent → chunk 앞 EXEC_STEPS개."""
 
     def __init__(self, checkpoint, actor_path, device="cuda"):
         from rl.sac import SAC
 
         self.steer = NoiseSteeredSmolVLA(checkpoint, device=device)
-        self.sac = SAC(self.steer.feat_dim, LATENT_DIM, LATENT_SCALE, device=device)
+        self.sac = SAC(self.steer.feat_dim, STEER_DIM, LATENT_SCALE, device=device)
+        self.steer_latent = SteerLatent(seed=0)
         self.sac.load(actor_path)
         self.queue = []
 
@@ -112,6 +114,6 @@ class DSRLPolicyAdapter:
 
     def act(self, obs):
         if not self.queue:
-            latent = self.sac.act(self.steer.features(obs), deterministic=True)
-            self.queue = list(self.steer.chunk(obs, latent)[:EXEC_STEPS])
+            z = self.sac.act(self.steer.features(obs), deterministic=True)
+            self.queue = list(self.steer.chunk(obs, self.steer_latent.to_latent(z))[:EXEC_STEPS])
         return self.queue.pop(0)

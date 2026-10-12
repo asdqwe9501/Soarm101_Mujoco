@@ -43,14 +43,14 @@ class ExpertSteer(HomeSteer):
 
 
 def make(steer):
-    return ChunkEnv(BallSortEnv(render=False), steer, exec_steps=10, latent_dim=300, latent_scale=2.0)
+    return ChunkEnv(BallSortEnv(render=False), steer, exec_steps=10, steer_dim=12, latent_scale=2.0)
 
 
 def rollout(ce, seed=0, target="red"):
     ce.reset(seed=seed, options={"target": target})
     total, n = 0.0, 0
     while True:
-        _, r, term, trunc, info = ce.step(np.zeros(300, np.float32))
+        _, r, term, trunc, info = ce.step(np.zeros(12, np.float32))
         total += r
         n += 1
         if term or trunc:
@@ -60,7 +60,7 @@ def rollout(ce, seed=0, target="red"):
 def test_spaces_and_reset():
     ce = make(HomeSteer())
     f, _ = ce.reset(seed=0, options={"target": "red"})
-    assert f.shape == (4,) and ce.action_space.shape == (300,) and ce.action_space.high.max() == 2.0
+    assert f.shape == (4,) and ce.action_space.shape == (12,) and ce.action_space.high.max() == 2.0
 
 
 def test_full_success_through_chunks():
@@ -99,5 +99,21 @@ def test_attempt_timeout_through_chunks():
 def test_action_is_clipped_to_scale():
     ce = make(HomeSteer())
     ce.reset(seed=0)
-    ce.step(np.full(300, 50.0, np.float32))
-    assert np.all(np.abs(ce.last_latent) <= 2.0)
+    ce.step(np.full(12, 50.0, np.float32))
+    assert ce.last_latent.shape == (12,) and np.all(ce.last_latent == 2.0)
+
+
+def test_step_maps_z_to_300_dim_latent_on_basis():
+    from policies.dsrl_latent import BASIS
+
+    class Recorder(HomeSteer):
+        def chunk(self, obs, latent):
+            self.latent = latent
+            return super().chunk(obs, latent)
+
+    steer = Recorder()
+    ce = make(steer)
+    ce.reset(seed=0)
+    z = np.linspace(-1.5, 1.5, 12).astype(np.float32)
+    ce.step(z)
+    assert steer.latent.shape == (300,) and np.allclose(BASIS.T @ steer.latent, z, atol=1e-5)
