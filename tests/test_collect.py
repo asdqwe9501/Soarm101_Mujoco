@@ -42,3 +42,36 @@ def test_same_layout_gives_identical_first_frames_for_three_commands(tmp_path):
         assert (f["observation.state"] == firsts[0]["observation.state"]).all()
         diff = (f["observation.images.front"] - firsts[0]["observation.images.front"]).abs().mean()
         assert diff < 0.01  # 같은 배치 (영상 압축 오차만 허용)
+
+
+# ---------- Plan 5 ----------
+from collections import Counter
+
+from data.collect import _scene_mix_schedule
+from sim.env import COLORS
+
+
+def test_scene_mix_schedule_never_commands_aside_ball():
+    per_color = Counter()
+    scenes = Counter()
+    seen = set()
+    for color, ep_seed, scene, aside in _scene_mix_schedule(per_color, 300, 1000):
+        assert color != aside
+        assert (aside is None) == (scene == "three")
+        if ep_seed not in seen:
+            seen.add(ep_seed)
+            scenes[scene] += 1
+        per_color[color] += 1
+    assert all(per_color[c] == 300 for c in COLORS)
+    n = sum(scenes.values())
+    assert abs(scenes["three"] / n - 0.6) < 0.06 and abs(scenes["two"] / n - 0.2) < 0.06, scenes
+
+
+def test_collect_mixed_options(tmp_path):
+    root = tmp_path / "ds_mix"
+    stats = collect(
+        "local/test_mix", root, n_per_color=2, seed=40, same_layout=True,
+        randomize=True, mode_mix=True, scene_mix=True,
+    )
+    assert stats["saved"] == 6 and stats["per_color"] == {c: 2 for c in COLORS}
+    assert sum(stats["per_mode"].values()) == 6 and sum(stats["per_scene"].values()) == 6

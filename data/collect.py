@@ -39,19 +39,58 @@ def _same_layout_schedule(per_color, n_per_color, seed):
         ep_seed += 1
 
 
-def collect(repo_id, root, n_per_color, seed=0, correction=False, same_layout=False):
-    """same_layout=True면 배치(seed) 하나마다 세 색 명령을 모두 수행해, 같은 장면에 다른 명령이 붙은 시연을 만든다."""
+SCENE_P = {"three": 0.6, "two": 0.2, "prebinned": 0.2}
+MODES = ("default", "correction", "wrong_approach")
+
+
+def _scene_mix_schedule(per_color, n_per_color, seed):
+    """배치(seed)마다 장면을 고르고(three 60%, two 20%, prebinned 20%), 책상 위에 남은 색에만 명령을 붙인다.
+    yield (color, ep_seed, scene, aside). aside는 치우거나 통에 넣은 공(three면 None)."""
+    ep_seed = seed
+    while any(per_color[c] < n_per_color for c in COLORS):
+        rng = np.random.default_rng([ep_seed, 5])
+        scene = str(rng.choice(list(SCENE_P), p=list(SCENE_P.values())))
+        aside = None if scene == "three" else COLORS[rng.integers(len(COLORS))]
+        for color in COLORS:
+            if color != aside and per_color[color] < n_per_color:
+                yield color, ep_seed, scene, aside
+        ep_seed += 1
+
+
+def collect(
+    repo_id, root, n_per_color, seed=0, correction=False, same_layout=False,
+    randomize=False, mode_mix=False, scene_mix=False,
+):
+    """same_layout=True면 배치(seed) 하나마다 세 색 명령을 모두 수행해, 같은 장면에 다른 명령이 붙은 시연을 만든다.
+    randomize: 조명·배경·공 색 무작위화. mode_mix: 에피소드마다 실행 방식(기본/보정/잘못된 공 접근)을 1/3씩.
+    scene_mix: 배치마다 장면 구성(three/two/prebinned)을 고른다(same_layout 필요)."""
+    if scene_mix and not same_layout:
+        raise ValueError("scene_mix requires same_layout")
     ds = LeRobotDataset.create(repo_id, FPS, FEATURES, root=root, robot_type="so_follower", use_videos=True)
     env = BallSortEnv(render=True)
     expert = ScriptedExpert(env, seed=seed, correction=correction)
+    mode_rng = np.random.default_rng([seed, 7])
     saved, discarded, per_color = 0, 0, Counter()
+    per_scene, per_mode = Counter(), Counter()
     try:
-        if same_layout:
-            schedule = _same_layout_schedule(per_color, n_per_color, seed)
+        if scene_mix:
+            schedule = _scene_mix_schedule(per_color, n_per_color, seed)
+        elif same_layout:
+            schedule = ((c, s, "three", None) for c, s in _same_layout_schedule(per_color, n_per_color, seed))
         else:
-            schedule = _per_color_schedule(per_color, n_per_color, seed)
-        for color, ep_seed in schedule:
-            obs, info = env.reset(seed=ep_seed, options={"target": color})
+            schedule = ((c, s, "three", None) for c, s in _per_color_schedule(per_color, n_per_color, seed))
+        for color, ep_seed, scene, aside in schedule:
+            options = {"target": color}
+            if randomize:
+                options["randomize"] = True
+            if scene != "three":
+                options.update(scene=scene, aside=aside)
+            obs, info = env.reset(seed=ep_seed, options=options)
+            mode = "correction" if correction else "default"
+            if mode_mix:
+                mode = MODES[mode_rng.integers(len(MODES))]
+                expert.correction = mode == "correction"
+                expert.wrong_approach = mode == "wrong_approach"
             expert.reset()
             for _ in range(MAX_STEPS):
                 executed, clean = expert.act()
@@ -71,14 +110,22 @@ def collect(repo_id, root, n_per_color, seed=0, correction=False, same_layout=Fa
                 ds.save_episode()
                 saved += 1
                 per_color[color] += 1
-                print(f"[{saved}] {color} saved (seed {ep_seed})", flush=True)
+                per_scene[scene] += 1
+                per_mode[mode] += 1
+                print(f"[{saved}] {color} saved (seed {ep_seed}, scene {scene}, mode {mode})", flush=True)
             else:
                 ds.clear_episode_buffer()
                 discarded += 1
     finally:
         ds.finalize()
         env.close()
-    return {"saved": saved, "discarded": discarded, "per_color": dict(per_color)}
+    return {
+        "saved": saved,
+        "discarded": discarded,
+        "per_color": dict(per_color),
+        "per_scene": dict(per_scene),
+        "per_mode": dict(per_mode),
+    }
 
 
 def main():
@@ -89,8 +136,15 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--correction", action="store_true", help="보정 시연 모드(빗나갔다가 올바른 자세로 보정)")
     ap.add_argument("--same-layout", action="store_true", help="같은 배치에 세 색 명령을 모두 수집")
+    ap.add_argument("--randomize", action="store_true", help="조명·배경·공 색 무작위화")
+    ap.add_argument("--mode-mix", action="store_true", help="에피소드마다 기본/보정/잘못된 공 접근을 1/3씩")
+    ap.add_argument("--scene-mix", action="store_true", help="배치마다 three 60%%, two 20%%, prebinned 20%% (--same-layout 필요)")
     args = ap.parse_args()
-    print(json.dumps(collect(args.repo_id, args.root, args.n_per_color, args.seed, args.correction, args.same_layout), indent=2))
+    stats = collect(
+        args.repo_id, args.root, args.n_per_color, args.seed, args.correction, args.same_layout,
+        args.randomize, args.mode_mix, args.scene_mix,
+    )
+    print(json.dumps(stats, indent=2))
 
 
 if __name__ == "__main__":
