@@ -131,3 +131,17 @@ def test_keep_scene_previous_ball_does_not_block_success(env):
     _, reward, _, _, info = env.step(HOME_NORM)
     assert info["target_in_bin"] and not info["wrong_in_bin"] and info["success"]
     assert reward == pytest.approx(2.0)
+
+
+def test_color_positions_are_balanced(env):
+    """공 위치를 색에 고정된 순서로 배정하면 특정 색이 한쪽에 몰린다. 색마다 좌우 분포가 비슷해야 한다."""
+    ys = {c: [] for c in COLORS}
+    for s in range(2000):
+        env.reset(seed=s)
+        for c in COLORS:
+            ys[c].append(env.ball_pos(c)[1])
+    means = [np.mean(v) for v in ys.values()]
+    right = [np.mean(np.array(v) < 0.02) for v in ys.values()]
+    # 고정 순서 배정 시: 평균 y 차이 약 0.013, 오른쪽 비율 차이 약 0.057
+    assert max(means) - min(means) < 0.006, means
+    assert max(right) - min(right) < 0.03, right

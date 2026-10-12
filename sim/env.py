@@ -149,7 +149,10 @@ class BallSortEnv(gym.Env):
             self.data.ctrl[:6] = np.clip(q, self._ctrl_lo, self._ctrl_hi)
             mujoco.mj_kinematics(self.model, self.data)
             rest_tip = self.data.site_xpos[self._site_id][:2].copy()
-            for c, p in zip(COLORS, self._sample_layout(rest_tip)):
+            pts = self._sample_layout(rest_tip)
+            # 뽑힌 순서대로 색을 배정하면 특정 색이 한쪽에 치우친다. 색-위치 배정을 매번 섞는다.
+            order = self.np_random.permutation(len(COLORS))
+            for c, p in zip(COLORS, (pts[i] for i in order)):
                 self._set_ball(c, p)
             mujoco.mj_forward(self.model, self.data)
             for _ in range(N_SUBSTEPS * 6):  # 0.2초 정착
