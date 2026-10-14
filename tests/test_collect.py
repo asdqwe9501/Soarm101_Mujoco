@@ -87,3 +87,20 @@ def test_aux_labels_record_target_xy(tmp_path):
     item = ds[0]
     xy = item["target_xy"].numpy()
     assert 0.05 < xy[0] < 0.40 and -0.30 < xy[1] < 0.30  # 책상 위 작업 공간
+
+
+def test_paraphrase_uses_varied_training_commands(tmp_path):
+    from sim.commands import COLOR_WORDS, TRAIN_TEMPLATES, normalize
+
+    root = tmp_path / "ds_para"
+    stats = collect("local/test_para", root, n_per_color=2, seed=21, paraphrase=True)
+    # 색별 2개: basic round(1.2)=1, similar round(0.6)=1, rare 0
+    for c in ("red", "black", "sky blue"):
+        assert stats["per_tier"].get(f"{c}/basic") == 1 and stats["per_tier"].get(f"{c}/similar") == 1
+    from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
+    ds = LeRobotDataset("local/test_para", root=root, video_backend="pyav")
+    tasks = list(ds.meta.tasks.index)
+    allowed = {t.format(color=w) for t in TRAIN_TEMPLATES for ws in COLOR_WORDS.values() for w in ws}
+    assert {normalize(t) for t in tasks} <= allowed and len(tasks) >= 3
+    assert "Grab the blue ball." in tasks  # 하늘색 공은 blue로 부른다

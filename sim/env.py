@@ -232,7 +232,8 @@ class BallSortEnv(gym.Env):
             target = remaining[self.np_random.integers(len(remaining))]
         if target not in remaining:
             raise ValueError(f"target {target!r} is not on the table")
-        self.target, self.task = target, task_text(target)
+        self.target = target
+        self.task = options.get("command") or task_text(target)  # 명령문 다양화: 호출자가 문장을 지정할 수 있음
         self._steps = 0
         self._target_rewarded = False
         self._in_bin_at_reset = {c for c in COLORS if self.ball_in_bin(c)}

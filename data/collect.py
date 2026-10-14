@@ -9,6 +9,7 @@ from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
 from calib import FEATURE_NAMES
 from expert.scripted import ScriptedExpert
+from sim.commands import command_for_tier, pick_tier
 from sim.env import COLORS, FPS, IMG_H, IMG_W, MAX_STEPS, BallSortEnv
 
 _IMG = {"dtype": "video", "shape": (IMG_H, IMG_W, 3), "names": ["height", "width", "channels"]}
@@ -59,13 +60,15 @@ def _scene_mix_schedule(per_color, n_per_color, seed):
 
 def collect(
     repo_id, root, n_per_color, seed=0, correction=False, same_layout=False,
-    randomize=False, mode_mix=False, scene_mix=False, modes=MODES, aux_labels=False,
+    randomize=False, mode_mix=False, scene_mix=False, modes=MODES, aux_labels=False, paraphrase=False,
 ):
     """same_layout=True면 배치(seed) 하나마다 세 색 명령을 모두 수행해, 같은 장면에 다른 명령이 붙은 시연을 만든다.
     randomize: 조명·배경·공 색 무작위화. mode_mix: 에피소드마다 실행 방식(기본/보정/잘못된 공 접근)을 1/3씩.
     scene_mix: 배치마다 장면 구성(three/two/prebinned)을 고른다(same_layout 필요).
     modes: mode_mix가 고를 실행 방식 목록(기본은 세 가지 모두).
-    aux_labels: 프레임마다 명령한 색 공의 (x, y)를 target_xy로 기록(보조 학습 정답 전용, 정책 입력 아님)."""
+    aux_labels: 프레임마다 명령한 색 공의 (x, y)를 target_xy로 기록(보조 학습 정답 전용, 정책 입력 아님).
+    paraphrase: 명령문 다양화. 명령 색별로 기본 60% / 유사 30% / 드문 10% 표현을 정확한 수량으로 배정한다
+        (저장된 에피소드 기준, sim/commands.py). 표현 유형은 배치와 독립된 난수로 고른다."""
     if any(m not in MODES for m in modes):
         raise ValueError(f"unknown mode in {modes}")
     if scene_mix and not same_layout:
@@ -77,6 +80,10 @@ def collect(
     env = BallSortEnv(render=True)
     expert = ScriptedExpert(env, seed=seed, correction=correction)
     mode_rng = np.random.default_rng([seed, 7])
+    cmd_rng = np.random.default_rng([seed, 11])
+    n_basic, n_similar = round(n_per_color * 0.6), round(n_per_color * 0.3)
+    quota = {c: {"basic": n_basic, "similar": n_similar, "rare": n_per_color - n_basic - n_similar} for c in COLORS}
+    per_tier = Counter()
     saved, discarded, per_color = 0, 0, Counter()
     per_scene, per_mode = Counter(), Counter()
     try:
@@ -92,6 +99,10 @@ def collect(
                 options["randomize"] = True
             if scene != "three":
                 options.update(scene=scene, aside=aside)
+            tier = "canonical"
+            if paraphrase:
+                tier = pick_tier(quota[color], cmd_rng)
+                options["command"] = command_for_tier(color, tier, cmd_rng)
             obs, info = env.reset(seed=ep_seed, options=options)
             mode = "correction" if correction else "default"
             if mode_mix:
@@ -120,7 +131,10 @@ def collect(
                 per_color[color] += 1
                 per_scene[scene] += 1
                 per_mode[mode] += 1
-                print(f"[{saved}] {color} saved (seed {ep_seed}, scene {scene}, mode {mode})", flush=True)
+                if paraphrase:
+                    quota[color][tier] -= 1
+                    per_tier[f"{color}/{tier}"] += 1
+                print(f"[{saved}] {color} saved (seed {ep_seed}, scene {scene}, mode {mode}, tier {tier}: {info['task']!r})", flush=True)
             else:
                 ds.clear_episode_buffer()
                 discarded += 1
@@ -133,6 +147,7 @@ def collect(
         "per_color": dict(per_color),
         "per_scene": dict(per_scene),
         "per_mode": dict(per_mode),
+        "per_tier": dict(per_tier),
     }
 
 
@@ -146,13 +161,14 @@ def main():
     ap.add_argument("--same-layout", action="store_true", help="같은 배치에 세 색 명령을 모두 수집")
     ap.add_argument("--randomize", action="store_true", help="조명·배경·공 색 무작위화")
     ap.add_argument("--mode-mix", action="store_true", help="에피소드마다 기본/보정/잘못된 공 접근을 1/3씩")
+    ap.add_argument("--paraphrase", action="store_true", help="에피소드마다 명령문 틀과 색 표현을 다양화")
     ap.add_argument("--aux-labels", action="store_true", help="프레임마다 목표 공 (x, y)를 target_xy로 기록")
     ap.add_argument("--modes", default=",".join(MODES), help="--mode-mix가 고를 실행 방식(쉼표 구분)")
     ap.add_argument("--scene-mix", action="store_true", help="배치마다 three 60%%, two 20%%, prebinned 20%% (--same-layout 필요)")
     args = ap.parse_args()
     stats = collect(
         args.repo_id, args.root, args.n_per_color, args.seed, args.correction, args.same_layout,
-        args.randomize, args.mode_mix, args.scene_mix, tuple(args.modes.split(",")), args.aux_labels,
+        args.randomize, args.mode_mix, args.scene_mix, tuple(args.modes.split(",")), args.aux_labels, args.paraphrase,
     )
     print(json.dumps(stats, indent=2))
 
