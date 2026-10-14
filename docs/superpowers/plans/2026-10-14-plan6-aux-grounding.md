@@ -13,17 +13,19 @@
 ## Global Constraints
 
 - 보조 정답(목표 공 위치)은 **학습 손실에만** 쓴다. 정책 입력이나 추론에는 쓰지 않는다. 실제 로봇에서도 같은 정책이 그대로 동작해야 한다.
-- 학습: sft_v3에서 시작해 30k 스텝, 배치 16(메모리가 허용하는 한)으로 한다.
+- 학습: **smolvla_base에서 처음부터** 30k 스텝, 배치 16(메모리가 허용하는 한)으로 한다(사용자 결정 2026-10-14).
 - 데이터에서 네거티브 시연(wrong_approach)을 뺀다. 망설임 문제가 있었기 때문이다.
 
-## Task 1: 데이터 (1,500개)
+## Task 1: 데이터 (1,500개, 명령문 다양화 포함)
+
+- 명령 색별 기본 300 / 유사 150 / 드문 50 표현(`sim/commands.py`, `--paraphrase`). 하늘색 공은 "blue"로 부른다. 평가 전용 표현은 학습에 넣지 않는다.
 
 - `data/collect.py`에 `--aux-labels` 옵션을 추가한다. 켜면 프레임마다 `target_xy`(float32, (2,))를 기록한다.
   - 값은 명령한 색 공의 현재 (x, y) 위치(m, 로봇 좌표)다.
   - 키 이름이 `observation.`으로 시작하지 않으므로 lerobot이 정책 입력으로 쓰지 않는다.
 - 수집 명령:
 
-  `python -m data.collect --same-layout --randomize --mode-mix --modes default,correction --scene-mix --aux-labels --repo-id local/so101_ballsort_sim_v8 --root data/so101_ballsort_sim_v8 --n-per-color 500 --seed 500000`
+  `python -m data.collect --same-layout --randomize --mode-mix --modes default,correction --scene-mix --aux-labels --paraphrase --repo-id local/so101_ballsort_sim_v8 --root data/so101_ballsort_sim_v8 --n-per-color 500 --seed 500000`
 
 ## Task 2: 보조 손실 학습 (`train/sft_aux.py`)
 
@@ -40,7 +42,7 @@
 
 ## Task 3: 학습과 평가
 
-- 학습: `train/sft_aux.sh sft_aux1 30000 16` (INIT=sft_v3, DATASET=so101_ballsort_sim_v8)
+- 학습: `DATASET=so101_ballsort_sim_v8 bash train/sft_aux.sh sft_aux1 30000 16` (INIT 없음 = smolvla_base)
 - 평가:
   - 반사실 시험(배치 30개): 5k / 15k / 30k 체크포인트
   - 보조 예측 오차: 학습에 쓰지 않은 seed에서 측정
