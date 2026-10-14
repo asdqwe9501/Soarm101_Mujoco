@@ -75,3 +75,15 @@ def test_collect_mixed_options(tmp_path):
     )
     assert stats["saved"] == 6 and stats["per_color"] == {c: 2 for c in COLORS}
     assert sum(stats["per_mode"].values()) == 6 and sum(stats["per_scene"].values()) == 6
+
+
+def test_aux_labels_record_target_xy(tmp_path):
+    root = tmp_path / "ds_aux"
+    collect("local/test_aux", root, n_per_color=1, seed=11, aux_labels=True)
+    from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
+    ds = LeRobotDataset("local/test_aux", root=root, video_backend="pyav")
+    assert "target_xy" in ds.meta.features and tuple(ds.meta.features["target_xy"]["shape"]) == (2,)
+    item = ds[0]
+    xy = item["target_xy"].numpy()
+    assert 0.05 < xy[0] < 0.40 and -0.30 < xy[1] < 0.30  # 책상 위 작업 공간
