@@ -50,6 +50,7 @@ class RandomLatentPolicy:
 
 
 def main():
+    from sim.commands import command_for_tier, sample_command
     from sim.env import BallSortEnv, COLORS
     from rl.staged_reward import StagedReward
     ap = argparse.ArgumentParser()
@@ -60,7 +61,10 @@ def main():
     ap.add_argument('--seed', type=int, default=20000)
     ap.add_argument('--out', default=None)
     ap.add_argument('--guard', action='store_true')
+    ap.add_argument('--commands', choices=['canonical', 'basic', 'train', 'heldout'], default='canonical',
+                    help="명령문: canonical(예전 고정 문장), basic(Grab the X ball.), train(학습 배분대로), heldout(평가 전용 표현)")
     args = ap.parse_args()
+    cmd_rng = np.random.default_rng(args.seed + 7)
     if args.policy == 'dsrl':
         from policies.dsrl import DSRLPolicyAdapter
         pol = DSRLPolicyAdapter(args.checkpoint, args.actor)
@@ -81,7 +85,11 @@ def main():
     for L in range(args.layouts):
         res = {}
         for color in COLORS:
-            obs, _ = env.reset(seed=args.seed + L, options={'target': color}); pol.reset(env); sr.reset()
+            opts = {'target': color}
+            if args.commands != 'canonical':
+                opts['command'] = (command_for_tier(color, 'basic', cmd_rng) if args.commands == 'basic'
+                                   else sample_command(color, cmd_rng, split=args.commands))
+            obs, _ = env.reset(seed=args.seed + L, options=opts); pol.reset(env); sr.reset()
             guard_log.append({'layout': L, 'command': color, 'checks': []})
             res[color], _ = run_attempt(env, sr, act_fn, obs)
             guard_log[-1]['outcome'] = res[color]
@@ -94,7 +102,7 @@ def main():
     tot = 3 * n
     summary = {
         'policy': args.policy, 'checkpoint': args.checkpoint, 'actor': args.actor,
-        'layouts': n, 'seed': args.seed, 'episodes': tot,
+        'layouts': n, 'seed': args.seed, 'episodes': tot, 'commands': args.commands,
         'confusion': table,
         'target_attempt_rate': sum(conf[(c, c)] for c in COLORS) / tot,
         'target_attempt_rate_by_color': {c: conf[(c, c)] / n for c in COLORS},
