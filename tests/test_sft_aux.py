@@ -24,6 +24,35 @@ def test_preprocessor_patch_keeps_target_xy(monkeypatch):
     assert torch.equal(out["target_xy"], torch.ones(2, 2))
 
 
+def test_early_indices_only_first_frames_of_each_episode():
+    from types import SimpleNamespace
+
+    ds = SimpleNamespace(
+        episodes=None,
+        meta=SimpleNamespace(episodes={"dataset_from_index": [0, 5, 30], "dataset_to_index": [5, 30, 42]}),
+    )
+    idx = sft_aux.early_indices(ds, max_frame=10)
+    assert idx == list(range(0, 5)) + list(range(5, 15)) + list(range(30, 40))
+
+
+V8 = "data/so101_ballsort_sim_v8"
+
+
+def test_early_loader_yields_only_early_frames():
+    if not os.path.exists(V8):
+        pytest.skip("needs the v8 dataset")
+    from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
+    ds = LeRobotDataset("local/so101_ballsort_sim_v8", root=V8)
+    loader = sft_aux.early_loader(ds, batch_size=4, num_workers=0)
+    assert len(loader.dataset) == sum(
+        min(10, t - f) for f, t in zip(ds.meta.episodes["dataset_from_index"], ds.meta.episodes["dataset_to_index"])
+    )
+    b = next(iter(loader))
+    assert b["frame_index"].shape == (4,) and torch.all(b["frame_index"] < sft_aux.AUX_MAX_FRAME)
+    assert "target_xy" in b
+
+
 @pytest.fixture(scope="module")
 def policy():
     if not torch.cuda.is_available() or not os.path.exists(CKPT):
@@ -62,7 +91,40 @@ def test_aux_head_shape_and_time_is_one(policy, monkeypatch):
     assert len(times) == 1 and torch.all(times[0] == 1.0)
 
 
-def test_forward_adds_aux_loss_and_grads_reach_head_and_expert(policy):
+def test_aux_forward_zeroes_state(policy, monkeypatch):
+    states = []
+    orig = policy.model.embed_prefix
+
+    def record(*a, state=None, **k):
+        states.append(state.detach().clone())
+        return orig(*a, state=state, **k)
+
+    monkeypatch.setattr(policy.model, "embed_prefix", record)
+    with torch.no_grad():
+        policy.aux_predict(_batch(policy))
+    assert len(states) == 1 and torch.all(states[0] == 0)
+
+
+def test_forward_aux_uses_early_batch_not_training_batch(policy, monkeypatch):
+    early = _batch(policy)
+    early["target_xy"] = torch.tensor([[0.12, -0.1], [0.28, 0.2]], device="cuda")
+    seen = []
+    orig = policy.aux_predict
+    monkeypatch.setattr(policy, "aux_predict", lambda b: seen.append(b) or orig(b))
+    monkeypatch.setattr(policy, "aux_batches", iter([early]))
+    with torch.no_grad():
+        policy.forward(_batch(policy))
+    assert len(seen) == 1 and seen[0] is early
+
+
+def test_forward_without_early_sampler_is_plain_flow_loss(policy):
+    with torch.no_grad():
+        _, d = policy.forward(_batch(policy))
+    assert "aux_loss" not in d
+
+
+def test_forward_adds_aux_loss_and_grads_reach_head_and_expert(policy, monkeypatch):
+    monkeypatch.setattr(policy, "aux_batches", iter([_batch(policy)]))
     policy.zero_grad()
     loss, d = policy.forward(_batch(policy))
     assert {"flow_loss", "aux_loss", "aux_err_cm"} <= d.keys()

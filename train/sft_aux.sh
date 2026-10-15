@@ -2,7 +2,8 @@
 # 사용: bash train/sft_aux.sh <job_name> <steps> <batch_size> [추가 lerobot-train 인자...]
 # train/sft.sh와 같고, lerobot-train 대신 train/sft_aux.py(보조 목표 위치 손실)를 부른다. Plan 6 Task 2.
 # 환경변수: INIT(시작 체크포인트 pretrained_model 경로), DATASET(data/ 아래 이름),
-#           DATA_ROOT(데이터셋 경로 직접 지정, 기본 data/$DATASET), AUX_LAMBDA(기본 0.1, 학습된 체크포인트에서 시작하면 0.01 권장), AUX_LOG_FREQ(기본 100)
+#           DATA_ROOT(데이터셋 경로 직접 지정, 기본 data/$DATASET), AUX_LAMBDA(기본 0.1, 학습된 체크포인트에서 시작하면 0.01 권장), AUX_LOG_FREQ(기본 100),
+#           AUX_MAX_FRAME(보조 손실에 쓸 초기 프레임 frame_index 상한, 기본 10), AUX_BS(초기 프레임 배치 크기, 기본 16)
 set -euo pipefail
 JOB=$1; STEPS=$2; BS=$3; shift 3
 DATASET=${DATASET:-so101_ballsort_sim}
