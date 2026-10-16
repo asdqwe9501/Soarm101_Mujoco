@@ -1,0 +1,23 @@
+{
+  "single": {
+    "n": 150,
+    "success_rate": 0.8533333333333334,
+    "per_color": {
+      "red": 0.88,
+      "black": 0.8,
+      "sky blue": 0.88
+    },
+    "failures": {
+      "wrong_ball": 5,
+      "grasp_fail": 12,
+      "release_fail": 2,
+      "return_fail": 3
+    }
+  },
+  "sequential": {
+    "n": 20,
+    "all_success_rate": 0.3,
+    "per_command_rate": 0.65
+  },
+  "commands": "heldout"
+}
