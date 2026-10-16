@@ -109,3 +109,14 @@ def test_guard_gives_up_after_max_retries(env):
     assert guard.stats["rejections"] == 1
     # 재시도를 다 쓴 뒤에는 그대로 통과시키므로 그때 처음으로 시도가 기록된다
     assert info["first_attempt"] == "other" and info["attempt_color"] == "sky blue"
+
+
+def test_command_color_understands_paraphrases():
+    from policies.color_guard import command_color
+
+    assert command_color("grab the sky blue ball and put it in the box") == "sky blue"
+    assert command_color("Grab the blue ball.") == "sky blue"
+    assert command_color("Bring the blue-colored one to the box") == "sky blue"
+    assert command_color("Take the black-colored ball.") == "black"
+    assert command_color("pick up the red one") == "red"
+    assert command_color("move it") is None

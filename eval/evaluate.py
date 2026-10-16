@@ -51,13 +51,26 @@ def run_episode(env, policy, obs, frames=None):
     return obs, info, max_z
 
 
-def evaluate(policy, n_per_color, seed=0, render=False, video_dir=None, max_videos=10):
+def _options(color, commands, cmd_rng, **extra):
+    """평가 명령문: canonical(예전 고정 문장), basic(Grab the X ball.), train(학습 배분), heldout(처음 듣는 표현)."""
+    from sim.commands import command_for_tier, sample_command
+
+    opts = {"target": color, **extra}
+    if commands == "basic":
+        opts["command"] = command_for_tier(color, "basic", cmd_rng)
+    elif commands != "canonical":
+        opts["command"] = sample_command(color, cmd_rng, split=commands)
+    return opts
+
+
+def evaluate(policy, n_per_color, seed=0, render=False, video_dir=None, max_videos=10, commands="canonical"):
     env = BallSortEnv(render=render or video_dir is not None)
     wins, per_color, failures, n_videos = 0, Counter(), Counter(), 0
+    cmd_rng = np.random.default_rng(seed + 7)
     ep = 0
     for color in COLORS:
         for _ in range(n_per_color):
-            obs, _ = env.reset(seed=seed + ep, options={"target": color})
+            obs, _ = env.reset(seed=seed + ep, options=_options(color, commands, cmd_rng))
             frames = [] if video_dir is not None else None
             _, info, max_z = run_episode(env, policy, obs, frames)
             if info["success"]:
@@ -82,19 +95,20 @@ def evaluate(policy, n_per_color, seed=0, render=False, video_dir=None, max_vide
     }
 
 
-def evaluate_sequential(policy, n_trials, seed=0, render=False):
+def evaluate_sequential(policy, n_trials, seed=0, render=False, commands="canonical"):
     """공 3개를 무작위 순서로 연속 명령한다. 한 시험 안에서는 장면을 유지한다."""
     env = BallSortEnv(render=render)
     rng = np.random.default_rng(seed)
+    cmd_rng = np.random.default_rng(seed + 7)
     all_ok, cmd_ok = 0, 0
     for t in range(n_trials):
         order = list(rng.permutation(COLORS))
         ok = True
         for i, color in enumerate(order):
             if i == 0:
-                obs, _ = env.reset(seed=seed + t, options={"target": color})
+                obs, _ = env.reset(seed=seed + t, options=_options(color, commands, cmd_rng))
             else:
-                obs, _ = env.reset(options={"keep_scene": True, "target": color})
+                obs, _ = env.reset(options=_options(color, commands, cmd_rng, keep_scene=True))
             _, info, _ = run_episode(env, policy, obs)
             cmd_ok += info["success"]
             if not info["success"]:
@@ -116,6 +130,8 @@ def main():
     ap.add_argument("--sequential", type=int, default=0, help="연속 명령 시험 횟수 (0이면 생략)")
     ap.add_argument("--seed", type=int, default=10_000)
     ap.add_argument("--video-dir", default=None)
+    ap.add_argument("--commands", choices=["canonical", "basic", "train", "heldout"], default="canonical",
+                    help="명령문 종류 (새 모델은 basic/heldout 권장)")
     ap.add_argument("--guard", action="store_true", help="손목 카메라 색 확인 + 재시도(ColorGuard)로 감싼다")
     args = ap.parse_args()
     if args.policy == "smolvla":
@@ -133,9 +149,10 @@ def main():
 
         policy = ColorGuard(policy)
     render = args.policy in ("smolvla", "dsrl") or args.guard
-    result = {"single": evaluate(policy, args.n_per_color, args.seed, render=render, video_dir=args.video_dir)}
+    result = {"single": evaluate(policy, args.n_per_color, args.seed, render=render, video_dir=args.video_dir, commands=args.commands)}
     if args.sequential:
-        result["sequential"] = evaluate_sequential(policy, args.sequential, args.seed, render=render)
+        result["sequential"] = evaluate_sequential(policy, args.sequential, args.seed, render=render, commands=args.commands)
+    result["commands"] = args.commands
     print(json.dumps(result, indent=2))
 
 

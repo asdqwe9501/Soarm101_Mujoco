@@ -78,8 +78,15 @@ def classify_wrist(img):
 
 
 def command_color(task):
-    m = re.search(r"grab the (.+?) ball", task)
-    return m.group(1) if m else None
+    """명령문에서 목표 색을 읽는다. 다양한 표현(blue / sky blue / -colored / one)을 받는다."""
+    words = re.findall(r"[a-z]+", task.lower())
+    if "red" in words:
+        return "red"
+    if "black" in words:
+        return "black"
+    if "blue" in words:
+        return "sky blue"
+    return None
 
 
 class ColorGuard:
