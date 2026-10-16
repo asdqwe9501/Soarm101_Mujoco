@@ -17,6 +17,7 @@ from policies.dsrl import NoiseSteeredSmolVLA
 from policies.dsrl_constants import EXEC_STEPS, LATENT_SCALE, STEER_DIM
 from rl.chunk_env import ChunkEnv
 from rl.sac import SAC, ReplayBuffer
+from sim.commands import command_for_tier, sample_command
 from sim.env import COLORS, BallSortEnv
 
 SEED_BASE = 100_000  # 평가 seed(10000~)와 겹치지 않음
@@ -25,6 +26,18 @@ BUFFER_EVERY = 50  # 버퍼 파일은 크므로 50 에피소드마다(그리고 
 FIELDS = ["episode", "env_steps_total", "wall_time_s", "mean_return", "first_attempt_target_rate",
           "first_attempt_other_rate", "miss_or_timeout_rate", "stage>=1", "stage>=2", "stage>=3",
           "success_rate", "alpha", "critic_loss", "actor_loss"]
+
+
+def episode_options(color, commands, randomize, rng):
+    """env.reset options: canonical이면 기존 고정 문장, basic/train이면 명령문을 넣는다."""
+    opts = {"target": color}
+    if commands == "basic":
+        opts["command"] = command_for_tier(color, "basic", rng)
+    elif commands == "train":
+        opts["command"] = sample_command(color, rng, split="train")
+    if randomize:
+        opts["randomize"] = True
+    return opts
 
 
 def save_buffer(buf, path):
@@ -81,6 +94,9 @@ def main():
     ap.add_argument("--max-env-steps", type=int, default=None, help="스모크용: 이 env 스텝에서 truncated 처리")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--commands", choices=["canonical", "basic", "train"], default="canonical",
+                    help="명령문: canonical(예전 고정 문장), basic(Grab the X ball.), train(학습 배분대로)")
+    ap.add_argument("--randomize", action="store_true", help="조명/배경 무작위화")
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -126,7 +142,8 @@ def main():
             color = COLORS[rng.integers(len(COLORS))]
             warm = ep < args.warmup_episodes
             t_ep = time.time()
-            o, _ = ce.reset(seed=SEED_BASE + ep, options={"target": color})
+            opts = episode_options(color, args.commands, args.randomize, np.random.default_rng([SEED_BASE + ep, 1]))
+            o, _ = ce.reset(seed=SEED_BASE + ep, options=opts)
             ret, n_rl = 0.0, 0
             while True:
                 a = (np.clip(rng.standard_normal(STEER_DIM), -LATENT_SCALE, LATENT_SCALE).astype(np.float32)
@@ -146,7 +163,7 @@ def main():
             hist.append({"ret": ret, "first_attempt": info["first_attempt"], "stage": info["stage"],
                          "end_reason": reason})
             dt = time.time() - t_ep
-            print(f"ep {ep} [{color}{' warm' if warm else ''}] ret {ret:+.1f} {reason} stage {info['stage']} "
+            print(f"ep {ep} [{color}{' warm' if warm else ''}] {opts.get('command', '')!r} ret {ret:+.1f} {reason} stage {info['stage']} "
                   f"steps {info['env_steps']} rl {n_rl} time {dt:.1f}s ({dt / n_rl:.2f}s/rl) buf {len(buf)}",
                   flush=True)
             if ep % args.save_every == 0:

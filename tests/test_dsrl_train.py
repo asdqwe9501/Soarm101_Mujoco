@@ -33,3 +33,31 @@ def test_two_episode_smoke_and_adapter(tmp_path):
     pol = DSRLPolicyAdapter(CK, str(out / "last.pt"))
     r = evaluate(pol, n_per_color=1, seed=0, render=True)
     assert r["n"] == 3 and 0.0 <= r["success_rate"] <= 1.0
+
+
+def test_episode_options_commands_and_randomize():
+    import numpy as np
+    from sim.commands import TRAIN_TEMPLATES, normalize
+    from train.dsrl import episode_options
+
+    rng = np.random.default_rng(0)
+    assert episode_options("red", "canonical", False, rng) == {"target": "red"}
+    assert episode_options("sky blue", "basic", True, rng) == {
+        "target": "sky blue", "command": "Grab the blue ball.", "randomize": True}
+    o = episode_options("black", "train", False, np.random.default_rng(1))
+    assert "randomize" not in o and "black" in o["command"]
+    assert any(normalize(o["command"]) == t.format(color=w)
+               for t in TRAIN_TEMPLATES for w in ("black", "black-colored"))
+    # 같은 seed면 같은 명령
+    assert o == episode_options("black", "train", False, np.random.default_rng(1))
+
+
+def test_upper_bound_command_for():
+    import numpy as np
+    sys.path.insert(0, "tools")
+    from dsrl_upper_bound import command_for
+
+    rng = np.random.default_rng(0)
+    assert command_for("red", "canonical", rng) is None
+    assert command_for("sky blue", "basic", rng) == "Grab the blue ball."
+    assert "red" in command_for("red", "heldout", rng)
