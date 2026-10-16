@@ -1,0 +1,1463 @@
+{
+  "checkpoint": "outputs/train/sft_aux2/checkpoints/030000/pretrained_model",
+  "layouts": 30,
+  "tries": 8,
+  "seed": 20000,
+  "commands": "basic",
+  "reachable_rate": 1.0,
+  "reachable_rate_by_color": {
+    "red": 1.0,
+    "black": 1.0,
+    "sky blue": 1.0
+  },
+  "per_try_target_rate": 0.9472222222222222,
+  "unreached": [],
+  "per_try_target_rate_by_color": {
+    "red": 0.9583333333333334,
+    "black": 0.9333333333333333,
+    "sky blue": 0.95
+  },
+  "runtime_s": 1312.4419009685516,
+  "detail": [
+    {
+      "layout": 0,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 0,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 0,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 1,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 1,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 1,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 2,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 2,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 2,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 3,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 3,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 3,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 4,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 4,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 4,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 5,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 5,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 4
+    },
+    {
+      "layout": 5,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 6,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 6,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 6,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 7,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 7,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "none",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 7,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 8,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "none",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 8,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 8,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 9,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 9,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "none"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 9,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 10,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "none",
+        "black",
+        "red",
+        "black",
+        "red",
+        "red"
+      ],
+      "hits": 5
+    },
+    {
+      "layout": 10,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 10,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "none",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 11,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 11,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "none",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 11,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 12,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 12,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 12,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "black",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 13,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 13,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 13,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 14,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 14,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 14,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 15,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 15,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 15,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 16,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 16,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "none",
+        "red",
+        "none",
+        "black",
+        "timeout",
+        "none",
+        "red",
+        "red"
+      ],
+      "hits": 1
+    },
+    {
+      "layout": 16,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 17,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 17,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 17,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 18,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "black",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 18,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 18,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 19,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 19,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 19,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "none",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 20,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 20,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 20,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 21,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 21,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 21,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 22,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 22,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 22,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 23,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 23,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 23,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 24,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "red",
+        "sky blue",
+        "red",
+        "red",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 3
+    },
+    {
+      "layout": 24,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 24,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 6
+    },
+    {
+      "layout": 25,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 25,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 25,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 26,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 26,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "none",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 26,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "none",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 27,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 27,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 27,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 28,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 28,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 28,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 29,
+      "command": "red",
+      "text": "Grab the red ball.",
+      "outcomes": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "hits": 8
+    },
+    {
+      "layout": 29,
+      "command": "black",
+      "text": "Grab the black ball.",
+      "outcomes": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "sky blue"
+      ],
+      "hits": 7
+    },
+    {
+      "layout": 29,
+      "command": "sky blue",
+      "text": "Grab the blue ball.",
+      "outcomes": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "hits": 8
+    }
+  ]
+}
