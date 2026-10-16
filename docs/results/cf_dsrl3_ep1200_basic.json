@@ -1,0 +1,37 @@
+{
+  "policy": "dsrl",
+  "checkpoint": "outputs/train/sft_aux2/checkpoints/030000/pretrained_model",
+  "actor": "outputs/dsrl/v3/sac_1200.pt",
+  "layouts": 30,
+  "seed": 20000,
+  "episodes": 90,
+  "commands": "basic",
+  "confusion": {
+    "red": {
+      "black": 0,
+      "red": 30,
+      "sky blue": 0
+    },
+    "black": {
+      "black": 23,
+      "red": 3,
+      "sky blue": 4
+    },
+    "sky blue": {
+      "black": 4,
+      "red": 1,
+      "sky blue": 25
+    }
+  },
+  "target_attempt_rate": 0.8666666666666667,
+  "target_attempt_rate_by_color": {
+    "red": 1.0,
+    "black": 0.7666666666666667,
+    "sky blue": 0.8333333333333334
+  },
+  "wrong_color_rate": 0.13333333333333333,
+  "miss_rate": 0.0,
+  "timeout_rate": 0.0,
+  "other_rate": 0.0,
+  "layouts_all_3_correct": 19
+}
