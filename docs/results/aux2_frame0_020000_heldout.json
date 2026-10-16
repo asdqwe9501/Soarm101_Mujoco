@@ -1,0 +1,12 @@
+{
+  "checkpoint": "outputs/train/sft_aux2/checkpoints/020000/pretrained_model",
+  "layouts": 15,
+  "commands": "heldout",
+  "n": 45,
+  "err_cm_mean": 1.2314865053962032,
+  "err_cm_median": 1.1208661953115822,
+  "nearest_correct": 45,
+  "nearest_correct_rate": 1.0,
+  "spread_cm_mean": 13.345019976298014,
+  "gate_pass": true
+}
