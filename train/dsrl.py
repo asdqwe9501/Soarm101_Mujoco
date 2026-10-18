@@ -1,6 +1,7 @@
 """DSRL 학습 루프: SAC가 고정된 SmolVLA의 flow-matching 노이즈(잠재 행동)를 고른다.
 
 python -m train.dsrl --checkpoint <sft> --out outputs/dsrl/<run> --episodes N --warmup-episodes W [--resume]
+--algo kl: SAC 대신 기반 분포 N(0, I)에 KL로 묶은 actor-critic (rl/kl_ac.py, Plan 7).
 """
 
 import argparse
@@ -16,6 +17,7 @@ import torch
 from policies.dsrl import NoiseSteeredSmolVLA
 from policies.dsrl_constants import EXEC_STEPS, LATENT_SCALE, STEER_DIM
 from rl.chunk_env import ChunkEnv
+from rl.kl_ac import KLRegularizedAC
 from rl.sac import SAC, ReplayBuffer
 from sim.commands import command_for_tier, sample_command
 from sim.env import COLORS, BallSortEnv
@@ -25,7 +27,7 @@ WINDOW = 50  # metrics.csv 이동 평균 창
 BUFFER_EVERY = 50  # 버퍼 파일은 크므로 50 에피소드마다(그리고 종료 시)만 저장
 FIELDS = ["episode", "env_steps_total", "wall_time_s", "mean_return", "first_attempt_target_rate",
           "first_attempt_other_rate", "miss_or_timeout_rate", "stage>=1", "stage>=2", "stage>=3",
-          "success_rate", "alpha", "critic_loss", "actor_loss"]
+          "success_rate", "alpha", "critic_loss", "actor_loss", "kl"]
 
 
 def episode_options(color, commands, randomize, rng):
@@ -77,7 +79,7 @@ def summarize(episode, env_steps, wall, hist, last_upd):
         "stage>=1": m(lambda e: e["stage"] >= 1), "stage>=2": m(lambda e: e["stage"] >= 2),
         "stage>=3": m(lambda e: e["stage"] >= 3), "success_rate": m(lambda e: e["end_reason"] == "success"),
         "alpha": last_upd.get("alpha", float("nan")), "critic_loss": last_upd.get("critic_loss", float("nan")),
-        "actor_loss": last_upd.get("actor_loss", float("nan")),
+        "actor_loss": last_upd.get("actor_loss", float("nan")), "kl": last_upd.get("kl", float("nan")),
     }
 
 
@@ -97,6 +99,10 @@ def main():
     ap.add_argument("--commands", choices=["canonical", "basic", "train"], default="canonical",
                     help="명령문: canonical(예전 고정 문장), basic(Grab the X ball.), train(학습 배분대로)")
     ap.add_argument("--randomize", action="store_true", help="조명/배경 무작위화")
+    ap.add_argument("--algo", choices=["sac", "kl"], default="sac")
+    ap.add_argument("--beta", type=float, default=1.0, help="--algo kl: KL 벌점 계수")
+    ap.add_argument("--critic-warmup", type=int, default=0, help="--algo kl: actor 갱신 전 critic만 갱신하는 횟수")
+    ap.add_argument("--init-buffer", default=None, help="이전 실행의 buffer.npz로 리플레이 버퍼를 채우고 시작")
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -106,7 +112,11 @@ def main():
 
     steer = NoiseSteeredSmolVLA(args.checkpoint, device="cuda", seed=args.seed)
     ce = ChunkEnv(BallSortEnv(render=True), steer, EXEC_STEPS, STEER_DIM, LATENT_SCALE, seed=args.seed)
-    sac = SAC(steer.feat_dim, STEER_DIM, LATENT_SCALE, device="cuda")
+    if args.algo == "kl":
+        sac = KLRegularizedAC(steer.feat_dim, STEER_DIM, LATENT_SCALE, device="cuda", beta=args.beta,
+                              critic_warmup=args.critic_warmup)
+    else:
+        sac = SAC(steer.feat_dim, STEER_DIM, LATENT_SCALE, device="cuda")
     buf = ReplayBuffer(steer.feat_dim, STEER_DIM, args.capacity, dtype=np.float16)
 
     metrics_path = out / "metrics.csv"
@@ -120,6 +130,14 @@ def main():
     else:
         with open(metrics_path, "w", newline="") as f:
             csv.DictWriter(f, FIELDS).writeheader()
+        if args.init_buffer:
+            load_buffer(buf, args.init_buffer)
+            print(f"init buffer: {len(buf)} transitions from {args.init_buffer}", flush=True)
+            if args.algo == "kl":  # actor는 고정한 채 critic만 오프라인으로 먼저 학습
+                for i in range(args.critic_warmup):
+                    upd = sac.update(buf.sample(args.batch))
+                    if (i + 1) % 500 == 0:
+                        print(f"critic warmup {i + 1}/{args.critic_warmup}: {upd}", flush=True)
 
     hist = deque(maxlen=WINDOW)
     last_upd = {}

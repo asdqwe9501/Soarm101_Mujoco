@@ -97,13 +97,20 @@ class NoiseSteeredSmolVLA:
 
 
 class DSRLPolicyAdapter:
-    """평가기 프로토콜(reset(env), act(obs)). 큐가 비면 features → actor(결정적) z → SteerLatent → chunk 앞 EXEC_STEPS개."""
+    """평가기 프로토콜(reset(env), act(obs)). 큐가 비면 features → actor z → SteerLatent → chunk 앞 EXEC_STEPS개.
+
+    SAC 체크포인트는 결정적(평균) z, KL 체크포인트(kind="kl")는 학습 때처럼 분포에서 뽑은 z를 쓴다.
+    """
 
     def __init__(self, checkpoint, actor_path, device="cuda"):
+        from rl.kl_ac import KLRegularizedAC
         from rl.sac import SAC
 
         self.steer = NoiseSteeredSmolVLA(checkpoint, device=device)
-        self.sac = SAC(self.steer.feat_dim, STEER_DIM, LATENT_SCALE, device=device)
+        kind = torch.load(actor_path, map_location="cpu").get("kind", "sac")
+        agent = KLRegularizedAC if kind == "kl" else SAC
+        self.sac = agent(self.steer.feat_dim, STEER_DIM, LATENT_SCALE, device=device)
+        self.deterministic = kind != "kl"
         self.steer_latent = SteerLatent(seed=0)
         self.sac.load(actor_path)
         self.queue = []
@@ -114,6 +121,6 @@ class DSRLPolicyAdapter:
 
     def act(self, obs):
         if not self.queue:
-            z = self.sac.act(self.steer.features(obs), deterministic=True)
+            z = self.sac.act(self.steer.features(obs), deterministic=self.deterministic)
             self.queue = list(self.steer.chunk(obs, self.steer_latent.to_latent(z))[:EXEC_STEPS])
         return self.queue.pop(0)

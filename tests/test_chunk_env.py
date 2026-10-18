@@ -117,3 +117,16 @@ def test_step_maps_z_to_300_dim_latent_on_basis():
     z = np.linspace(-1.5, 1.5, 12).astype(np.float32)
     ce.step(z)
     assert steer.latent.shape == (300,) and np.allclose(BASIS.T @ steer.latent, z, atol=1e-5)
+
+
+def test_irl_mode_records_staged_but_ends_only_on_env_success_or_time():
+    ce = ChunkEnv(BallSortEnv(render=False), ExpertSteer(aim="black"), exec_steps=10, steer_dim=12,
+                  latent_scale=2.0, staged_termination=False)
+    total, info, _ = rollout(ce)
+    assert info["end_reason"] == "wrong_attempt" and abs(total + 1.0) < 1e-9  # 기록은 그대로, 벌점은 한 번
+    assert not info["env_success"] and info["env_steps"] == 900  # 잘못된 시도로 끝나지 않고 시간 제한까지
+
+    ce = ChunkEnv(BallSortEnv(render=False), ExpertSteer(), exec_steps=10, steer_dim=12, latent_scale=2.0,
+                  staged_termination=False)
+    total, info, _ = rollout(ce)
+    assert info["env_success"] and info["success"] and abs(total - 7.0) < 1e-9
