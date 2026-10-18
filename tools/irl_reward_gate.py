@@ -15,7 +15,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from rl.discriminator import Discriminator  # noqa: E402
+from rl.discriminator import Discriminator, mismatch_batch, pair_colors  # noqa: E402
 
 
 def sampler(d, rng, batch):
@@ -42,6 +42,8 @@ def main():
     ap.add_argument("--updates", type=int, default=3000)
     ap.add_argument("--batch", type=int, default=256)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--mismatch-frac", type=float, default=0.0,
+                    help="음성 배치 중 명령어 바꿔치기 전문가 쌍의 비율")
     ap.add_argument("--save", default=None, help="학습한 판별기 저장 경로")
     args = ap.parse_args()
 
@@ -49,8 +51,14 @@ def main():
     rng = np.random.default_rng(0)
     expert, policy = dict(np.load(args.expert)), dict(np.load(args.policy_buffer))
     disc = Discriminator(expert["obs"].shape[1], device="cuda")
+    colors = pair_colors(expert)
+    n_mm = int(round(args.mismatch_frac * args.batch))
     for i in range(args.updates):
-        stats = disc.update(sampler(expert, rng, args.batch), sampler(policy, rng, args.batch))
+        neg = sampler(policy, rng, args.batch - n_mm)
+        if n_mm:
+            mm = mismatch_batch(expert, colors, rng, n_mm)
+            neg = {k: torch.cat([neg[k], mm[k]]) for k in neg}
+        stats = disc.update(sampler(expert, rng, args.batch), neg)
         if (i + 1) % 500 == 0:
             print(f"update {i + 1}: {stats}", flush=True)
 
@@ -63,7 +71,7 @@ def main():
         "n_paired": len(paired),
         "mean_reward_correct": float(np.mean(list(re.values()))),
         "mean_reward_wrong": float(np.mean(list(rw.values()))),
-        "final_d_stats": stats, "updates": args.updates,
+        "final_d_stats": stats, "updates": args.updates, "mismatch_frac": args.mismatch_frac,
         "n_expert_pairs": len(expert["obs"]), "n_policy_pairs": len(policy["obs"]),
     }
     print(json.dumps(result, indent=2))

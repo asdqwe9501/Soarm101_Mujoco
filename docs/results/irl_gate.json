@@ -1,0 +1,16 @@
+{
+  "auc_correct_vs_wrong": 0.5441,
+  "paired_correct_higher": 0.6,
+  "n_paired": 100,
+  "mean_reward_correct": -0.7022825002670288,
+  "mean_reward_wrong": -0.7168546682596206,
+  "final_d_stats": {
+    "d_loss": 1.2921760082244873,
+    "d_r1": 0.008374151773750782,
+    "d_acc_expert": 0.6015625,
+    "d_acc_policy": 0.69140625
+  },
+  "updates": 3000,
+  "n_expert_pairs": 2656,
+  "n_policy_pairs": 25029
+}

@@ -3,9 +3,36 @@
 보상 r(s, s') = log D(s, s') ≤ 0. 에피소드는 성공(또는 시간 제한)으로만 끝나므로 음수 보상은
 "전문가처럼 움직여 빨리 성공 상태로 가라"는 뜻이 되고, 오래 버티는 쪽으로 치우치지 않는다.
 """
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+LANG_SLICE = slice(960 + 512, 960 + 512 + 960)  # NoiseSteeredSmolVLA.features: 손목 960 | 위 512 | 명령문 960 | 상태 6
+
+
+def mismatch_batch(expert, colors, rng, n):
+    """명령어 바꿔치기 음성 표본: 전문가 전이는 그대로 두고 명령문 특징만 다른 색 명령의 것으로 바꾼다.
+
+    colors: 전이마다 명령한 색 (len = 전이 수). 판별기가 '움직임과 명령의 색이 맞는가'를 보게 만든다.
+    """
+    i = rng.integers(0, len(colors), n)
+    j = rng.integers(0, len(colors), 4 * n)
+    o, o2 = expert["obs"][i].astype(np.float32), expert["obs2"][i].astype(np.float32)
+    for k in range(n):
+        cand = j[colors[j] != colors[i[k]]]
+        src = expert["obs"][cand[k % len(cand)], LANG_SLICE]
+        o[k, LANG_SLICE] = src
+        o2[k, LANG_SLICE] = src
+    return {"obs": torch.as_tensor(o), "obs2": torch.as_tensor(o2)}
+
+
+def pair_colors(d):
+    """expert_pairs.npz → 전이마다 명령한 색."""
+    from policies.color_guard import command_color
+
+    ep_colors = {e: command_color(str(t)) for e, t in zip(np.unique(d["episode"]), d["tasks"])}
+    return np.array([ep_colors[e] for e in d["episode"]])
 
 
 class Discriminator:
