@@ -18,7 +18,7 @@ import torch
 from policies.dsrl import NoiseSteeredSmolVLA
 from policies.dsrl_constants import EXEC_STEPS, LATENT_SCALE, STEER_DIM
 from rl.chunk_env import ChunkEnv
-from rl.discriminator import Discriminator
+from rl.discriminator import Discriminator, mismatch_batch, pair_colors
 from rl.kl_ac import KLRegularizedAC
 from rl.sac import ReplayBuffer
 from sim.env import COLORS, BallSortEnv
@@ -46,6 +46,8 @@ def main():
     ap.add_argument("--d-pretrain", type=int, default=3000)
     ap.add_argument("--d-steps", type=int, default=20, help="에피소드마다 판별기 갱신 횟수")
     ap.add_argument("--d-recent", type=int, default=5000, help="판별기 음성 표본: 리플레이 버퍼의 최근 전이 수")
+    ap.add_argument("--mismatch-frac", type=float, default=0.5,
+                    help="판별기 음성 배치 중 명령어 바꿔치기 전문가 쌍의 비율 (관문: 0이면 AUC 0.54, 0.5면 0.89)")
     ap.add_argument("--beta", type=float, default=1.0)
     ap.add_argument("--critic-warmup", type=int, default=2000)
     ap.add_argument("--batch", type=int, default=256)
@@ -69,13 +71,22 @@ def main():
     buf = ReplayBuffer(steer.feat_dim, STEER_DIM, 100_000, dtype=np.float16)
     expert = dict(np.load(args.expert))
     print(f"expert pairs: {len(expert['obs'])}", flush=True)
+    colors = pair_colors(expert)
+    n_mm = int(round(args.mismatch_frac * args.batch))
+
+    def with_mismatch(neg):
+        """음성 배치의 n_mm개를 명령어 바꿔치기 전문가 쌍으로 채운다(판별기 학습에만 쓴다)."""
+        if not n_mm:
+            return neg
+        mm = mismatch_batch(expert, colors, rng_d, n_mm)
+        return {k: torch.cat([neg[k][: args.batch - n_mm], mm[k]]) for k in neg}
 
     d_stats = {}
     if args.init_negatives:
         neg = dict(np.load(args.init_negatives))
         for i in range(args.d_pretrain):
             d_stats = disc.update(to_batch(expert, rng_d.integers(0, len(expert["obs"]), args.batch)),
-                                  to_batch(neg, rng_d.integers(0, len(neg["obs"]), args.batch)))
+                                  with_mismatch(to_batch(neg, rng_d.integers(0, len(neg["obs"]), args.batch))))
             if (i + 1) % 500 == 0:
                 print(f"d pretrain {i + 1}/{args.d_pretrain}: {d_stats}", flush=True)
         del neg
@@ -89,7 +100,7 @@ def main():
         lo = max(0, len(buf) - args.d_recent) if len(buf) < buf.capacity else 0
         idx = rng_d.integers(lo, len(buf), args.batch)
         pol = {"obs": torch.as_tensor(buf.obs[idx]).float(), "obs2": torch.as_tensor(buf.obs2[idx]).float()}
-        return disc.update(to_batch(expert, rng_d.integers(0, len(expert["obs"]), args.batch)), pol)
+        return disc.update(to_batch(expert, rng_d.integers(0, len(expert["obs"]), args.batch)), with_mismatch(pol))
 
     metrics_path = out / "metrics.csv"
     with open(metrics_path, "w", newline="") as f:
