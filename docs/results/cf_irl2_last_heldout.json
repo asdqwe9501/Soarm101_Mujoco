@@ -1,0 +1,43 @@
+{
+  "policy": "dsrl",
+  "checkpoint": "outputs/train/sft_aux2_irl/pretrained_model",
+  "actor": "outputs/irl/irl2/last.pt",
+  "layouts": 30,
+  "seed": 20000,
+  "episodes": 90,
+  "commands": "heldout",
+  "confusion": {
+    "red": {
+      "black": 2,
+      "none": 2,
+      "red": 26,
+      "sky blue": 0,
+      "timeout": 0
+    },
+    "black": {
+      "black": 28,
+      "none": 0,
+      "red": 1,
+      "sky blue": 0,
+      "timeout": 1
+    },
+    "sky blue": {
+      "black": 2,
+      "none": 0,
+      "red": 1,
+      "sky blue": 27,
+      "timeout": 0
+    }
+  },
+  "target_attempt_rate": 0.9,
+  "target_attempt_rate_by_color": {
+    "red": 0.8666666666666667,
+    "black": 0.9333333333333333,
+    "sky blue": 0.9
+  },
+  "wrong_color_rate": 0.06666666666666667,
+  "miss_rate": 0.022222222222222223,
+  "timeout_rate": 0.011111111111111112,
+  "other_rate": 0.0,
+  "layouts_all_3_correct": 23
+}
