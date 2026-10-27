@@ -63,9 +63,20 @@ def _options(color, commands, cmd_rng, **extra):
     return opts
 
 
-def evaluate(policy, n_per_color, seed=0, render=False, video_dir=None, max_videos=10, commands="canonical"):
+def _save_video(video_dir, name, frames, command):
+    """영상 저장 + videos.txt에 파일 이름과 명령문을 한 줄로 남긴다."""
+    Path(video_dir).mkdir(parents=True, exist_ok=True)
+    imageio.mimsave(Path(video_dir) / name, frames, fps=FPS)
+    with open(Path(video_dir) / "videos.txt", "a", encoding="utf-8") as f:
+        f.write(f"{name}\t{command}\n")
+
+
+def evaluate(policy, n_per_color, seed=0, render=False, video_dir=None, max_videos=10, commands="canonical",
+             success_videos_per_color=2):
+    """video_dir: 실패 영상 최대 max_videos개 + 성공 영상 색별 success_videos_per_color개를 저장한다."""
     env = BallSortEnv(render=render or video_dir is not None)
     wins, per_color, failures, n_videos = 0, Counter(), Counter(), 0
+    success_saved = Counter()
     cmd_rng = np.random.default_rng(seed + 7)
     ep = 0
     for color in COLORS:
@@ -76,13 +87,14 @@ def evaluate(policy, n_per_color, seed=0, render=False, video_dir=None, max_vide
             if info["success"]:
                 wins += 1
                 per_color[color] += 1
+                if frames and success_saved[color] < success_videos_per_color:
+                    _save_video(video_dir, f"ep{ep:04d}_{color.replace(' ', '_')}_success.mp4", frames, env.task)
+                    success_saved[color] += 1
             else:
                 kind = classify_failure(info, max_z)
                 failures[kind] += 1
                 if frames and n_videos < max_videos:
-                    Path(video_dir).mkdir(parents=True, exist_ok=True)
-                    name = f"ep{ep:04d}_{color.replace(' ', '_')}_{kind}.mp4"
-                    imageio.mimsave(Path(video_dir) / name, frames, fps=FPS)
+                    _save_video(video_dir, f"ep{ep:04d}_{color.replace(' ', '_')}_{kind}.mp4", frames, env.task)
                     n_videos += 1
             ep += 1
     env.close()
