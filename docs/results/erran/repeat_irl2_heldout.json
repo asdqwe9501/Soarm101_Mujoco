@@ -1,0 +1,732 @@
+{
+  "records": "docs/results/erran/cf_irl2_heldout.json",
+  "policy": "dsrl",
+  "actor": "outputs/irl/irl2/last.pt",
+  "repeats": 10,
+  "n_error_cases": 9,
+  "n_control_cases": 9,
+  "error_cases_repeat_correct_mean": 0.5777777777777778,
+  "control_cases_repeat_correct_mean": 0.8666666666666667,
+  "cases": [
+    {
+      "layout": 18,
+      "seed": 30018,
+      "color": "black",
+      "command": "Bring the black-colored one to the box",
+      "balls": {
+        "red": [
+          0.1333,
+          0.1774
+        ],
+        "black": [
+          0.1208,
+          -0.0503
+        ],
+        "sky blue": [
+          0.1966,
+          -0.064
+        ]
+      },
+      "bin": [
+        0.1551,
+        -0.2127
+      ],
+      "outcome": "sky blue",
+      "group": "error",
+      "repeats": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "black",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "black"
+      ],
+      "repeat_correct": 0.2,
+      "repeat_same_wrong": 0.8
+    },
+    {
+      "layout": 20,
+      "seed": 30020,
+      "color": "black",
+      "command": "lift the black ball and drop it in the box",
+      "balls": {
+        "red": [
+          0.1265,
+          0.1993
+        ],
+        "black": [
+          0.2051,
+          0.1597
+        ],
+        "sky blue": [
+          0.2411,
+          0.0659
+        ]
+      },
+      "bin": [
+        0.148,
+        -0.2101
+      ],
+      "outcome": "red",
+      "group": "error",
+      "repeats": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "red",
+        "black",
+        "red",
+        "black",
+        "black"
+      ],
+      "repeat_correct": 0.8,
+      "repeat_same_wrong": 0.2
+    },
+    {
+      "layout": 30,
+      "seed": 30030,
+      "color": "black",
+      "command": "Bring the black one to the box.",
+      "balls": {
+        "red": [
+          0.2641,
+          0.0341
+        ],
+        "black": [
+          0.2772,
+          -0.0362
+        ],
+        "sky blue": [
+          0.1975,
+          0.1821
+        ]
+      },
+      "bin": [
+        0.1563,
+        -0.2223
+      ],
+      "outcome": "red",
+      "group": "error",
+      "repeats": [
+        "red",
+        "red",
+        "black",
+        "black",
+        "red",
+        "black",
+        "black",
+        "black",
+        "black",
+        "red"
+      ],
+      "repeat_correct": 0.6,
+      "repeat_same_wrong": 0.4
+    },
+    {
+      "layout": 35,
+      "seed": 30035,
+      "color": "red",
+      "command": "lift the red ball and drop it in the box",
+      "balls": {
+        "red": [
+          0.2767,
+          -0.0247
+        ],
+        "black": [
+          0.1513,
+          0.1915
+        ],
+        "sky blue": [
+          0.2203,
+          0.0658
+        ]
+      },
+      "bin": [
+        0.1675,
+        -0.2065
+      ],
+      "outcome": "sky blue",
+      "group": "error",
+      "repeats": [
+        "sky blue",
+        "sky blue",
+        "red",
+        "sky blue",
+        "red",
+        "none",
+        "red",
+        "sky blue",
+        "red",
+        "timeout"
+      ],
+      "repeat_correct": 0.4,
+      "repeat_same_wrong": 0.4
+    },
+    {
+      "layout": 35,
+      "seed": 30035,
+      "color": "sky blue",
+      "command": "bring the blue-colored one to the box.",
+      "balls": {
+        "red": [
+          0.2767,
+          -0.0247
+        ],
+        "black": [
+          0.1513,
+          0.1915
+        ],
+        "sky blue": [
+          0.2203,
+          0.0658
+        ]
+      },
+      "bin": [
+        0.1675,
+        -0.2065
+      ],
+      "outcome": "red",
+      "group": "error",
+      "repeats": [
+        "red",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "red",
+        "red",
+        "sky blue",
+        "none",
+        "sky blue",
+        "timeout"
+      ],
+      "repeat_correct": 0.5,
+      "repeat_same_wrong": 0.3
+    },
+    {
+      "layout": 55,
+      "seed": 30055,
+      "color": "red",
+      "command": "lift the red ball and drop it in the box",
+      "balls": {
+        "red": [
+          0.1783,
+          0.1067
+        ],
+        "black": [
+          0.2127,
+          0.1769
+        ],
+        "sky blue": [
+          0.2548,
+          0.006
+        ]
+      },
+      "bin": [
+        0.1518,
+        -0.185
+      ],
+      "outcome": "black",
+      "group": "error",
+      "repeats": [
+        "black",
+        "red",
+        "none",
+        "none",
+        "red",
+        "red",
+        "black",
+        "black",
+        "red",
+        "red"
+      ],
+      "repeat_correct": 0.5,
+      "repeat_same_wrong": 0.3
+    },
+    {
+      "layout": 75,
+      "seed": 30075,
+      "color": "sky blue",
+      "command": "Bring the blue-colored one to the box.",
+      "balls": {
+        "red": [
+          0.2365,
+          0.0331
+        ],
+        "black": [
+          0.1549,
+          0.0806
+        ],
+        "sky blue": [
+          0.2345,
+          -0.0392
+        ]
+      },
+      "bin": [
+        0.1599,
+        -0.2198
+      ],
+      "outcome": "red",
+      "group": "error",
+      "repeats": [
+        "sky blue",
+        "none",
+        "none",
+        "sky blue",
+        "red",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "red",
+        "red"
+      ],
+      "repeat_correct": 0.5,
+      "repeat_same_wrong": 0.3
+    },
+    {
+      "layout": 97,
+      "seed": 30097,
+      "color": "red",
+      "command": "Get the red-colored ball.",
+      "balls": {
+        "red": [
+          0.2579,
+          0.0385
+        ],
+        "black": [
+          0.1448,
+          0.1211
+        ],
+        "sky blue": [
+          0.2343,
+          -0.0392
+        ]
+      },
+      "bin": [
+        0.1783,
+        -0.1936
+      ],
+      "outcome": "sky blue",
+      "group": "error",
+      "repeats": [
+        "red",
+        "red",
+        "sky blue",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "sky blue",
+        "sky blue"
+      ],
+      "repeat_correct": 0.7,
+      "repeat_same_wrong": 0.3
+    },
+    {
+      "layout": 98,
+      "seed": 30098,
+      "color": "black",
+      "command": "Bring the black-colored one to the box.",
+      "balls": {
+        "red": [
+          0.1353,
+          0.1172
+        ],
+        "black": [
+          0.262,
+          -0.0746
+        ],
+        "sky blue": [
+          0.2739,
+          -0.005
+        ]
+      },
+      "bin": [
+        0.1656,
+        -0.1869
+      ],
+      "outcome": "sky blue",
+      "group": "error",
+      "repeats": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "repeat_correct": 1.0,
+      "repeat_same_wrong": 0.0
+    },
+    {
+      "layout": 82,
+      "seed": 30082,
+      "color": "sky blue",
+      "command": "bring the blue-colored one to the box.",
+      "balls": {
+        "red": [
+          0.18,
+          0.0784
+        ],
+        "black": [
+          0.1814,
+          0.1895
+        ],
+        "sky blue": [
+          0.246,
+          0.1158
+        ]
+      },
+      "bin": [
+        0.1509,
+        -0.2161
+      ],
+      "outcome": "sky blue",
+      "group": "control",
+      "repeats": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "repeat_correct": 1.0,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 62,
+      "seed": 30062,
+      "color": "red",
+      "command": "Bring the red one to the box",
+      "balls": {
+        "red": [
+          0.2344,
+          -0.0317
+        ],
+        "black": [
+          0.1455,
+          0.195
+        ],
+        "sky blue": [
+          0.2525,
+          0.0533
+        ]
+      },
+      "bin": [
+        0.1664,
+        -0.2013
+      ],
+      "outcome": "red",
+      "group": "control",
+      "repeats": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "repeat_correct": 1.0,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 50,
+      "seed": 30050,
+      "color": "black",
+      "command": "get the black ball.",
+      "balls": {
+        "red": [
+          0.2468,
+          -0.079
+        ],
+        "black": [
+          0.252,
+          0.0415
+        ],
+        "sky blue": [
+          0.2007,
+          0.1015
+        ]
+      },
+      "bin": [
+        0.1809,
+        -0.2111
+      ],
+      "outcome": "black",
+      "group": "control",
+      "repeats": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "none",
+        "black",
+        "black",
+        "black"
+      ],
+      "repeat_correct": 0.9,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 30,
+      "seed": 30030,
+      "color": "red",
+      "command": "Get the red-colored ball.",
+      "balls": {
+        "red": [
+          0.2641,
+          0.0341
+        ],
+        "black": [
+          0.2772,
+          -0.0362
+        ],
+        "sky blue": [
+          0.1975,
+          0.1821
+        ]
+      },
+      "bin": [
+        0.1563,
+        -0.2223
+      ],
+      "outcome": "red",
+      "group": "control",
+      "repeats": [
+        "red",
+        "red",
+        "red",
+        "red",
+        "none",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red"
+      ],
+      "repeat_correct": 0.9,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 17,
+      "seed": 30017,
+      "color": "black",
+      "command": "get the black-colored ball",
+      "balls": {
+        "red": [
+          0.1648,
+          0.1929
+        ],
+        "black": [
+          0.2382,
+          0.0337
+        ],
+        "sky blue": [
+          0.1835,
+          0.1111
+        ]
+      },
+      "bin": [
+        0.178,
+        -0.1972
+      ],
+      "outcome": "black",
+      "group": "control",
+      "repeats": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "none"
+      ],
+      "repeat_correct": 0.9,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 26,
+      "seed": 30026,
+      "color": "black",
+      "command": "bring the black one to the box",
+      "balls": {
+        "red": [
+          0.1214,
+          0.1013
+        ],
+        "black": [
+          0.2515,
+          0.0819
+        ],
+        "sky blue": [
+          0.268,
+          -0.0802
+        ]
+      },
+      "bin": [
+        0.1731,
+        -0.2105
+      ],
+      "outcome": "black",
+      "group": "control",
+      "repeats": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black"
+      ],
+      "repeat_correct": 1.0,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 7,
+      "seed": 30007,
+      "color": "red",
+      "command": "bring the red-colored one to the box",
+      "balls": {
+        "red": [
+          0.1263,
+          -0.0384
+        ],
+        "black": [
+          0.2171,
+          -0.0602
+        ],
+        "sky blue": [
+          0.1913,
+          0.0869
+        ]
+      },
+      "bin": [
+        0.1592,
+        -0.1943
+      ],
+      "outcome": "red",
+      "group": "control",
+      "repeats": [
+        "timeout",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "timeout",
+        "red",
+        "timeout",
+        "timeout"
+      ],
+      "repeat_correct": 0.6,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 3,
+      "seed": 30003,
+      "color": "sky blue",
+      "command": "Get the blue ball.",
+      "balls": {
+        "red": [
+          0.231,
+          0.0971
+        ],
+        "black": [
+          0.2172,
+          0.1735
+        ],
+        "sky blue": [
+          0.2332,
+          -0.0499
+        ]
+      },
+      "bin": [
+        0.1681,
+        -0.2073
+      ],
+      "outcome": "sky blue",
+      "group": "control",
+      "repeats": [
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue",
+        "sky blue"
+      ],
+      "repeat_correct": 1.0,
+      "repeat_same_wrong": null
+    },
+    {
+      "layout": 1,
+      "seed": 30001,
+      "color": "black",
+      "command": "Get the black ball",
+      "balls": {
+        "red": [
+          0.1591,
+          -0.0698
+        ],
+        "black": [
+          0.1227,
+          0.0351
+        ],
+        "sky blue": [
+          0.2621,
+          -0.0911
+        ]
+      },
+      "bin": [
+        0.1506,
+        -0.2218
+      ],
+      "outcome": "black",
+      "group": "control",
+      "repeats": [
+        "none",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "timeout",
+        "none",
+        "none",
+        "none"
+      ],
+      "repeat_correct": 0.5,
+      "repeat_same_wrong": null
+    }
+  ]
+}
