@@ -17,9 +17,9 @@ from sim.env import COLORS, MAX_STEPS, BallSortEnv  # noqa: E402
 from train.dsrl import episode_options  # noqa: E402
 
 
-def run_episode(env, steer, seed, aim, rng):
+def run_episode(env, steer, seed, aim, rng, commands="train"):
     color = COLORS[rng.integers(len(COLORS))]
-    obs, _ = env.reset(seed=seed, options=episode_options(color, "train", True, np.random.default_rng([seed, 1])))
+    obs, _ = env.reset(seed=seed, options=episode_options(color, commands, True, np.random.default_rng([seed, 1])))
     steer.reset(env)
     ex = ScriptedExpert(env, seed=seed)
     if aim == "wrong":
@@ -45,6 +45,8 @@ def main():
     ap.add_argument("--episodes", type=int, required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--aim", choices=["target", "wrong"], default="target")
+    ap.add_argument("--commands", choices=["train", "irl", "heldout"], default="train",
+                    help="명령문 분할 (irl: 학습 + IRL 확장 표현, heldout: 평가 전용 표현 — 관문 시험용)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -54,7 +56,7 @@ def main():
     n_ok = 0
     for i in range(args.episodes):
         seed = args.seed + i
-        f, success, wrong_done, task = run_episode(env, steer, seed, args.aim, np.random.default_rng(seed))
+        f, success, wrong_done, task = run_episode(env, steer, seed, args.aim, np.random.default_rng(seed), args.commands)
         ok = success if args.aim == "target" else wrong_done
         print(f"ep {i} seed {seed} {task!r} pairs {len(f) - 1} {'ok' if ok else 'FAILED'}", flush=True)
         if not ok:

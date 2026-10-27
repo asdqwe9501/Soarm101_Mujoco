@@ -35,8 +35,8 @@ def episode_options(color, commands, randomize, rng):
     opts = {"target": color}
     if commands == "basic":
         opts["command"] = command_for_tier(color, "basic", rng)
-    elif commands == "train":
-        opts["command"] = sample_command(color, rng, split="train")
+    elif commands in ("train", "irl", "heldout"):
+        opts["command"] = sample_command(color, rng, split=commands)
     if randomize:
         opts["randomize"] = True
     return opts

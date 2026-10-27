@@ -48,6 +48,7 @@ def main():
     ap.add_argument("--d-recent", type=int, default=5000, help="판별기 음성 표본: 리플레이 버퍼의 최근 전이 수")
     ap.add_argument("--mismatch-frac", type=float, default=0.5,
                     help="판별기 음성 배치 중 명령어 바꿔치기 전문가 쌍의 비율 (관문: 0이면 AUC 0.54, 0.5면 0.89)")
+    ap.add_argument("--commands", choices=["train", "irl"], default="train", help="정책 학습 에피소드의 명령문 분할")
     ap.add_argument("--beta", type=float, default=1.0)
     ap.add_argument("--critic-warmup", type=int, default=2000)
     ap.add_argument("--batch", type=int, default=256)
@@ -111,7 +112,7 @@ def main():
     for ep in range(1, args.episodes + 1):
         rng = np.random.default_rng(SEED_BASE + ep)
         color = COLORS[rng.integers(len(COLORS))]
-        opts = episode_options(color, "train", True, np.random.default_rng([SEED_BASE + ep, 1]))
+        opts = episode_options(color, args.commands, True, np.random.default_rng([SEED_BASE + ep, 1]))
         o, _ = ce.reset(seed=SEED_BASE + ep, options=opts)
         staged_ret, irl_ret, t_ep = 0.0, 0.0, time.time()
         while True:

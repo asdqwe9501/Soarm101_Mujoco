@@ -72,3 +72,18 @@ def test_rare_and_similar_and_heldout_are_separate():
 
     assert not set(RARE_TEMPLATES) & set(SIMILAR_TEMPLATES)
     assert not set(HELDOUT_TEMPLATES) & (set(RARE_TEMPLATES) | set(SIMILAR_TEMPLATES))
+
+
+def test_irl_split_is_wider_than_train_and_disjoint_from_heldout():
+    from sim.commands import IRL_EXTRA_TEMPLATES
+
+    assert len(IRL_EXTRA_TEMPLATES) >= 15
+    assert not set(IRL_EXTRA_TEMPLATES) & (set(TRAIN_TEMPLATES) | set(HELDOUT_TEMPLATES))
+    held_verbs = {"get", "lift", "bring", "drop"}  # 평가 전용 표현의 동사는 IRL 표현에 쓰지 않는다
+    for t in IRL_EXTRA_TEMPLATES:
+        assert t.count("{color}") == 1 and not held_verbs & set(t.replace("{color}", "").split())
+    rng = np.random.default_rng(4)
+    irl = {normalize(sample_command("red", rng, split="irl")) for _ in range(2000)}
+    held = {normalize(sample_command("red", rng, split="heldout")) for _ in range(200)}
+    train = {normalize(sample_command("red", rng, split="train")) for _ in range(2000)}
+    assert not irl & held and train <= irl and len(irl) > 2 * len(train)

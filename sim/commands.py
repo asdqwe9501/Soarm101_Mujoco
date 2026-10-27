@@ -32,6 +32,29 @@ HELDOUT_TEMPLATES = [
     "bring the {color} one to the box",
 ]
 
+# IRL 전용 확장 표현(Plan 9): 학습 표현에 더해 IRL 시범·바꿔치기 음성 표본·정책 학습 명령에 쓴다.
+# 평가 전용 표현과 겹치지 않고, 그 동사(get/lift/bring/drop)도 쓰지 않는다.
+IRL_EXTRA_TEMPLATES = [
+    "grasp the {color} ball",
+    "pick the {color} ball",
+    "please grab the {color} ball",
+    "can you pick up the {color} ball",
+    "grab that {color} ball",
+    "take hold of the {color} ball",
+    "collect the {color} ball",
+    "go for the {color} ball",
+    "choose the {color} one",
+    "now the {color} ball",
+    "place the {color} ball into the bin",
+    "put away the {color} ball",
+    "store the {color} ball in the container",
+    "I want the {color} ball in the box",
+    "the {color} ball goes in the box",
+    "{color} ball into the box",
+    "select the {color} ball and put it away",
+    "pick out the {color} ball and place it in the box",
+]
+
 TRAIN_TEMPLATES = [BASIC_TEMPLATE.rstrip(".").lower()] + SIMILAR_TEMPLATES + RARE_TEMPLATES
 
 BASE_WORD = {"red": "red", "black": "black", "sky blue": "blue"}
@@ -43,7 +66,7 @@ COLOR_WORDS = {
 
 TIERS = ("basic", "similar", "rare")
 TIER_SHARE = {"basic": 300 / 500, "similar": 150 / 500, "rare": 50 / 500}
-SPLITS = ("train", "heldout", "canonical")
+SPLITS = ("train", "heldout", "canonical", "irl")
 
 
 def normalize(command):
@@ -78,13 +101,15 @@ def pick_tier(remaining, rng):
 
 
 def sample_command(color, rng, split="train"):
-    """split: train(배분 비율로 tier를 뽑음), heldout(평가 전용 틀), canonical(기존 고정 문장)."""
+    """split: train(배분 비율로 tier를 뽑음), heldout(평가 전용 틀), canonical(기존 고정 문장),
+    irl(학습 표현 + IRL 확장 표현에서 고르게 뽑음)."""
     if split not in SPLITS:
         raise ValueError(f"unknown split {split!r}")
     if split == "canonical":
         return task_text(color)
-    if split == "heldout":
+    if split in ("heldout", "irl"):
+        templates = HELDOUT_TEMPLATES if split == "heldout" else TRAIN_TEMPLATES + IRL_EXTRA_TEMPLATES
         words = COLOR_WORDS[color]
-        text = HELDOUT_TEMPLATES[rng.integers(len(HELDOUT_TEMPLATES))].format(color=words[rng.integers(len(words))])
+        text = templates[rng.integers(len(templates))].format(color=words[rng.integers(len(words))])
         return _vary(text, rng)
     return command_for_tier(color, pick_tier({}, rng), rng)
