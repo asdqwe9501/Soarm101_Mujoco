@@ -61,6 +61,7 @@ def main():
     ap.add_argument('--seed', type=int, default=20000)
     ap.add_argument('--out', default=None)
     ap.add_argument('--guard', action='store_true')
+    ap.add_argument('--records', action='store_true', help='에피소드별 기록(명령문, 결과, 공·통 위치)을 결과에 넣는다')
     ap.add_argument('--commands', choices=['canonical', 'basic', 'train', 'heldout'], default='canonical',
                     help="명령문: canonical(예전 고정 문장), basic(Grab the X ball.), train(학습 배분대로), heldout(평가 전용 표현)")
     args = ap.parse_args()
@@ -74,7 +75,7 @@ def main():
         from policies.color_guard import ColorGuard
         pol = ColorGuard(pol)
     env = BallSortEnv(render=True); sr = StagedReward(env)
-    conf = Counter(); lay_ok = 0; guard_log = []
+    conf = Counter(); lay_ok = 0; guard_log = []; records = []
 
     def act_fn(obs):
         a = pol.act(obs)
@@ -90,10 +91,14 @@ def main():
                 opts['command'] = (command_for_tier(color, 'basic', cmd_rng) if args.commands == 'basic'
                                    else sample_command(color, cmd_rng, split=args.commands))
             obs, _ = env.reset(seed=args.seed + L, options=opts); pol.reset(env); sr.reset()
+            rec = {'layout': L, 'seed': args.seed + L, 'color': color, 'command': env.task,
+                   'balls': {c: env.ball_pos(c)[:2].round(4).tolist() for c in COLORS},
+                   'bin': env.bin_pos()[:2].round(4).tolist()}
             guard_log.append({'layout': L, 'command': color, 'checks': []})
             res[color], _ = run_attempt(env, sr, act_fn, obs)
             guard_log[-1]['outcome'] = res[color]
             conf[(color, res[color])] += 1
+            records.append(dict(rec, outcome=res[color]))
         lay_ok += all(res[c] == c for c in COLORS)
         print(L, res, flush=True)
     outcomes = sorted({k[1] for k in conf} | set(COLORS))
@@ -112,6 +117,8 @@ def main():
         'other_rate': sum(v for (c, o), v in conf.items() if o not in tuple(COLORS) + ('none', 'timeout')) / tot,
         'layouts_all_3_correct': lay_ok,
     }
+    if args.records:
+        summary['records'] = records
     if args.guard:
         checks = [c for e in guard_log for c in e['checks']]
         rej = [c for c in checks if c['rejected']]
