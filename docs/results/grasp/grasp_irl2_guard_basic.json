@@ -1,0 +1,8055 @@
+{
+  "checkpoint": "outputs/train/sft_aux2_irl/pretrained_model",
+  "actor": "outputs/irl/irl2/last.pt",
+  "guard": true,
+  "commands": "basic",
+  "n": 150,
+  "categories": {
+    "success": 131,
+    "closes_elsewhere": 4,
+    "no_close": 2,
+    "offset_miss": 4,
+    "wrong_ball": 2,
+    "pushed": 4,
+    "too_high": 2,
+    "dropped": 1
+  },
+  "first_close_near_target": {
+    "success": {
+      "n": 131,
+      "offset_cm_median": 0.79,
+      "abs_width_cm_median": 0.33,
+      "abs_axis_cm_median": 0.67,
+      "tip_z_cm_median": 1.2
+    },
+    "offset_miss": {
+      "n": 4,
+      "offset_cm_median": 2.39,
+      "abs_width_cm_median": 2.22,
+      "abs_axis_cm_median": 0.62,
+      "tip_z_cm_median": 1.59
+    },
+    "wrong_ball": {
+      "n": 2,
+      "offset_cm_median": 2.07,
+      "abs_width_cm_median": 1.78,
+      "abs_axis_cm_median": 1.05,
+      "tip_z_cm_median": 1.48
+    },
+    "pushed": {
+      "n": 4,
+      "offset_cm_median": 2.36,
+      "abs_width_cm_median": 1.22,
+      "abs_axis_cm_median": 1.82,
+      "tip_z_cm_median": 2.98
+    },
+    "too_high": {
+      "n": 2,
+      "offset_cm_median": 2.57,
+      "abs_width_cm_median": 0.76,
+      "abs_axis_cm_median": 2.24,
+      "tip_z_cm_median": 3.94
+    },
+    "dropped": {
+      "n": 1,
+      "offset_cm_median": 1.14,
+      "abs_width_cm_median": 1.14,
+      "abs_axis_cm_median": 0.01,
+      "tip_z_cm_median": 1.36
+    }
+  },
+  "episodes": [
+    {
+      "success": true,
+      "steps": 432,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 189,
+          "tip_z": 0.013340493292053793,
+          "ball_z": 0.019021522454784962,
+          "offset": 0.010598573816183314,
+          "axis": -0.010593780782889603,
+          "width": 0.000318709367865912,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2496,
+            -0.0986
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.10431188531772387,
+          "ball_z": 0.022631282010556416,
+          "offset": 0.17649600931439546,
+          "axis": -0.05827329943544456,
+          "width": 0.1665985110282027,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1865,
+            -0.2119
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          227
+        ],
+        [
+          "in_bin",
+          308
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2505,
+        -0.0992
+      ],
+      "category": "success",
+      "episode": 0,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 433,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 185,
+          "tip_z": 0.015478751892748208,
+          "ball_z": 0.01973134800579081,
+          "offset": 0.010050338294257595,
+          "axis": -0.008953506792438925,
+          "width": 0.004565524717573076,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1727,
+            0.1364
+          ]
+        },
+        {
+          "step": 411,
+          "tip_z": 0.11860885022647151,
+          "ball_z": 0.022632818157483494,
+          "offset": 0.17193053809285122,
+          "axis": -0.028283634172337115,
+          "width": 0.16958816576312974,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1552,
+            -0.2119
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          225
+        ],
+        [
+          "in_bin",
+          337
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1728,
+        0.1365
+      ],
+      "category": "success",
+      "episode": 1,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 506,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 248,
+          "tip_z": 0.012361194788607602,
+          "ball_z": 0.0199726991944321,
+          "offset": 0.005022647515825031,
+          "axis": -0.004951323040176875,
+          "width": 0.0008434383320889474,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1709,
+            0.1773
+          ]
+        },
+        {
+          "step": 477,
+          "tip_z": 0.11634372114088738,
+          "ball_z": 0.02263281815777705,
+          "offset": 0.20318028381848258,
+          "axis": -0.03302251830337228,
+          "width": 0.20047877946920611,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1433,
+            -0.2438
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          281
+        ],
+        [
+          "in_bin",
+          397
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1709,
+        0.1773
+      ],
+      "category": "success",
+      "episode": 2,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 440,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 165,
+          "tip_z": 0.01426181372967511,
+          "ball_z": 0.01926195864682478,
+          "offset": 0.01557300725845398,
+          "axis": -0.007629528731788951,
+          "width": 0.013576039422551308,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2364,
+            -0.0659
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.12277011101840044,
+          "ball_z": 0.022632818153858366,
+          "offset": 0.17693861755319906,
+          "axis": -0.024371249795352663,
+          "width": 0.17525215138493952,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.141,
+            -0.2224
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          201
+        ],
+        [
+          "in_bin",
+          320
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2375,
+        -0.0659
+      ],
+      "category": "success",
+      "episode": 3,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 415,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 147,
+          "tip_z": 0.011144861649232535,
+          "ball_z": 0.019972699194245085,
+          "offset": 0.00787083754002658,
+          "axis": -0.0077443216899841655,
+          "width": -0.0014055479869191467,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1889,
+            0.1367
+          ]
+        },
+        {
+          "step": 388,
+          "tip_z": 0.13448683700911074,
+          "ball_z": 0.02263281815699902,
+          "offset": 0.15918933562644774,
+          "axis": -0.040079549440752565,
+          "width": 0.15406126798717484,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1705,
+            -0.2086
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          181
+        ],
+        [
+          "in_bin",
+          309
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1889,
+        0.1367
+      ],
+      "category": "success",
+      "episode": 4,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 479,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 189,
+          "tip_z": 0.009938546647958832,
+          "ball_z": 0.019133741283801315,
+          "offset": 0.00854066326408223,
+          "axis": -0.006008000412311711,
+          "width": -0.006070161450579881,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1272,
+            0.1989
+          ]
+        },
+        {
+          "step": 450,
+          "tip_z": 0.13037408340931494,
+          "ball_z": 0.02263281932323573,
+          "offset": 0.18117121216582133,
+          "axis": -0.020312345037841562,
+          "width": 0.18002893310992185,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1379,
+            -0.2244
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          228
+        ],
+        [
+          "in_bin",
+          365
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1278,
+        0.1998
+      ],
+      "category": "success",
+      "episode": 5,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 475,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 182,
+          "tip_z": 0.011055244780058704,
+          "ball_z": 0.019972699194176956,
+          "offset": 0.011481380861503824,
+          "axis": -0.004952625992591557,
+          "width": -0.010358262511850758,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1277,
+            -0.0378
+          ]
+        },
+        {
+          "step": 446,
+          "tip_z": 0.11938763647019884,
+          "ball_z": 0.022632818157859922,
+          "offset": 0.1620900248790776,
+          "axis": -0.06659480479923988,
+          "width": 0.14777790138938612,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1909,
+            -0.2109
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          224
+        ],
+        [
+          "in_bin",
+          363
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1277,
+        -0.0378
+      ],
+      "category": "success",
+      "episode": 6,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 453,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 193,
+          "tip_z": 0.011628825174614527,
+          "ball_z": 0.01997269919440732,
+          "offset": 0.007237731498033263,
+          "axis": -0.005145472740688698,
+          "width": -0.005090075393592158,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2475,
+            0.0404
+          ]
+        },
+        {
+          "step": 429,
+          "tip_z": 0.09700697637486347,
+          "ball_z": 0.022632666070252404,
+          "offset": 0.1318385801834415,
+          "axis": -0.01273059344204562,
+          "width": 0.13122249508144204,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1438,
+            -0.1688
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          222
+        ],
+        [
+          "in_bin",
+          345
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2475,
+        0.0404
+      ],
+      "category": "success",
+      "episode": 7,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 184,
+          "tip_z": 0.011325656631431535,
+          "ball_z": 0.019972699194283957,
+          "offset": 0.004311653843105607,
+          "axis": -0.004125138523577371,
+          "width": 0.001254428564751801,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1609,
+            0.0773
+          ]
+        },
+        {
+          "step": 418,
+          "tip_z": 0.10712443686241892,
+          "ball_z": 0.022629924429725064,
+          "offset": 0.17071161395738613,
+          "axis": -0.06628773591315466,
+          "width": 0.15731621406404203,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.186,
+            -0.2144
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          220
+        ],
+        [
+          "in_bin",
+          343
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1609,
+        0.0773
+      ],
+      "category": "success",
+      "episode": 8,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 497,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 224,
+          "tip_z": 0.013274380000165495,
+          "ball_z": 0.01947830331756409,
+          "offset": 0.008797894373349295,
+          "axis": -0.008794953507239921,
+          "width": 0.00022746034841136318,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2674,
+            -0.0729
+          ]
+        },
+        {
+          "step": 466,
+          "tip_z": 0.10184382314919559,
+          "ball_z": 0.022632818157623892,
+          "offset": 0.13976954649755116,
+          "axis": -0.04120865335029598,
+          "width": 0.1335566285033665,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1786,
+            -0.1761
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          256
+        ],
+        [
+          "in_bin",
+          389
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2677,
+        -0.0731
+      ],
+      "category": "success",
+      "episode": 9,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 449,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 177,
+          "tip_z": 0.011621551860985527,
+          "ball_z": 0.01938401253999446,
+          "offset": 0.009801983450113995,
+          "axis": -0.009727434562001121,
+          "width": -0.0012066053200175777,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1876,
+            0.1864
+          ]
+        },
+        {
+          "step": 426,
+          "tip_z": 0.10629976679375287,
+          "ball_z": 0.022632818171434903,
+          "offset": 0.15283155416955335,
+          "axis": -0.023722759294798012,
+          "width": 0.15097918611955158,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1496,
+            -0.1925
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          213
+        ],
+        [
+          "in_bin",
+          348
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1881,
+        0.1871
+      ],
+      "category": "success",
+      "episode": 10,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 501,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 214,
+          "tip_z": 0.011367932336590572,
+          "ball_z": 0.01997269919442934,
+          "offset": 0.00815754959859202,
+          "axis": -0.00783499463769921,
+          "width": -0.0022712275272885867,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1421,
+            0.1364
+          ]
+        },
+        {
+          "step": 468,
+          "tip_z": 0.10844334064309011,
+          "ball_z": 0.022632441160938203,
+          "offset": 0.19152087740386625,
+          "axis": -0.020618748908467183,
+          "width": 0.19040775634147983,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1269,
+            -0.2308
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          247
+        ],
+        [
+          "in_bin",
+          391
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1421,
+        0.1364
+      ],
+      "category": "success",
+      "episode": 11,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 3,
+      "closes": [
+        {
+          "step": 178,
+          "tip_z": 0.03016211505571277,
+          "ball_z": 0.018214457426526196,
+          "offset": 0.03752549888010711,
+          "axis": -0.03593062100536995,
+          "width": -0.010823748905503468,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.2166,
+            0.2233
+          ]
+        },
+        {
+          "step": 427,
+          "tip_z": 0.1315072115023418,
+          "ball_z": -0.730027300805619,
+          "offset": 2.012072220700295,
+          "axis": 0.273244392048813,
+          "width": -1.9934322470371773,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.6249,
+            1.9201
+          ]
+        },
+        {
+          "step": 794,
+          "tip_z": 0.04329127976398166,
+          "ball_z": -0.7300273008057998,
+          "offset": 5.087469654327516,
+          "axis": -3.428156246204949,
+          "width": -3.7590014944542562,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            1.3201,
+            5.0381
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1949,
+        0.1783
+      ],
+      "category": "closes_elsewhere",
+      "episode": 12,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 435,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 192,
+          "tip_z": 0.01146331021632846,
+          "ball_z": 0.019849955197771805,
+          "offset": 0.00778949562521437,
+          "axis": -0.007346048638066808,
+          "width": -0.0025907164071720837,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2506,
+            0.0227
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.1251433741687324,
+          "ball_z": 0.0226328181578191,
+          "offset": 0.16545054793929984,
+          "axis": -0.05341053515269414,
+          "width": 0.15659246006151567,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1789,
+            -0.2102
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          218
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2508,
+        0.0226
+      ],
+      "category": "success",
+      "episode": 13,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 472,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 210,
+          "tip_z": 0.011131570383750011,
+          "ball_z": 0.01997269919421876,
+          "offset": 0.006775592206174908,
+          "axis": -0.006219080777260312,
+          "width": -0.002689179062518791,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1947,
+            0.0717
+          ]
+        },
+        {
+          "step": 450,
+          "tip_z": 0.10712500545270728,
+          "ball_z": 0.022632818157763256,
+          "offset": 0.16445238067676352,
+          "axis": -0.045262303247263214,
+          "width": 0.15810094691369794,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1698,
+            -0.2039
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          246
+        ],
+        [
+          "in_bin",
+          376
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1947,
+        0.0717
+      ],
+      "category": "success",
+      "episode": 14,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 466,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 170,
+          "tip_z": 0.013886875716728753,
+          "ball_z": 0.019972699194408607,
+          "offset": 0.00741031527134637,
+          "axis": -0.004595337527770129,
+          "width": 0.00581340222474041,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2423,
+            0.135
+          ]
+        },
+        {
+          "step": 436,
+          "tip_z": 0.1211921033020903,
+          "ball_z": 0.022632818157164086,
+          "offset": 0.14745660016033038,
+          "axis": -0.04889781310617508,
+          "width": 0.1391130935759719,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1863,
+            -0.1912
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          207
+        ],
+        [
+          "in_bin",
+          357
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2423,
+        0.135
+      ],
+      "category": "success",
+      "episode": 15,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 453,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 194,
+          "tip_z": 0.009525650125364868,
+          "ball_z": 0.01804877262666759,
+          "offset": 0.006110472653237086,
+          "axis": 0.00142123341218421,
+          "width": -0.0059428925309187195,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1188,
+            0.1301
+          ]
+        },
+        {
+          "step": 428,
+          "tip_z": 0.10624990069441306,
+          "ball_z": 0.022632818382667303,
+          "offset": 0.12210723243143001,
+          "axis": -0.04250805243838582,
+          "width": 0.11446939193495664,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1784,
+            -0.1676
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          214
+        ],
+        [
+          "in_bin",
+          347
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1271,
+        0.1407
+      ],
+      "category": "success",
+      "episode": 16,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 503,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 211,
+          "tip_z": 0.013284438040701715,
+          "ball_z": 0.019501617764027854,
+          "offset": 0.00954032739007856,
+          "axis": -0.009514232164207163,
+          "width": -0.0007051475274359757,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1334,
+            0.1989
+          ]
+        },
+        {
+          "step": 448,
+          "tip_z": 0.11027137406687858,
+          "ball_z": 0.02263281815725615,
+          "offset": 0.15568838130091442,
+          "axis": -0.02080322788266523,
+          "width": 0.15429224796392338,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1425,
+            -0.1981
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          243
+        ],
+        [
+          "in_bin",
+          358
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1334,
+        0.1993
+      ],
+      "category": "success",
+      "episode": 17,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 495,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 244,
+          "tip_z": 0.011131801449260889,
+          "ball_z": 0.019470244644242476,
+          "offset": 0.0077555484369923045,
+          "axis": -0.007694990959472269,
+          "width": 0.0009672878021425852,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1957,
+            -0.063
+          ]
+        },
+        {
+          "step": 469,
+          "tip_z": 0.10702709928151409,
+          "ball_z": 0.022632818157691324,
+          "offset": 0.16583088144100985,
+          "axis": -0.06586782870087378,
+          "width": 0.15218840422888538,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.183,
+            -0.2111
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          271
+        ],
+        [
+          "in_bin",
+          395
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1961,
+        -0.0633
+      ],
+      "category": "success",
+      "episode": 18,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 459,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 182,
+          "tip_z": 0.013066030362790679,
+          "ball_z": 0.018526042355341603,
+          "offset": 0.011614018011877473,
+          "axis": -0.007273237642259785,
+          "width": 0.009054580530285744,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1837,
+            0.0831
+          ]
+        },
+        {
+          "step": 433,
+          "tip_z": 0.11116648956851888,
+          "ball_z": 0.022632818150248955,
+          "offset": 0.14799850554725338,
+          "axis": -0.06602912075584116,
+          "width": 0.13245268157508527,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1966,
+            -0.192
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          216
+        ],
+        [
+          "in_bin",
+          359
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1856,
+        0.084
+      ],
+      "category": "success",
+      "episode": 19,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 418,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 196,
+          "tip_z": 0.012231240825218564,
+          "ball_z": 0.01854772651638022,
+          "offset": 0.011711139125826987,
+          "axis": -0.011281385070816774,
+          "width": -0.00314342655527819,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.249,
+            -0.0976
+          ]
+        },
+        {
+          "step": 388,
+          "tip_z": 0.09801986344950103,
+          "ball_z": 0.02263281815715049,
+          "offset": 0.1593657032217039,
+          "axis": -0.019722829181816205,
+          "width": 0.15814056207188942,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1347,
+            -0.2001
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          227
+        ],
+        [
+          "in_bin",
+          319
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2501,
+        -0.0985
+      ],
+      "category": "success",
+      "episode": 20,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 430,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 199,
+          "tip_z": 0.01494658048472372,
+          "ball_z": 0.019380630436848,
+          "offset": 0.01356920033489579,
+          "axis": -0.010455530308124968,
+          "width": 0.008648993219121878,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2716,
+            0.0022
+          ]
+        },
+        {
+          "step": 404,
+          "tip_z": 0.1256844314050964,
+          "ball_z": 0.022632818157512627,
+          "offset": 0.16447981457559346,
+          "axis": -0.062075510507650214,
+          "width": 0.15231625126044895,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1849,
+            -0.215
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          228
+        ],
+        [
+          "in_bin",
+          339
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2727,
+        0.0021
+      ],
+      "category": "success",
+      "episode": 21,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 0,
+      "closes": [],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1546,
+        0.1391
+      ],
+      "category": "no_close",
+      "episode": 22,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 449,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 177,
+          "tip_z": 0.011251169086419002,
+          "ball_z": 0.01997269919441364,
+          "offset": 0.006826374305718245,
+          "axis": -0.006644777297425383,
+          "width": -0.0015640718747520698,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2347,
+            0.0412
+          ]
+        },
+        {
+          "step": 420,
+          "tip_z": 0.11452619133684791,
+          "ball_z": 0.022632818157762805,
+          "offset": 0.15464500191283448,
+          "axis": -0.045934210261444494,
+          "width": 0.14766558483369777,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.165,
+            -0.2055
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          220
+        ],
+        [
+          "in_bin",
+          335
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2347,
+        0.0412
+      ],
+      "category": "success",
+      "episode": 23,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 200,
+          "tip_z": 0.020344955286220698,
+          "ball_z": 0.01997269919426836,
+          "offset": 0.015089194477079529,
+          "axis": -0.004699934194100848,
+          "width": -0.014338563684632046,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2388,
+            0.1461
+          ]
+        },
+        {
+          "step": 430,
+          "tip_z": 0.14087172436003387,
+          "ball_z": -0.7300273008056458,
+          "offset": 1.48667821783082,
+          "axis": 0.9826840959729867,
+          "width": -1.1155913637593189,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            -0.3307,
+            1.3453
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2388,
+        0.1461
+      ],
+      "category": "offset_miss",
+      "episode": 24,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 407,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 154,
+          "tip_z": 0.011275803053913347,
+          "ball_z": 0.019575253267740993,
+          "offset": 0.007971539003684133,
+          "axis": -0.007910011774058354,
+          "width": -0.0009885078763043,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1416,
+            0.0606
+          ]
+        },
+        {
+          "step": 378,
+          "tip_z": 0.11039995647908596,
+          "ball_z": 0.022632818750380562,
+          "offset": 0.16373112455254313,
+          "axis": -0.07529353654654343,
+          "width": 0.14539176215162505,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.2056,
+            -0.2039
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          184
+        ],
+        [
+          "in_bin",
+          296
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1435,
+        0.0625
+      ],
+      "category": "success",
+      "episode": 25,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 494,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 234,
+          "tip_z": 0.009702708600930796,
+          "ball_z": 0.018869213280357976,
+          "offset": 0.01058564943234776,
+          "axis": -0.010433648454927938,
+          "width": 0.0017874433763183481,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2163,
+            0.1523
+          ]
+        },
+        {
+          "step": 468,
+          "tip_z": 0.12880010855426602,
+          "ball_z": 0.022632818157136674,
+          "offset": 0.19145041366246082,
+          "axis": -0.03425215159325483,
+          "width": 0.1883614902329031,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1582,
+            -0.2313
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          268
+        ],
+        [
+          "in_bin",
+          386
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2081,
+        0.1545
+      ],
+      "category": "success",
+      "episode": 26,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 434,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 166,
+          "tip_z": 0.010295433406901186,
+          "ball_z": 0.019972699194231537,
+          "offset": 0.007768853868566679,
+          "axis": -0.0052380199659901915,
+          "width": -0.005737441700534443,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2406,
+            -0.0195
+          ]
+        },
+        {
+          "step": 407,
+          "tip_z": 0.10393863159841492,
+          "ball_z": 0.022632818157654843,
+          "offset": 0.1819675463676984,
+          "axis": -0.016238897260242406,
+          "width": 0.18124151330986993,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1255,
+            -0.2198
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          197
+        ],
+        [
+          "in_bin",
+          327
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2406,
+        -0.0195
+      ],
+      "category": "success",
+      "episode": 27,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 411,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 192,
+          "tip_z": 0.014023036430116334,
+          "ball_z": 0.018680078129503893,
+          "offset": 0.013400575360036736,
+          "axis": -0.00873402374266036,
+          "width": -0.010163279453142514,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2722,
+            0.0033
+          ]
+        },
+        {
+          "step": 391,
+          "tip_z": 0.09710260587655685,
+          "ball_z": 0.022632818157359177,
+          "offset": 0.15982130880157833,
+          "axis": -0.045934052043807246,
+          "width": 0.15307812910369092,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1788,
+            -0.1926
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          224
+        ],
+        [
+          "in_bin",
+          307
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.274,
+        0.0031
+      ],
+      "category": "success",
+      "episode": 28,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 446,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 190,
+          "tip_z": 0.009500980754918148,
+          "ball_z": 0.018080349906129882,
+          "offset": 0.004657359148304871,
+          "axis": 0.0016313544147538166,
+          "width": -0.004362301801774186,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2131,
+            -0.0439
+          ]
+        },
+        {
+          "step": 417,
+          "tip_z": 0.10655532638977534,
+          "ball_z": 0.02263281815780957,
+          "offset": 0.1613325006891248,
+          "axis": -0.02130900589146355,
+          "width": 0.15991904841676624,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1438,
+            -0.2021
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          223
+        ],
+        [
+          "in_bin",
+          343
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.221,
+        -0.0441
+      ],
+      "category": "success",
+      "episode": 29,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 504,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 232,
+          "tip_z": 0.011399071294220686,
+          "ball_z": 0.019972699194281893,
+          "offset": 0.010809113094518848,
+          "axis": -0.009079950343463926,
+          "width": 0.005864420487169059,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2644,
+            0.0173
+          ]
+        },
+        {
+          "step": 477,
+          "tip_z": 0.1242040558506902,
+          "ball_z": 0.022632818157489912,
+          "offset": 0.17092561558344693,
+          "axis": -0.02515390205330709,
+          "width": 0.16906462454952814,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1421,
+            -0.2161
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          272
+        ],
+        [
+          "in_bin",
+          400
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2644,
+        0.0173
+      ],
+      "category": "success",
+      "episode": 30,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 585,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 345,
+          "tip_z": 0.015240154137850667,
+          "ball_z": 0.01994355059646694,
+          "offset": 0.010865979005751612,
+          "axis": -0.009113609794943318,
+          "width": -0.005917061454721258,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2766,
+            -0.0095
+          ]
+        },
+        {
+          "step": 559,
+          "tip_z": 0.11239257958661204,
+          "ball_z": 0.022632818157229322,
+          "offset": 0.19548114424123209,
+          "axis": -0.024160013530975594,
+          "width": 0.19398239997495767,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1355,
+            -0.2348
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          368
+        ],
+        [
+          "in_bin",
+          476
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2766,
+        -0.0094
+      ],
+      "category": "success",
+      "episode": 31,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 449,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 181,
+          "tip_z": 0.011268407378092926,
+          "ball_z": 0.019099076847354915,
+          "offset": 0.005915406091214446,
+          "axis": -0.004639071528256689,
+          "width": 0.0036702921654406646,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1847,
+            -0.0537
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.1127458035409927,
+          "ball_z": 0.022632818157884114,
+          "offset": 0.17051265919188016,
+          "axis": -0.04649669082285571,
+          "width": 0.16405067719217145,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1722,
+            -0.2099
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          217
+        ],
+        [
+          "in_bin",
+          351
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1857,
+        -0.0543
+      ],
+      "category": "success",
+      "episode": 32,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 443,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 182,
+          "tip_z": 0.01126712742634077,
+          "ball_z": 0.01982212321647277,
+          "offset": 0.00887345943239767,
+          "axis": -0.008643046662495945,
+          "width": -0.0020089864828626617,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2485,
+            -0.0938
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.11419699345955212,
+          "ball_z": 0.022632818157909962,
+          "offset": 0.15043136607028204,
+          "axis": -0.0377281648091353,
+          "width": 0.14562342352075758,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1667,
+            -0.1951
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          226
+        ],
+        [
+          "in_bin",
+          336
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2486,
+        -0.0938
+      ],
+      "category": "success",
+      "episode": 33,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 393,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 151,
+          "tip_z": 0.020934384459014244,
+          "ball_z": 0.0183677177457834,
+          "offset": 0.002057657958789302,
+          "axis": 0.00011199734863737544,
+          "width": 0.0020546077166376927,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2195,
+            0.0826
+          ]
+        },
+        {
+          "step": 367,
+          "tip_z": 0.10334904848866933,
+          "ball_z": 0.022632818157058414,
+          "offset": 0.13919120355828976,
+          "axis": -0.06603507369106149,
+          "width": 0.12252983387984062,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.2006,
+            -0.1778
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          185
+        ],
+        [
+          "in_bin",
+          289
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2274,
+        0.0882
+      ],
+      "category": "success",
+      "episode": 34,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 470,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 209,
+          "tip_z": 0.011574816995212414,
+          "ball_z": 0.01997269919445136,
+          "offset": 0.008781752123588152,
+          "axis": -0.007866335800663076,
+          "width": -0.0039038354769830377,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2501,
+            -0.0512
+          ]
+        },
+        {
+          "step": 448,
+          "tip_z": 0.09866520430435208,
+          "ball_z": 0.02263281815753779,
+          "offset": 0.14999414582033443,
+          "axis": -0.03173398788311623,
+          "width": 0.14659876463806226,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1552,
+            -0.1903
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          244
+        ],
+        [
+          "in_bin",
+          370
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2501,
+        -0.0512
+      ],
+      "category": "success",
+      "episode": 35,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 176,
+          "tip_z": 0.009185164136593316,
+          "ball_z": 0.018089527867218194,
+          "offset": 0.0012658982893280289,
+          "axis": 0.0010363976984656433,
+          "width": 0.0007268963402980833,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1507,
+            -0.0538
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.10055587604449846,
+          "ball_z": 0.02263281936738202,
+          "offset": 0.12929253617547068,
+          "axis": -0.02351966099313136,
+          "width": 0.12713530374153978,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1535,
+            -0.17
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          209
+        ],
+        [
+          "in_bin",
+          336
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1594,
+        -0.0574
+      ],
+      "category": "success",
+      "episode": 36,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 436,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 182,
+          "tip_z": 0.012483712591228796,
+          "ball_z": 0.01997269919425987,
+          "offset": 0.006996630285916003,
+          "axis": -0.005819659686392428,
+          "width": -0.0038838636037296474,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2558,
+            0.1098
+          ]
+        },
+        {
+          "step": 412,
+          "tip_z": 0.1268516646906922,
+          "ball_z": 0.022632806493077216,
+          "offset": 0.1881515781490297,
+          "axis": -0.038104315125107605,
+          "width": 0.18425275446738082,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1628,
+            -0.2318
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          218
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2558,
+        0.1098
+      ],
+      "category": "success",
+      "episode": 37,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 459,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 211,
+          "tip_z": 0.012742470184525623,
+          "ball_z": 0.019140832903579784,
+          "offset": 0.010441399917524049,
+          "axis": -0.008628557752053602,
+          "width": -0.00587969585583701,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.141,
+            -0.0771
+          ]
+        },
+        {
+          "step": 438,
+          "tip_z": 0.11535754678659044,
+          "ball_z": 0.022632818157352082,
+          "offset": 0.16621139135422655,
+          "axis": -0.02827512130493324,
+          "width": 0.16378871796036248,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1571,
+            -0.204
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          242
+        ],
+        [
+          "in_bin",
+          359
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1416,
+        -0.0779
+      ],
+      "category": "success",
+      "episode": 38,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 435,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 169,
+          "tip_z": 0.016606882380907975,
+          "ball_z": 0.018756647448344918,
+          "offset": 0.011562015460312054,
+          "axis": -0.010837880148731478,
+          "width": 0.004027475063389861,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2565,
+            0.1006
+          ]
+        },
+        {
+          "step": 411,
+          "tip_z": 0.10837622041553485,
+          "ball_z": 0.022632818157268003,
+          "offset": 0.17127060635632263,
+          "axis": -0.03677120155964163,
+          "width": 0.167276714869472,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1517,
+            -0.2167
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          205
+        ],
+        [
+          "in_bin",
+          329
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2423,
+        0.0978
+      ],
+      "category": "success",
+      "episode": 39,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 417,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 147,
+          "tip_z": 0.011225355126806877,
+          "ball_z": 0.019667084763476676,
+          "offset": 0.007234588828774076,
+          "axis": -0.005624475478797168,
+          "width": 0.004550225391102294,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1374,
+            -0.0676
+          ]
+        },
+        {
+          "step": 378,
+          "tip_z": 0.10385505153700367,
+          "ball_z": 0.022632818157352713,
+          "offset": 0.15028744598428603,
+          "axis": -0.056562626690671296,
+          "width": 0.13923715625626462,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1792,
+            -0.196
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          168
+        ],
+        [
+          "in_bin",
+          290
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.138,
+        -0.0674
+      ],
+      "category": "success",
+      "episode": 40,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 483,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 208,
+          "tip_z": 0.010948731950336382,
+          "ball_z": 0.018865050715001906,
+          "offset": 0.007586077746217286,
+          "axis": -0.00727126964730121,
+          "width": -0.00216268659030597,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.173,
+            0.0933
+          ]
+        },
+        {
+          "step": 458,
+          "tip_z": 0.10319494112918917,
+          "ball_z": 0.022632818157178995,
+          "offset": 0.14660954720940647,
+          "axis": -0.03815110979942361,
+          "width": 0.14155865269922396,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1706,
+            -0.1848
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          241
+        ],
+        [
+          "in_bin",
+          363
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1742,
+        0.0865
+      ],
+      "category": "success",
+      "episode": 41,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 499,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 212,
+          "tip_z": 0.012380089577475897,
+          "ball_z": 0.019447295416791813,
+          "offset": 0.00808945446777566,
+          "axis": -0.008089453815766796,
+          "width": 3.247890332010047e-06,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1789,
+            0.1777
+          ]
+        },
+        {
+          "step": 469,
+          "tip_z": 0.10187852724533368,
+          "ball_z": 0.02263281815726177,
+          "offset": 0.15048814727995635,
+          "axis": -0.04018562428299175,
+          "width": 0.14502343973558227,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.174,
+            -0.1867
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          247
+        ],
+        [
+          "in_bin",
+          391
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1793,
+        0.178
+      ],
+      "category": "success",
+      "episode": 42,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 444,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 180,
+          "tip_z": 0.01156033957467835,
+          "ball_z": 0.01894020029365588,
+          "offset": 0.011059604307637147,
+          "axis": -0.00642925006189004,
+          "width": -0.008998866099859086,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.1686,
+            0.1841
+          ]
+        },
+        {
+          "step": 414,
+          "tip_z": 0.11792828985400865,
+          "ball_z": 0.02263281815754741,
+          "offset": 0.1616765040130038,
+          "axis": -0.06284420749630239,
+          "width": 0.1489627387437158,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1836,
+            -0.2107
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          215
+        ],
+        [
+          "in_bin",
+          334
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1694,
+        0.1855
+      ],
+      "category": "success",
+      "episode": 43,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 196,
+          "tip_z": 0.01856316360314976,
+          "ball_z": 0.01859177876611645,
+          "offset": 0.011962815487804047,
+          "axis": -0.011886517764138458,
+          "width": 0.0013489439714329309,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2323,
+            -0.093
+          ]
+        },
+        {
+          "step": 403,
+          "tip_z": 0.10463123818255243,
+          "ball_z": 0.022632818157246534,
+          "offset": 0.15776314005589911,
+          "axis": -0.04210717431428635,
+          "width": 0.15204010731239156,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1603,
+            -0.2043
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          222
+        ],
+        [
+          "in_bin",
+          324
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2345,
+        -0.0942
+      ],
+      "category": "success",
+      "episode": 44,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 414,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 174,
+          "tip_z": 0.01169259064191061,
+          "ball_z": 0.019972699194282288,
+          "offset": 0.006645699644588193,
+          "axis": -0.006617818739491187,
+          "width": -0.0006081109251764189,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2208,
+            -0.0859
+          ]
+        },
+        {
+          "step": 391,
+          "tip_z": 0.1147409985531728,
+          "ball_z": 0.02263281815769837,
+          "offset": 0.15583530758416628,
+          "axis": -0.04051872052048866,
+          "width": 0.15047550092036324,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1711,
+            -0.197
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          205
+        ],
+        [
+          "in_bin",
+          316
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2208,
+        -0.0859
+      ],
+      "category": "success",
+      "episode": 45,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 454,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 182,
+          "tip_z": 0.012471666923005317,
+          "ball_z": 0.01908046694608543,
+          "offset": 0.012025297301085813,
+          "axis": -0.006682700693987053,
+          "width": 0.009997464009141853,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2458,
+            -0.0828
+          ]
+        },
+        {
+          "step": 420,
+          "tip_z": 0.10161342977590304,
+          "ball_z": 0.02263303023970786,
+          "offset": 0.16654875337051694,
+          "axis": -0.06565452739447147,
+          "width": 0.15306198183050507,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1906,
+            -0.206
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          215
+        ],
+        [
+          "in_bin",
+          340
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2472,
+        -0.0834
+      ],
+      "category": "success",
+      "episode": 46,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 4,
+      "closes": [
+        {
+          "step": 232,
+          "tip_z": 0.017959793168271607,
+          "ball_z": 0.019972699194362734,
+          "offset": 0.016809645524673775,
+          "axis": -0.008472868500245805,
+          "width": -0.014518081210777389,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2401,
+            0.1379
+          ]
+        },
+        {
+          "step": 435,
+          "tip_z": 0.10000226019685234,
+          "ball_z": 0.01997269919432682,
+          "offset": 0.1109861507065815,
+          "axis": -0.010779781036923253,
+          "width": -0.11046140488632221,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.2287,
+            0.0537
+          ]
+        },
+        {
+          "step": 658,
+          "tip_z": 0.019221473100639846,
+          "ball_z": 0.01997269919436052,
+          "offset": 0.05229351405133816,
+          "axis": 0.00362402798596358,
+          "width": -0.052167787311658664,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.2616,
+            0.0198
+          ]
+        },
+        {
+          "step": 874,
+          "tip_z": 0.09919748124089674,
+          "ball_z": -0.7300273008055883,
+          "offset": 1.2204291325970669,
+          "axis": -0.8766295913855405,
+          "width": -0.8490982435495016,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            1.2967,
+            0.4459
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2401,
+        0.1379
+      ],
+      "category": "wrong_ball",
+      "episode": 47,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 446,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 189,
+          "tip_z": 0.015085942884779657,
+          "ball_z": 0.01878316560551346,
+          "offset": 0.008209974918497473,
+          "axis": -0.00606667889483987,
+          "width": 0.005531644904480227,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2251,
+            0.1122
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.10993571251509535,
+          "ball_z": 0.02263281815785937,
+          "offset": 0.13809105461599025,
+          "axis": -0.04031975452679639,
+          "width": 0.13207367928491764,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1743,
+            -0.181
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          221
+        ],
+        [
+          "in_bin",
+          339
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2271,
+        0.113
+      ],
+      "category": "success",
+      "episode": 48,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 448,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 186,
+          "tip_z": 0.013125549289742078,
+          "ball_z": 0.01997269919419279,
+          "offset": 0.009849836203494345,
+          "axis": -0.008751501250549864,
+          "width": -0.004520010962076536,
+          "nearest": "red",
+          "near_target": true,
+          "ball_xy": [
+            0.2628,
+            0.0878
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.10202831759855716,
+          "ball_z": 0.0226328181577553,
+          "offset": 0.15462441588173498,
+          "axis": -0.02064963874944393,
+          "width": 0.15323936310976105,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1528,
+            -0.1879
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          227
+        ],
+        [
+          "in_bin",
+          347
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2628,
+        0.0878
+      ],
+      "category": "success",
+      "episode": 49,
+      "color": "red",
+      "command": "Grab the red ball."
+    },
+    {
+      "success": true,
+      "steps": 458,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 202,
+          "tip_z": 0.012985679964659769,
+          "ball_z": 0.01883311550094717,
+          "offset": 0.007288425207760398,
+          "axis": -0.006827291132251708,
+          "width": 0.0025513207960964806,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1699,
+            -0.0626
+          ]
+        },
+        {
+          "step": 434,
+          "tip_z": 0.09855057425074269,
+          "ball_z": 0.02263281815751942,
+          "offset": 0.16377313922025918,
+          "axis": -0.00939955166838544,
+          "width": 0.1635031790470502,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1245,
+            -0.2007
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          238
+        ],
+        [
+          "in_bin",
+          351
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1726,
+        -0.0625
+      ],
+      "category": "success",
+      "episode": 50,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 557,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 293,
+          "tip_z": 0.023457371613137462,
+          "ball_z": 0.01848255760039951,
+          "offset": 0.012069751769590683,
+          "axis": -0.011936771466933607,
+          "width": -0.00178672737868348,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1821,
+            0.194
+          ]
+        },
+        {
+          "step": 529,
+          "tip_z": 0.11010111755543794,
+          "ball_z": 0.02263281841306132,
+          "offset": 0.14253294505118877,
+          "axis": -0.022927725250325368,
+          "width": 0.1406767921151559,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.161,
+            -0.1794
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          337
+        ],
+        [
+          "in_bin",
+          443
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1845,
+        0.1974
+      ],
+      "category": "success",
+      "episode": 51,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 444,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 173,
+          "tip_z": 0.010742121640130317,
+          "ball_z": 0.019972699194217104,
+          "offset": 0.00834724018646231,
+          "axis": -0.0059635036662605626,
+          "width": 0.005840637187241488,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1387,
+            -0.0764
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.12440969234979136,
+          "ball_z": 0.022632818157340716,
+          "offset": 0.16916369793503847,
+          "axis": -0.030733661440045253,
+          "width": 0.16634842576215025,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1495,
+            -0.2181
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          204
+        ],
+        [
+          "in_bin",
+          329
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1387,
+        -0.0764
+      ],
+      "category": "success",
+      "episode": 52,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 436,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 172,
+          "tip_z": 0.011469218892170008,
+          "ball_z": 0.01964393473062393,
+          "offset": 0.007225365692549277,
+          "axis": -0.00714742389764148,
+          "width": -0.001058414388834328,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1487,
+            0.1339
+          ]
+        },
+        {
+          "step": 410,
+          "tip_z": 0.11203933927200484,
+          "ball_z": 0.022632818157644834,
+          "offset": 0.13699470296817814,
+          "axis": -0.04269346260632269,
+          "width": 0.1301722585346889,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1769,
+            -0.1811
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          203
+        ],
+        [
+          "in_bin",
+          336
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1491,
+        0.1342
+      ],
+      "category": "success",
+      "episode": 53,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 488,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 226,
+          "tip_z": 0.010423303830436909,
+          "ball_z": 0.019972699194483152,
+          "offset": 0.00958394576354634,
+          "axis": -0.009564571665711138,
+          "width": -0.0006090855851795429,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2431,
+            0.0157
+          ]
+        },
+        {
+          "step": 458,
+          "tip_z": 0.1263105313723686,
+          "ball_z": 0.022632818157253185,
+          "offset": 0.18479808818456933,
+          "axis": -0.054906932063770036,
+          "width": 0.17645271946903057,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1677,
+            -0.2374
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          260
+        ],
+        [
+          "in_bin",
+          384
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2431,
+        0.0157
+      ],
+      "category": "success",
+      "episode": 54,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 456,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 160,
+          "tip_z": 0.01295173458900492,
+          "ball_z": 0.018622992660849352,
+          "offset": 0.009207232346228073,
+          "axis": -0.008705818703542735,
+          "width": -0.0029969731694618165,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.129,
+            0.0465
+          ]
+        },
+        {
+          "step": 418,
+          "tip_z": 0.10158928877028603,
+          "ball_z": 0.022632818720778314,
+          "offset": 0.12479267372479273,
+          "axis": -0.04188230983255293,
+          "width": 0.11755459811709883,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1815,
+            -0.1653
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          193
+        ],
+        [
+          "in_bin",
+          318
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1308,
+        0.0473
+      ],
+      "category": "success",
+      "episode": 55,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 224,
+          "tip_z": 0.05294505898437783,
+          "ball_z": 0.019972699194253683,
+          "offset": 0.003428570898766332,
+          "axis": 0.0025042183839345655,
+          "width": 0.00234179176987014,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1509,
+            0.1166
+          ]
+        },
+        {
+          "step": 429,
+          "tip_z": 0.11817679646117943,
+          "ball_z": -0.7300273008057705,
+          "offset": 1.2277750373978549,
+          "axis": 0.12927326596985772,
+          "width": -1.220950435178591,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.5207,
+            1.1332
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1249,
+        0.078
+      ],
+      "category": "pushed",
+      "episode": 56,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 190,
+          "tip_z": 0.01199160370074924,
+          "ball_z": 0.01902171318669143,
+          "offset": 0.00642811145136585,
+          "axis": -0.006163773121419583,
+          "width": 0.0018244225768297955,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2071,
+            0.0931
+          ]
+        },
+        {
+          "step": 427,
+          "tip_z": 0.10116259914523047,
+          "ball_z": 0.022632678656195875,
+          "offset": 0.1773633682398816,
+          "axis": -0.04722475226228454,
+          "width": 0.17096077669208717,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1627,
+            -0.2193
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          221
+        ],
+        [
+          "in_bin",
+          351
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.208,
+        0.0935
+      ],
+      "category": "success",
+      "episode": 57,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 522,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 241,
+          "tip_z": 0.011868188951188033,
+          "ball_z": 0.019972699194425948,
+          "offset": 0.00626820307098305,
+          "axis": -0.004933475438752387,
+          "width": 0.00386667684637704,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1617,
+            0.068
+          ]
+        },
+        {
+          "step": 491,
+          "tip_z": 0.11985340471000144,
+          "ball_z": 0.022632818265722617,
+          "offset": 0.17485635103812566,
+          "axis": -0.013778063241467587,
+          "width": 0.17431267444360538,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1351,
+            -0.2121
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          267
+        ],
+        [
+          "in_bin",
+          403
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1617,
+        0.068
+      ],
+      "category": "success",
+      "episode": 58,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 446,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 184,
+          "tip_z": 0.009027885155466986,
+          "ball_z": 0.018728874999008244,
+          "offset": 0.010921309614671415,
+          "axis": -0.007401667728785303,
+          "width": -0.00803058643762537,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1357,
+            0.1793
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.09887423997254374,
+          "ball_z": 0.022632818157420492,
+          "offset": 0.13825445061225305,
+          "axis": -0.03388191461695343,
+          "width": 0.13403846080877457,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.16,
+            -0.1805
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          230
+        ],
+        [
+          "in_bin",
+          341
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1366,
+        0.1804
+      ],
+      "category": "success",
+      "episode": 59,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 439,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 154,
+          "tip_z": 0.01209544473338768,
+          "ball_z": 0.019972699194375523,
+          "offset": 0.0028120516355657063,
+          "axis": -0.0026934239832511445,
+          "width": 0.0008081470457381534,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2109,
+            0.1339
+          ]
+        },
+        {
+          "step": 416,
+          "tip_z": 0.10448832003447575,
+          "ball_z": 0.022632818157494957,
+          "offset": 0.1485712610432459,
+          "axis": -0.03810415185725057,
+          "width": 0.14360185660088068,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.17,
+            -0.1876
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          185
+        ],
+        [
+          "in_bin",
+          325
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2109,
+        0.1339
+      ],
+      "category": "success",
+      "episode": 60,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 456,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 171,
+          "tip_z": 0.011114115283811232,
+          "ball_z": 0.019972699194171713,
+          "offset": 0.008696668838397573,
+          "axis": -0.007207123525589457,
+          "width": 0.004867177762487249,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1508,
+            0.1056
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.10542353752791887,
+          "ball_z": 0.02263281815774651,
+          "offset": 0.14739661048010833,
+          "axis": -0.07018806735726309,
+          "width": 0.12961248389594682,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.2078,
+            -0.182
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          204
+        ],
+        [
+          "in_bin",
+          333
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1508,
+        0.1056
+      ],
+      "category": "success",
+      "episode": 61,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 181,
+          "tip_z": 0.011425924712182844,
+          "ball_z": 0.018982612484541157,
+          "offset": 0.007872743933848503,
+          "axis": -0.006708582571118129,
+          "width": -0.004120074870003999,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1365,
+            0.0678
+          ]
+        },
+        {
+          "step": 430,
+          "tip_z": 0.1018093853764955,
+          "ball_z": 0.022633579829231226,
+          "offset": 0.12408691404817797,
+          "axis": -0.035079626544111876,
+          "width": 0.1190251319660077,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1691,
+            -0.1664
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          217
+        ],
+        [
+          "in_bin",
+          346
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1379,
+        0.0691
+      ],
+      "category": "success",
+      "episode": 62,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 479,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 202,
+          "tip_z": 0.014701020221808234,
+          "ball_z": 0.019972699194232436,
+          "offset": 0.013988677105858353,
+          "axis": -0.006275218016836771,
+          "width": -0.012502188848882935,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1862,
+            0.1968
+          ]
+        },
+        {
+          "step": 450,
+          "tip_z": 0.11090886512065955,
+          "ball_z": 0.022632818157419566,
+          "offset": 0.14390635655316486,
+          "axis": -0.03794317386871941,
+          "width": 0.13881410235698224,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1634,
+            -0.1915
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          240
+        ],
+        [
+          "in_bin",
+          356
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1862,
+        0.1968
+      ],
+      "category": "success",
+      "episode": 63,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 3,
+      "closes": [
+        {
+          "step": 185,
+          "tip_z": 0.011634511284846827,
+          "ball_z": 0.01927439709133148,
+          "offset": 0.02451961436305381,
+          "axis": -0.012579882989995211,
+          "width": -0.021046568187495653,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2095,
+            0.1355
+          ]
+        },
+        {
+          "step": 417,
+          "tip_z": 0.10864327088937556,
+          "ball_z": -0.7300273008057656,
+          "offset": 1.754998532556879,
+          "axis": 1.0418985785791572,
+          "width": -1.4122560678685472,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            -0.338,
+            1.6371
+          ]
+        },
+        {
+          "step": 768,
+          "tip_z": 0.010062899878173132,
+          "ball_z": -0.7300273008057349,
+          "offset": 4.929313391397913,
+          "axis": 3.404093589233195,
+          "width": -3.565147591104225,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            -1.2181,
+            4.6333
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2108,
+        0.1358
+      ],
+      "category": "wrong_ball",
+      "episode": 64,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 434,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 175,
+          "tip_z": 0.013131678512733072,
+          "ball_z": 0.019362812051585625,
+          "offset": 0.011284957010918757,
+          "axis": -0.009494161310893546,
+          "width": 0.006100094732134621,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2705,
+            0.0487
+          ]
+        },
+        {
+          "step": 410,
+          "tip_z": 0.11515895079942406,
+          "ball_z": 0.022632818158118857,
+          "offset": 0.1875788341265808,
+          "axis": -0.03384798742678702,
+          "width": 0.18449968227464075,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1436,
+            -0.2313
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          209
+        ],
+        [
+          "in_bin",
+          336
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2711,
+        0.0489
+      ],
+      "category": "success",
+      "episode": 65,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 455,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 160,
+          "tip_z": 0.011754326073548982,
+          "ball_z": 0.019288789746933734,
+          "offset": 0.007559952598529729,
+          "axis": -0.006320975584502492,
+          "width": -0.0041470653421594155,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2459,
+            0.0588
+          ]
+        },
+        {
+          "step": 397,
+          "tip_z": 0.10654433299853976,
+          "ball_z": 0.022632818157300786,
+          "offset": 0.18307268452651787,
+          "axis": -0.025223337498251223,
+          "width": 0.18132675220494976,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1342,
+            -0.2244
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          196
+        ],
+        [
+          "in_bin",
+          323
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2467,
+        0.0589
+      ],
+      "category": "success",
+      "episode": 66,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 193,
+          "tip_z": 0.014906681746339842,
+          "ball_z": 0.019972699194406585,
+          "offset": 0.02679688033308799,
+          "axis": -0.010186551437001978,
+          "width": 0.024785216670571004,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1688,
+            0.0908
+          ]
+        },
+        {
+          "step": 424,
+          "tip_z": 0.10789799448818545,
+          "ball_z": -0.7300273008057249,
+          "offset": 0.4370693182842363,
+          "axis": -0.41238002630184434,
+          "width": -0.1448181718319122,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.6184,
+            -0.0584
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1688,
+        0.0908
+      ],
+      "category": "offset_miss",
+      "episode": 67,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 418,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 162,
+          "tip_z": 0.013729580423470916,
+          "ball_z": 0.01793596913043789,
+          "offset": 0.000964662169781689,
+          "axis": 0.0007556409097591096,
+          "width": 0.0005996498289054548,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1384,
+            0.1153
+          ]
+        },
+        {
+          "step": 391,
+          "tip_z": 0.10640447475733739,
+          "ball_z": 0.022632818157357758,
+          "offset": 0.1716626572685754,
+          "axis": -0.021187105764166336,
+          "width": 0.1703501524796688,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1348,
+            -0.2128
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          194
+        ],
+        [
+          "in_bin",
+          309
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1462,
+        0.1247
+      ],
+      "category": "success",
+      "episode": 68,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 430,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 166,
+          "tip_z": 0.012133452406092912,
+          "ball_z": 0.019972699194317968,
+          "offset": 0.0016111031587441507,
+          "axis": -0.0015965311054919583,
+          "width": 0.00021619855992121076,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1214,
+            0.1035
+          ]
+        },
+        {
+          "step": 407,
+          "tip_z": 0.10999629183979054,
+          "ball_z": 0.02263281815751636,
+          "offset": 0.15465948441502322,
+          "axis": -0.03713583835371219,
+          "width": 0.15013489144528586,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.164,
+            -0.1965
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          198
+        ],
+        [
+          "in_bin",
+          319
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1214,
+        0.1035
+      ],
+      "category": "success",
+      "episode": 69,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 479,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 200,
+          "tip_z": 0.010975827634508092,
+          "ball_z": 0.01997269919420328,
+          "offset": 0.0072030229873427136,
+          "axis": -0.007119748676939543,
+          "width": 0.0010921167215115735,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2455,
+            -0.03
+          ]
+        },
+        {
+          "step": 444,
+          "tip_z": 0.12258999012407813,
+          "ball_z": 0.0226319469499466,
+          "offset": 0.1547619854963198,
+          "axis": -0.023950807733424815,
+          "width": 0.152897452443393,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1411,
+            -0.2046
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          237
+        ],
+        [
+          "in_bin",
+          356
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2455,
+        -0.03
+      ],
+      "category": "success",
+      "episode": 70,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 428,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 189,
+          "tip_z": 0.011648845039258296,
+          "ball_z": 0.01997269919446633,
+          "offset": 0.006375053041510216,
+          "axis": -0.005367108353615846,
+          "width": -0.0034402687689504227,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2148,
+            -0.0884
+          ]
+        },
+        {
+          "step": 404,
+          "tip_z": 0.11595089515102618,
+          "ball_z": 0.022632818157823104,
+          "offset": 0.1640943658730568,
+          "axis": -0.04513827032803266,
+          "width": 0.15776405630901508,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1667,
+            -0.2099
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          332
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2148,
+        -0.0884
+      ],
+      "category": "success",
+      "episode": 71,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 192,
+          "tip_z": 0.042477616166161525,
+          "ball_z": 0.017969972802730102,
+          "offset": 0.03409278547428976,
+          "axis": 0.03406140760745771,
+          "width": 0.001462372454118563,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2138,
+            0.0772
+          ]
+        },
+        {
+          "step": 411,
+          "tip_z": 0.1333121747440566,
+          "ball_z": 0.019972699194328945,
+          "offset": 0.10606667636655868,
+          "axis": 0.04895178360801354,
+          "width": 0.09409496648090436,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1138,
+            -0.1182
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2014,
+        0.069
+      ],
+      "category": "too_high",
+      "episode": 72,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 436,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 184,
+          "tip_z": 0.01142106641891101,
+          "ball_z": 0.01997269919440814,
+          "offset": 0.00440570360266529,
+          "axis": -0.0043750861845175334,
+          "width": -0.0005185027604378964,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2436,
+            -0.0026
+          ]
+        },
+        {
+          "step": 410,
+          "tip_z": 0.11511637867335303,
+          "ball_z": 0.022632818157582855,
+          "offset": 0.16320029039469788,
+          "axis": -0.0619399574083137,
+          "width": 0.1509893256530739,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1861,
+            -0.2126
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          218
+        ],
+        [
+          "in_bin",
+          339
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2436,
+        -0.0026
+      ],
+      "category": "success",
+      "episode": 73,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 437,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 198,
+          "tip_z": 0.012937234706518794,
+          "ball_z": 0.019660366947295047,
+          "offset": 0.01027195875554108,
+          "axis": -0.010271807369379252,
+          "width": -5.576774966912566e-05,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2461,
+            -0.0939
+          ]
+        },
+        {
+          "step": 413,
+          "tip_z": 0.10099413573999728,
+          "ball_z": 0.02263282006956122,
+          "offset": 0.16841200837809742,
+          "axis": -0.0016382406113992177,
+          "width": 0.16840404013456306,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1217,
+            -0.1997
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          227
+        ],
+        [
+          "in_bin",
+          331
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2462,
+        -0.094
+      ],
+      "category": "success",
+      "episode": 74,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 440,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 172,
+          "tip_z": 0.014894134068100029,
+          "ball_z": 0.018883953752577877,
+          "offset": 0.00812574671444973,
+          "axis": -0.007163893922978035,
+          "width": -0.003834890288875149,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1293,
+            -0.0604
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.10041025501416904,
+          "ball_z": 0.022632818157166747,
+          "offset": 0.14267778626548208,
+          "axis": -0.06580595475263946,
+          "width": 0.12659592020563756,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.2021,
+            -0.1766
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          202
+        ],
+        [
+          "in_bin",
+          315
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1236,
+        -0.0583
+      ],
+      "category": "success",
+      "episode": 75,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 402,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 154,
+          "tip_z": 0.017213017194863067,
+          "ball_z": 0.019732624341690177,
+          "offset": 0.00808905467903285,
+          "axis": -0.008072552181320919,
+          "width": 0.0005164367146458132,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2725,
+            0.061
+          ]
+        },
+        {
+          "step": 378,
+          "tip_z": 0.10208963024820403,
+          "ball_z": 0.022632818154684972,
+          "offset": 0.12421075277893957,
+          "axis": -0.03487159688913978,
+          "width": 0.11921527937438298,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1723,
+            -0.1633
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          190
+        ],
+        [
+          "in_bin",
+          294
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2726,
+        0.061
+      ],
+      "category": "success",
+      "episode": 76,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 170,
+          "tip_z": 0.01192609209032236,
+          "ball_z": 0.019972699194437782,
+          "offset": 0.09567887041782491,
+          "axis": -0.06847272548430652,
+          "width": -0.06682762983363791,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.3109,
+            -0.0087
+          ]
+        },
+        {
+          "step": 409,
+          "tip_z": 0.1267969251305392,
+          "ball_z": -0.7300273008056836,
+          "offset": 2.130400757142418,
+          "axis": -1.7371796455516748,
+          "width": -1.2332129844896802,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            2.2541,
+            0.4806
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2331,
+        -0.0517
+      ],
+      "category": "closes_elsewhere",
+      "episode": 77,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 552,
+          "tip_z": 0.018541574122862503,
+          "ball_z": 0.019972699194350907,
+          "offset": 0.09182224076543977,
+          "axis": -0.08242986715985118,
+          "width": -0.04045541866296377,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.2129,
+            0.102
+          ]
+        },
+        {
+          "step": 781,
+          "tip_z": 0.11178084182602141,
+          "ball_z": 0.019972699194330493,
+          "offset": 0.1502832314019592,
+          "axis": 0.025880202070935644,
+          "width": -0.14803805180217133,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.2129,
+            0.102
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2129,
+        0.102
+      ],
+      "category": "closes_elsewhere",
+      "episode": 78,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 483,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 240,
+          "tip_z": 0.011828127620501463,
+          "ball_z": 0.019972699194256094,
+          "offset": 0.009668422172970153,
+          "axis": -0.007695519036374354,
+          "width": 0.005852979931247062,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.164,
+            0.1831
+          ]
+        },
+        {
+          "step": 449,
+          "tip_z": 0.11450519392723754,
+          "ball_z": 0.02263281815711485,
+          "offset": 0.17598355242088246,
+          "axis": -0.03313798030541306,
+          "width": 0.17283542745615418,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1518,
+            -0.2187
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          269
+        ],
+        [
+          "in_bin",
+          391
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.164,
+        0.1831
+      ],
+      "category": "success",
+      "episode": 79,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 453,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 188,
+          "tip_z": 0.009645942777036703,
+          "ball_z": 0.019972699194167706,
+          "offset": 0.013448093954412049,
+          "axis": -0.003490384928626722,
+          "width": -0.012987241587677858,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1407,
+            0.1098
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.10734403899686201,
+          "ball_z": 0.022632818157314678,
+          "offset": 0.17490282781004773,
+          "axis": -0.03831713230179077,
+          "width": 0.1706540258772651,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1643,
+            -0.213
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          224
+        ],
+        [
+          "in_bin",
+          341
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1407,
+        0.1098
+      ],
+      "category": "success",
+      "episode": 80,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 487,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 228,
+          "tip_z": 0.01433473514520632,
+          "ball_z": 0.018684534325014282,
+          "offset": 0.011043203647754022,
+          "axis": -0.010471892318308742,
+          "width": -0.003505968921641221,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1633,
+            -0.0855
+          ]
+        },
+        {
+          "step": 458,
+          "tip_z": 0.1231449896811954,
+          "ball_z": 0.022630879386788216,
+          "offset": 0.15382674724738224,
+          "axis": -0.06356526526844763,
+          "width": 0.14007899635584878,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1846,
+            -0.2103
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          264
+        ],
+        [
+          "in_bin",
+          380
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1645,
+        -0.0865
+      ],
+      "category": "success",
+      "episode": 81,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 448,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 186,
+          "tip_z": 0.012850568031381973,
+          "ball_z": 0.018406154643896798,
+          "offset": 0.010498279165190732,
+          "axis": -0.007422792237834635,
+          "width": 0.0074240164886818305,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1416,
+            0.1382
+          ]
+        },
+        {
+          "step": 417,
+          "tip_z": 0.1068697059808217,
+          "ball_z": 0.022632144112885343,
+          "offset": 0.17418430054533326,
+          "axis": -0.006465424770404563,
+          "width": 0.1740642664046967,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1318,
+            -0.2049
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          222
+        ],
+        [
+          "in_bin",
+          342
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1435,
+        0.1397
+      ],
+      "category": "success",
+      "episode": 82,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 440,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 162,
+          "tip_z": 0.00782819564294479,
+          "ball_z": 0.019476729140877818,
+          "offset": 0.010924713455943931,
+          "axis": -0.006872221904527084,
+          "width": -0.00849246314030391,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2435,
+            -0.0528
+          ]
+        },
+        {
+          "step": 409,
+          "tip_z": 0.1203989739273224,
+          "ball_z": 0.022629747528515334,
+          "offset": 0.17732571991246687,
+          "axis": -0.03841542756580419,
+          "width": 0.1731146032760122,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1613,
+            -0.2227
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          194
+        ],
+        [
+          "in_bin",
+          325
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2441,
+        -0.0531
+      ],
+      "category": "success",
+      "episode": 83,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 494,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 194,
+          "tip_z": 0.01080141168232894,
+          "ball_z": 0.019040077710224836,
+          "offset": 0.009872468133366088,
+          "axis": -0.009302768307806474,
+          "width": 0.0033051669936026455,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2401,
+            0.1372
+          ]
+        },
+        {
+          "step": 438,
+          "tip_z": 0.12293645026112653,
+          "ball_z": 0.02263281815776943,
+          "offset": 0.18401459791729113,
+          "axis": -0.03691026359653623,
+          "width": 0.18027480325296863,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1582,
+            -0.2272
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          226
+        ],
+        [
+          "in_bin",
+          358
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2409,
+        0.1378
+      ],
+      "category": "success",
+      "episode": 84,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 198,
+          "tip_z": 0.009891639954223957,
+          "ball_z": 0.018643691148385964,
+          "offset": 0.007191244301352444,
+          "axis": -0.007087328442952509,
+          "width": 0.0012181010399184306,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.271,
+            -0.0374
+          ]
+        },
+        {
+          "step": 427,
+          "tip_z": 0.10232916050389058,
+          "ball_z": 0.0226328181576261,
+          "offset": 0.15710285695690063,
+          "axis": -0.03534708500919992,
+          "width": 0.15307478971199923,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1539,
+            -0.2012
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          348
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2735,
+        -0.0379
+      ],
+      "category": "success",
+      "episode": 85,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 186,
+          "tip_z": 0.014100296383395758,
+          "ball_z": 0.01871204148790764,
+          "offset": 0.00695317848684391,
+          "axis": -0.006930025956076772,
+          "width": -0.0005669491317668569,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2565,
+            -0.0011
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.13148068976814106,
+          "ball_z": 0.022632818972132162,
+          "offset": 0.15917302608199688,
+          "axis": -0.030673007353327283,
+          "width": 0.15618968868655442,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1723,
+            -0.1992
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          226
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2595,
+        -0.0013
+      ],
+      "category": "success",
+      "episode": 86,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 230,
+          "tip_z": 0.0165120377055383,
+          "ball_z": 0.018414702777933906,
+          "offset": 0.02906252317447715,
+          "axis": -0.022912975638056603,
+          "width": -0.01787808157148988,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2292,
+            0.1337
+          ]
+        },
+        {
+          "step": 459,
+          "tip_z": 0.10459670277965552,
+          "ball_z": -0.7300273008055849,
+          "offset": 1.0668216432527329,
+          "axis": -0.7704816921998958,
+          "width": -0.7378796517706978,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            1.1676,
+            0.3567
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2101,
+        0.1078
+      ],
+      "category": "pushed",
+      "episode": 87,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 420,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 156,
+          "tip_z": 0.01164706436149908,
+          "ball_z": 0.019794591694454397,
+          "offset": 0.004559088795847439,
+          "axis": -0.0045344233906067085,
+          "width": -0.0004735981029738368,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1786,
+            0.1029
+          ]
+        },
+        {
+          "step": 394,
+          "tip_z": 0.10228527020719001,
+          "ball_z": 0.02263281815794931,
+          "offset": 0.17516871504249704,
+          "axis": -0.05143712560619832,
+          "width": 0.16744641184274955,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.154,
+            -0.2257
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          187
+        ],
+        [
+          "in_bin",
+          322
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1787,
+        0.103
+      ],
+      "category": "success",
+      "episode": 88,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 4,
+      "closes": [
+        {
+          "step": 185,
+          "tip_z": 0.043033376603915735,
+          "ball_z": 0.017688886182143673,
+          "offset": 0.028802138543969426,
+          "axis": 0.02626318326392341,
+          "width": 0.011824059774526791,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1792,
+            0.0785
+          ]
+        },
+        {
+          "step": 418,
+          "tip_z": 0.10794789345833508,
+          "ball_z": 0.01997269919436292,
+          "offset": 0.024249510571645413,
+          "axis": 0.0166853637233202,
+          "width": -0.017596516711691913,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1729,
+            -0.0203
+          ]
+        },
+        {
+          "step": 602,
+          "tip_z": 0.02305453924213259,
+          "ball_z": 0.019972699194344065,
+          "offset": 0.03668336428166255,
+          "axis": -0.012649869125547202,
+          "width": 0.03443326917572137,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1726,
+            -0.1057
+          ]
+        },
+        {
+          "step": 820,
+          "tip_z": 0.10111127336659696,
+          "ball_z": 0.019972699194305766,
+          "offset": 0.07549460211950731,
+          "axis": -0.01971981683831104,
+          "width": 0.07287361506777458,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1725,
+            -0.1161
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1675,
+        0.0662
+      ],
+      "category": "pushed",
+      "episode": 89,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 482,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 192,
+          "tip_z": 0.010907441327997702,
+          "ball_z": 0.019894014818518053,
+          "offset": 0.00660411566857757,
+          "axis": -0.006352840250426642,
+          "width": 0.0018043737186378345,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.141,
+            0.1512
+          ]
+        },
+        {
+          "step": 456,
+          "tip_z": 0.09974944370576899,
+          "ball_z": 0.022632818155240195,
+          "offset": 0.13981143381533973,
+          "axis": -0.0465852927554026,
+          "width": 0.13182202973856286,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1864,
+            -0.1715
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          226
+        ],
+        [
+          "in_bin",
+          366
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1411,
+        0.1512
+      ],
+      "category": "success",
+      "episode": 90,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 3,
+      "closes": [
+        {
+          "step": 195,
+          "tip_z": 0.01692204904126615,
+          "ball_z": 0.019972699194261034,
+          "offset": 0.032713854028387654,
+          "axis": -0.004429429797879817,
+          "width": 0.032412596271454555,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1837,
+            0.0721
+          ]
+        },
+        {
+          "step": 402,
+          "tip_z": 0.10086596897489229,
+          "ball_z": 0.019972699194344246,
+          "offset": 0.11770033354629716,
+          "axis": 0.03902522854227821,
+          "width": -0.11104233451316016,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1837,
+            0.0721
+          ]
+        },
+        {
+          "step": 699,
+          "tip_z": 0.02952195040803554,
+          "ball_z": 0.018188079822463735,
+          "offset": 0.04224905181877557,
+          "axis": 0.040414225500003044,
+          "width": -0.012315549391744047,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.194,
+            0.074
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1837,
+        0.0721
+      ],
+      "category": "offset_miss",
+      "episode": 91,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 433,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 197,
+          "tip_z": 0.014991863489087764,
+          "ball_z": 0.0165685227248933,
+          "offset": 0.0030952432868075895,
+          "axis": 0.0008885348142345957,
+          "width": 0.0029649682778101595,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1059,
+            -0.0563
+          ]
+        },
+        {
+          "step": 407,
+          "tip_z": 0.11567460883372968,
+          "ball_z": 0.02263274560139183,
+          "offset": 0.1601728527345039,
+          "axis": -0.01813222019345069,
+          "width": 0.1591432227396608,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1376,
+            -0.2032
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          336
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1202,
+        -0.0664
+      ],
+      "category": "success",
+      "episode": 92,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 462,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 186,
+          "tip_z": 0.01404028407510051,
+          "ball_z": 0.019597666555069903,
+          "offset": 0.01770030006483723,
+          "axis": 0.005404321824755878,
+          "width": 0.016855086116651676,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1431,
+            0.102
+          ]
+        },
+        {
+          "step": 439,
+          "tip_z": 0.12210797500972487,
+          "ball_z": 0.022632818211158697,
+          "offset": 0.18604225791207193,
+          "axis": -0.07095355046452209,
+          "width": 0.17198056694144376,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.197,
+            -0.2269
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          216
+        ],
+        [
+          "in_bin",
+          351
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1439,
+        0.1082
+      ],
+      "category": "success",
+      "episode": 93,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 443,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 173,
+          "tip_z": 0.014330353840554366,
+          "ball_z": 0.019972699194429216,
+          "offset": 0.0067654222658980676,
+          "axis": -0.0067066309101728415,
+          "width": -0.0008899664435379257,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2672,
+            0.0514
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.10336676308430495,
+          "ball_z": 0.022632820014972917,
+          "offset": 0.1608965623641748,
+          "axis": -0.02395496870388201,
+          "width": 0.15910331000643835,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1463,
+            -0.1994
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          204
+        ],
+        [
+          "in_bin",
+          328
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2672,
+        0.0514
+      ],
+      "category": "success",
+      "episode": 94,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 447,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 183,
+          "tip_z": 0.011011743032278809,
+          "ball_z": 0.01904263500290069,
+          "offset": 0.009938209998608446,
+          "axis": -0.009784088504907562,
+          "width": 0.0017434534994018587,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.2375,
+            0.0985
+          ]
+        },
+        {
+          "step": 424,
+          "tip_z": 0.09771531810585941,
+          "ball_z": 0.022632818157597545,
+          "offset": 0.15628787146297402,
+          "axis": -0.029787380879434815,
+          "width": 0.15342297972197833,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1423,
+            -0.1999
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          224
+        ],
+        [
+          "in_bin",
+          340
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2384,
+        0.0988
+      ],
+      "category": "success",
+      "episode": 95,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 183,
+          "tip_z": 0.011890481307688855,
+          "ball_z": 0.018019774322456876,
+          "offset": 0.00206455510114945,
+          "axis": 0.0006244575687924882,
+          "width": -0.0019678517501224503,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1141,
+            0.1672
+          ]
+        },
+        {
+          "step": 429,
+          "tip_z": 0.09919176615032503,
+          "ball_z": 0.022632818157606618,
+          "offset": 0.12937745886115642,
+          "axis": -0.00854480901596797,
+          "width": 0.12909497705275313,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.1381,
+            -0.1674
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          212
+        ],
+        [
+          "in_bin",
+          350
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.126,
+        0.1816
+      ],
+      "category": "success",
+      "episode": 96,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 3,
+      "closes": [
+        {
+          "step": 207,
+          "tip_z": 0.014954964867200271,
+          "ball_z": 0.01997269919444925,
+          "offset": 0.021058430846683455,
+          "axis": -0.007713076506027953,
+          "width": 0.019595049388473326,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.176,
+            0.1061
+          ]
+        },
+        {
+          "step": 446,
+          "tip_z": 0.11128194434943937,
+          "ball_z": 0.0199726991943249,
+          "offset": 0.04979142058522748,
+          "axis": 0.002775533252176689,
+          "width": -0.04971400184114206,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1983,
+            -0.0028
+          ]
+        },
+        {
+          "step": 848,
+          "tip_z": 0.021297901276563252,
+          "ball_z": 0.019972699194271196,
+          "offset": 0.18099436456328524,
+          "axis": 0.17703888127745226,
+          "width": -0.0376323600069882,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.0802,
+            0.0354
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.176,
+        0.1061
+      ],
+      "category": "offset_miss",
+      "episode": 97,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 448,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 175,
+          "tip_z": 0.010610324481079444,
+          "ball_z": 0.01997269919424905,
+          "offset": 0.007135844709856261,
+          "axis": -0.007118041250837097,
+          "width": 0.0005037543792018495,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1448,
+            -0.093
+          ]
+        },
+        {
+          "step": 422,
+          "tip_z": 0.11456228015526854,
+          "ball_z": 0.022632818157649448,
+          "offset": 0.18947629763412036,
+          "axis": -0.06213965666981419,
+          "width": 0.1789970123607972,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1743,
+            -0.2378
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          210
+        ],
+        [
+          "in_bin",
+          345
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1448,
+        -0.093
+      ],
+      "category": "success",
+      "episode": 98,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 428,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 178,
+          "tip_z": 0.012676570295164571,
+          "ball_z": 0.01957222259004475,
+          "offset": 0.015271807416108051,
+          "axis": -0.008093560944961928,
+          "width": 0.012950767273983416,
+          "nearest": "black",
+          "near_target": true,
+          "ball_xy": [
+            0.1946,
+            0.0828
+          ]
+        },
+        {
+          "step": 398,
+          "tip_z": 0.10804383858830137,
+          "ball_z": 0.022632818314716568,
+          "offset": 0.1638065211508829,
+          "axis": -0.055756271202537705,
+          "width": 0.15402536996593683,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1795,
+            -0.208
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          214
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1948,
+        0.083
+      ],
+      "category": "success",
+      "episode": 99,
+      "color": "black",
+      "command": "Grab the black ball."
+    },
+    {
+      "success": true,
+      "steps": 489,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 170,
+          "tip_z": 0.013059010894635695,
+          "ball_z": 0.019972699194409582,
+          "offset": 0.008209915823485653,
+          "axis": -0.006543391333888446,
+          "width": 0.004958502564314522,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1223,
+            0.1504
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.10610915445072816,
+          "ball_z": 0.022632818157836247,
+          "offset": 0.13760983926595566,
+          "axis": -0.026753095759727515,
+          "width": 0.13498422030027438,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1623,
+            -0.1754
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          206
+        ],
+        [
+          "in_bin",
+          339
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1223,
+        0.1504
+      ],
+      "category": "success",
+      "episode": 100,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 453,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 207,
+          "tip_z": 0.012542189613458418,
+          "ball_z": 0.019365006929153255,
+          "offset": 0.004990475419231479,
+          "axis": -0.004926309078935642,
+          "width": 0.0007976990464767192,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1947,
+            -0.0902
+          ]
+        },
+        {
+          "step": 428,
+          "tip_z": 0.11534702027196832,
+          "ball_z": 0.022630099252893995,
+          "offset": 0.1513012570026267,
+          "axis": -0.03427928968917198,
+          "width": 0.14736689135956124,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1646,
+            -0.1924
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          239
+        ],
+        [
+          "in_bin",
+          347
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1954,
+        -0.0908
+      ],
+      "category": "success",
+      "episode": 101,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 446,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 198,
+          "tip_z": 0.013020370613750457,
+          "ball_z": 0.019972699194238924,
+          "offset": 0.0038242210238491657,
+          "axis": -0.0035770455996901665,
+          "width": 0.0013525572878762579,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2447,
+            0.0619
+          ]
+        },
+        {
+          "step": 426,
+          "tip_z": 0.11241754325605365,
+          "ball_z": 0.02263281815736441,
+          "offset": 0.1411662779113045,
+          "axis": -0.04746596149954874,
+          "width": 0.13294698386294823,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1863,
+            -0.18
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          214
+        ],
+        [
+          "in_bin",
+          349
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2447,
+        0.0619
+      ],
+      "category": "success",
+      "episode": 102,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 198,
+          "tip_z": 0.015367845604583305,
+          "ball_z": 0.018761885654539245,
+          "offset": 0.018373852137539306,
+          "axis": -0.013458240855053415,
+          "width": -0.012508964603816286,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1987,
+            0.1399
+          ]
+        },
+        {
+          "step": 392,
+          "tip_z": 0.10455182969949343,
+          "ball_z": 0.01997269919428512,
+          "offset": 0.25434518681358764,
+          "axis": 0.1271790290631599,
+          "width": -0.2202656773575736,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1363,
+            0.2095
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.197,
+        0.122
+      ],
+      "category": "pushed",
+      "episode": 103,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 466,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 204,
+          "tip_z": 0.013811191669532319,
+          "ball_z": 0.01915746290292736,
+          "offset": 0.006318221340521752,
+          "axis": -0.00538302821784334,
+          "width": 0.003308009690694216,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2465,
+            0.0677
+          ]
+        },
+        {
+          "step": 438,
+          "tip_z": 0.10907658003792527,
+          "ball_z": 0.022632818155751647,
+          "offset": 0.14506458178669093,
+          "axis": -0.0586462484276351,
+          "width": 0.1326813869173504,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.188,
+            -0.1901
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          237
+        ],
+        [
+          "in_bin",
+          361
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2477,
+        0.068
+      ],
+      "category": "success",
+      "episode": 104,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 509,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 225,
+          "tip_z": 0.01284623290582429,
+          "ball_z": 0.018904934890099777,
+          "offset": 0.006488419601045652,
+          "axis": -0.006295066564958266,
+          "width": 0.0015721723385106244,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2077,
+            0.1187
+          ]
+        },
+        {
+          "step": 481,
+          "tip_z": 0.1139528134141352,
+          "ball_z": 0.022632818157171376,
+          "offset": 0.15052749270273974,
+          "axis": -0.06474787103902685,
+          "width": 0.13589054144894305,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.2004,
+            -0.1915
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          256
+        ],
+        [
+          "in_bin",
+          399
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.209,
+        0.1201
+      ],
+      "category": "success",
+      "episode": 105,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 478,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 232,
+          "tip_z": 0.011715042085923569,
+          "ball_z": 0.018851620900056612,
+          "offset": 0.010314825940503217,
+          "axis": -0.008406033968108644,
+          "width": -0.005977811230699889,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1704,
+            -0.0828
+          ]
+        },
+        {
+          "step": 455,
+          "tip_z": 0.11254816018244866,
+          "ball_z": 0.022632819189544403,
+          "offset": 0.19051511049108427,
+          "axis": -0.05917064766238997,
+          "width": 0.1810934614519347,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1627,
+            -0.2406
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          279
+        ],
+        [
+          "in_bin",
+          385
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1715,
+        -0.0834
+      ],
+      "category": "success",
+      "episode": 106,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 443,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 186,
+          "tip_z": 0.009037017477125597,
+          "ball_z": 0.01857060834479421,
+          "offset": 0.0026660625105106037,
+          "axis": 0.0017870813160673405,
+          "width": -0.001978441224730501,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1396,
+            0.1371
+          ]
+        },
+        {
+          "step": 416,
+          "tip_z": 0.10031228747265528,
+          "ball_z": 0.022632818157640656,
+          "offset": 0.12215735719553932,
+          "axis": -0.02315997370906527,
+          "width": 0.1199418006151066,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1576,
+            -0.1633
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          329
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1468,
+        0.145
+      ],
+      "category": "success",
+      "episode": 107,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 524,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 246,
+          "tip_z": 0.01072915421607322,
+          "ball_z": 0.01997269919427088,
+          "offset": 0.011679182701160003,
+          "axis": -0.011590098551959124,
+          "width": -0.0014397653013425618,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1906,
+            0.0855
+          ]
+        },
+        {
+          "step": 500,
+          "tip_z": 0.09947146765266511,
+          "ball_z": 0.022632818842967282,
+          "offset": 0.13722767540864628,
+          "axis": -0.01725620096876543,
+          "width": 0.13613837969575796,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1452,
+            -0.176
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          279
+        ],
+        [
+          "in_bin",
+          416
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1906,
+        0.0855
+      ],
+      "category": "success",
+      "episode": 108,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 503,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 238,
+          "tip_z": 0.014173359469317845,
+          "ball_z": 0.019926915172781032,
+          "offset": 0.008470955862737098,
+          "axis": -0.007810619442493877,
+          "width": -0.0032789201199444683,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2416,
+            0.1395
+          ]
+        },
+        {
+          "step": 480,
+          "tip_z": 0.10297750782727969,
+          "ball_z": 0.022632818157174807,
+          "offset": 0.17267899943549944,
+          "axis": -0.012121587389874795,
+          "width": 0.1722530230945014,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1279,
+            -0.209
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          277
+        ],
+        [
+          "in_bin",
+          395
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2416,
+        0.1395
+      ],
+      "category": "success",
+      "episode": 109,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 489,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 247,
+          "tip_z": 0.017545891976563407,
+          "ball_z": 0.01769903905753346,
+          "offset": 0.007559615571718499,
+          "axis": 0.0012835645302199659,
+          "width": -0.0074498489708805515,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1174,
+            0.0779
+          ]
+        },
+        {
+          "step": 461,
+          "tip_z": 0.10495163479332639,
+          "ball_z": 0.022632819922008312,
+          "offset": 0.17921085656120034,
+          "axis": -0.03510053767040142,
+          "width": 0.1757398172431275,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1494,
+            -0.2201
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          267
+        ],
+        [
+          "in_bin",
+          377
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1303,
+        0.091
+      ],
+      "category": "success",
+      "episode": 110,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 454,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 175,
+          "tip_z": 0.01250991135588636,
+          "ball_z": 0.01997269919443052,
+          "offset": 0.006309294352420686,
+          "axis": -0.004670073429055279,
+          "width": 0.0042423589419943505,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2568,
+            0.0557
+          ]
+        },
+        {
+          "step": 412,
+          "tip_z": 0.10427791312452761,
+          "ball_z": 0.022632819475938072,
+          "offset": 0.13597241962312884,
+          "axis": -0.02104011184573587,
+          "width": 0.13433470360144156,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1594,
+            -0.1707
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          203
+        ],
+        [
+          "in_bin",
+          329
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2568,
+        0.0557
+      ],
+      "category": "success",
+      "episode": 111,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 446,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 175,
+          "tip_z": 0.010218524257247952,
+          "ball_z": 0.019494055006386783,
+          "offset": 0.006646457465868949,
+          "axis": -0.006641298753718866,
+          "width": 0.00026181617493447614,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1697,
+            0.1166
+          ]
+        },
+        {
+          "step": 415,
+          "tip_z": 0.12279462125183727,
+          "ball_z": 0.02263281815767059,
+          "offset": 0.1679903545873368,
+          "axis": -0.05815106849736118,
+          "width": 0.15760460801319978,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1821,
+            -0.2148
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          206
+        ],
+        [
+          "in_bin",
+          335
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1701,
+        0.1167
+      ],
+      "category": "success",
+      "episode": 112,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 434,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 163,
+          "tip_z": 0.011970088610629218,
+          "ball_z": 0.01904412328790449,
+          "offset": 0.009371777740253131,
+          "axis": -0.008507491675918027,
+          "width": -0.003931005392630435,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.165,
+            -0.0547
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.12236817859176516,
+          "ball_z": 0.02263281815757644,
+          "offset": 0.16899074685431972,
+          "axis": -0.03206597686942712,
+          "width": 0.16592060043825219,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1505,
+            -0.2167
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          194
+        ],
+        [
+          "in_bin",
+          328
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.166,
+        -0.0555
+      ],
+      "category": "success",
+      "episode": 113,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 495,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 249,
+          "tip_z": 0.01296736069486848,
+          "ball_z": 0.018071027930644176,
+          "offset": 0.0008665373303218854,
+          "axis": 0.0008635029491372943,
+          "width": -7.245413495843904e-05,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2632,
+            0.0219
+          ]
+        },
+        {
+          "step": 472,
+          "tip_z": 0.10758251839174775,
+          "ball_z": 0.022632818157659152,
+          "offset": 0.17240728733959393,
+          "axis": -0.044656544278401655,
+          "width": 0.16652346915948052,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1629,
+            -0.2153
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          269
+        ],
+        [
+          "in_bin",
+          394
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2713,
+        0.0194
+      ],
+      "category": "success",
+      "episode": 114,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 416,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 166,
+          "tip_z": 0.012068962227084534,
+          "ball_z": 0.01779519043153616,
+          "offset": 0.0009289199753795633,
+          "axis": 0.0005257406143794471,
+          "width": 0.0007658257811350372,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1735,
+            0.0913
+          ]
+        },
+        {
+          "step": 390,
+          "tip_z": 0.11220655559814671,
+          "ball_z": 0.02263281815778606,
+          "offset": 0.16082108248590762,
+          "axis": -0.06393351058376381,
+          "width": 0.14756668593003933,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1852,
+            -0.2094
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          193
+        ],
+        [
+          "in_bin",
+          310
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1888,
+        0.1018
+      ],
+      "category": "success",
+      "episode": 115,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 445,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 196,
+          "tip_z": 0.012052779984058182,
+          "ball_z": 0.019179122394664547,
+          "offset": 0.008392716553420757,
+          "axis": -0.007753801925868183,
+          "width": -0.0032118914739551283,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2422,
+            0.0981
+          ]
+        },
+        {
+          "step": 424,
+          "tip_z": 0.10344384848831609,
+          "ball_z": 0.022631291495815224,
+          "offset": 0.15864577575107483,
+          "axis": -0.015208124958405157,
+          "width": 0.15791515158118888,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1335,
+            -0.1981
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          229
+        ],
+        [
+          "in_bin",
+          342
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2431,
+        0.0987
+      ],
+      "category": "success",
+      "episode": 116,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 450,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 173,
+          "tip_z": 0.013953729365707823,
+          "ball_z": 0.018970741054307187,
+          "offset": 0.019313699369335986,
+          "axis": -0.014872028706913768,
+          "width": 0.012322408265831074,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1715,
+            0.0648
+          ]
+        },
+        {
+          "step": 418,
+          "tip_z": 0.12375294744527801,
+          "ball_z": 0.02263281815789454,
+          "offset": 0.1591576282742995,
+          "axis": -0.06293982860935422,
+          "width": 0.1461838862957379,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1959,
+            -0.204
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          207
+        ],
+        [
+          "in_bin",
+          340
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.149,
+        0.0673
+      ],
+      "category": "success",
+      "episode": 117,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 447,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 195,
+          "tip_z": 0.011085770248120672,
+          "ball_z": 0.019477903020282124,
+          "offset": 0.008494563167831615,
+          "axis": -0.008110526226685693,
+          "width": -0.0025252658748189318,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1897,
+            0.163
+          ]
+        },
+        {
+          "step": 419,
+          "tip_z": 0.10364787323615118,
+          "ball_z": 0.022632818157277607,
+          "offset": 0.16821125472863277,
+          "axis": -0.028784612706369714,
+          "width": 0.16573011883398045,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1558,
+            -0.2043
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          233
+        ],
+        [
+          "in_bin",
+          340
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.19,
+        0.163
+      ],
+      "category": "success",
+      "episode": 118,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 428,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 180,
+          "tip_z": 0.026094878415654846,
+          "ball_z": 0.01802485836935667,
+          "offset": 0.009696885696379984,
+          "axis": 0.002548475654636944,
+          "width": -0.009356006843006344,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1473,
+            -0.0492
+          ]
+        },
+        {
+          "step": 404,
+          "tip_z": 0.12479891661754568,
+          "ball_z": 0.02262980427752632,
+          "offset": 0.19496088733688224,
+          "axis": -0.06827586106659306,
+          "width": 0.1826147704508038,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1844,
+            -0.2406
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          217
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1403,
+        -0.0461
+      ],
+      "category": "success",
+      "episode": 119,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 494,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 230,
+          "tip_z": 0.012346324815495316,
+          "ball_z": 0.019490056778450036,
+          "offset": 0.006398283713202787,
+          "axis": -0.005775793285407743,
+          "width": 0.0027528614928606344,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2025,
+            -0.075
+          ]
+        },
+        {
+          "step": 469,
+          "tip_z": 0.11203569729125142,
+          "ball_z": 0.022632818157616297,
+          "offset": 0.15177556398424308,
+          "axis": -0.043951718066631354,
+          "width": 0.14527239346044526,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1735,
+            -0.1963
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          268
+        ],
+        [
+          "in_bin",
+          390
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2029,
+        -0.0752
+      ],
+      "category": "success",
+      "episode": 120,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 438,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 191,
+          "tip_z": 0.01052429560152146,
+          "ball_z": 0.019972699194310158,
+          "offset": 0.005051071450505627,
+          "axis": -0.0036779682721045565,
+          "width": -0.0034620618405085198,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2447,
+            0.1016
+          ]
+        },
+        {
+          "step": 411,
+          "tip_z": 0.11046024869332453,
+          "ball_z": 0.022630403011787995,
+          "offset": 0.18358472304133291,
+          "axis": -0.0380294664819817,
+          "width": 0.17960264534037004,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1479,
+            -0.2278
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          217
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2447,
+        0.1016
+      ],
+      "category": "success",
+      "episode": 121,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 455,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 187,
+          "tip_z": 0.009949716595565192,
+          "ball_z": 0.01809738756402215,
+          "offset": 0.004947421228367211,
+          "axis": 0.0006649620053849452,
+          "width": -0.004902530197999086,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1071,
+            0.0726
+          ]
+        },
+        {
+          "step": 427,
+          "tip_z": 0.13567444350736435,
+          "ball_z": 0.022630814339521653,
+          "offset": 0.18898370512110899,
+          "axis": -0.07241030315460531,
+          "width": 0.1745611319806343,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1914,
+            -0.2397
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          214
+        ],
+        [
+          "in_bin",
+          341
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1251,
+        0.0907
+      ],
+      "category": "success",
+      "episode": 122,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 209,
+          "tip_z": 0.03628772802019993,
+          "ball_z": 0.01739614656806631,
+          "offset": 0.017349815314356278,
+          "axis": 0.010655912592013187,
+          "width": 0.013691881473108306,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2354,
+            0.0929
+          ]
+        },
+        {
+          "step": 393,
+          "tip_z": 0.1360370507648105,
+          "ball_z": -0.7300273008056752,
+          "offset": 0.8509291261441725,
+          "axis": -0.7521564121269826,
+          "width": -0.3979209838859338,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            1.0387,
+            0.0695
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2386,
+        0.089
+      ],
+      "category": "too_high",
+      "episode": 123,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 554,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 293,
+          "tip_z": 0.014803338932285678,
+          "ball_z": 0.01997269919429119,
+          "offset": 0.007734181950095215,
+          "axis": -0.005239863999633852,
+          "width": 0.00568870773572696,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1283,
+            -0.082
+          ]
+        },
+        {
+          "step": 524,
+          "tip_z": 0.10130398516341982,
+          "ball_z": 0.022632818157127338,
+          "offset": 0.14080173052890987,
+          "axis": -0.03462162455058843,
+          "width": 0.1364788277844364,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.165,
+            -0.1815
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          326
+        ],
+        [
+          "in_bin",
+          439
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1283,
+        -0.082
+      ],
+      "category": "success",
+      "episode": 124,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 458,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 182,
+          "tip_z": 0.01324825531451733,
+          "ball_z": 0.01832362249007245,
+          "offset": 0.01672898564133652,
+          "axis": -0.01286104867401967,
+          "width": -0.010698242266491272,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2245,
+            0.1281
+          ]
+        },
+        {
+          "step": 426,
+          "tip_z": 0.10603154554869688,
+          "ball_z": 0.022632592292486847,
+          "offset": 0.1474850720141113,
+          "axis": -0.05802505513315517,
+          "width": 0.1355910743515291,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1984,
+            -0.1819
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          228
+        ],
+        [
+          "in_bin",
+          342
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2177,
+        0.1201
+      ],
+      "category": "success",
+      "episode": 125,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 0,
+      "closes": [],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.1385,
+        0.1175
+      ],
+      "category": "no_close",
+      "episode": 126,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 462,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 176,
+          "tip_z": 0.010131691539849427,
+          "ball_z": 0.019972699194256805,
+          "offset": 0.005343449000719284,
+          "axis": -0.005141277566700909,
+          "width": -0.00145592314543931,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2668,
+            -0.0462
+          ]
+        },
+        {
+          "step": 429,
+          "tip_z": 0.11055101080763906,
+          "ball_z": 0.022632818157029753,
+          "offset": 0.13746020202726514,
+          "axis": -0.057446192037405565,
+          "width": 0.12488091191922836,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1983,
+            -0.1792
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          210
+        ],
+        [
+          "in_bin",
+          352
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2668,
+        -0.0462
+      ],
+      "category": "success",
+      "episode": 127,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 463,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 188,
+          "tip_z": 0.011144116395364348,
+          "ball_z": 0.017999913700879524,
+          "offset": 0.005149639276282316,
+          "axis": 0.0013612888344738314,
+          "width": 0.004966455213224653,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1185,
+            0.1557
+          ]
+        },
+        {
+          "step": 440,
+          "tip_z": 0.10712636044864234,
+          "ball_z": 0.02263281819126207,
+          "offset": 0.16191933028156413,
+          "axis": -0.0718165548419764,
+          "width": 0.14512150760469533,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.2031,
+            -0.2004
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          221
+        ],
+        [
+          "in_bin",
+          361
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1223,
+        0.1646
+      ],
+      "category": "success",
+      "episode": 128,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 460,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 179,
+          "tip_z": 0.013722022252213667,
+          "ball_z": 0.019972699194459702,
+          "offset": 0.006929537017603461,
+          "axis": -0.004039151230746584,
+          "width": 0.005630607481746088,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2668,
+            -0.0139
+          ]
+        },
+        {
+          "step": 430,
+          "tip_z": 0.11588916373502695,
+          "ball_z": 0.022632818879822426,
+          "offset": 0.14320497422663636,
+          "axis": -0.045393929583461265,
+          "width": 0.13581993889051544,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1783,
+            -0.1875
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          212
+        ],
+        [
+          "in_bin",
+          353
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2668,
+        -0.0139
+      ],
+      "category": "success",
+      "episode": 129,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 401,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 159,
+          "tip_z": 0.013476088880683246,
+          "ball_z": 0.01997269919436451,
+          "offset": 0.004597319073967877,
+          "axis": -0.004180928510153843,
+          "width": -0.001911852363769656,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2731,
+            0.0439
+          ]
+        },
+        {
+          "step": 373,
+          "tip_z": 0.10964299457138708,
+          "ball_z": 0.02263281815736163,
+          "offset": 0.18337576186319987,
+          "axis": -0.021975148456436597,
+          "width": 0.18205428555578293,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1336,
+            -0.2239
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          189
+        ],
+        [
+          "in_bin",
+          295
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2731,
+        0.0439
+      ],
+      "category": "success",
+      "episode": 130,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 506,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 237,
+          "tip_z": 0.013250508200479794,
+          "ball_z": 0.019935843335798342,
+          "offset": 0.009221083005785701,
+          "axis": -0.008834817430600132,
+          "width": 0.0026409037785489154,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2215,
+            0.1643
+          ]
+        },
+        {
+          "step": 477,
+          "tip_z": 0.11458058085060518,
+          "ball_z": 0.022632818157627643,
+          "offset": 0.1392686758212655,
+          "axis": -0.05321093235812434,
+          "width": 0.1287026058111795,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1915,
+            -0.1812
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          276
+        ],
+        [
+          "in_bin",
+          387
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2216,
+        0.1643
+      ],
+      "category": "success",
+      "episode": 131,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 464,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 172,
+          "tip_z": 0.010927646254351206,
+          "ball_z": 0.01997269919416591,
+          "offset": 0.006182465615908428,
+          "axis": -0.006178754126369231,
+          "width": 0.00021419275843308637,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2414,
+            0.0853
+          ]
+        },
+        {
+          "step": 441,
+          "tip_z": 0.09888771083532194,
+          "ball_z": 0.022632818157462202,
+          "offset": 0.1401017908032118,
+          "axis": -0.060009430552745595,
+          "width": 0.12659928921997202,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1897,
+            -0.1818
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          203
+        ],
+        [
+          "in_bin",
+          361
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2414,
+        0.0853
+      ],
+      "category": "success",
+      "episode": 132,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 452,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 188,
+          "tip_z": 0.013432851878010396,
+          "ball_z": 0.01997269919444025,
+          "offset": 0.012309443671934971,
+          "axis": -0.0028014842444879073,
+          "width": 0.011986412705243631,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2119,
+            0.0821
+          ]
+        },
+        {
+          "step": 418,
+          "tip_z": 0.10384343472147113,
+          "ball_z": 0.02263281815637396,
+          "offset": 0.14839947952466365,
+          "axis": -0.06870457037145279,
+          "width": 0.13153739975104098,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.2011,
+            -0.187
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2119,
+        0.0821
+      ],
+      "category": "success",
+      "episode": 133,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 429,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 152,
+          "tip_z": 0.013341789570981782,
+          "ball_z": 0.018591105603714315,
+          "offset": 0.008764384456477231,
+          "axis": -0.008276145626011094,
+          "width": -0.0028844147548501287,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1329,
+            0.0981
+          ]
+        },
+        {
+          "step": 388,
+          "tip_z": 0.10998838686031445,
+          "ball_z": 0.022632818157792327,
+          "offset": 0.14094794437610622,
+          "axis": -0.05765978150804193,
+          "width": 0.12861443395006175,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1921,
+            -0.1826
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          190
+        ],
+        [
+          "in_bin",
+          308
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1336,
+        0.0999
+      ],
+      "category": "success",
+      "episode": 134,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 203,
+          "tip_z": 0.013600942892670206,
+          "ball_z": 0.019972615165475865,
+          "offset": 0.011352570663809519,
+          "axis": -8.336643858220799e-05,
+          "width": -0.011352264563236122,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1352,
+            0.1713
+          ]
+        },
+        {
+          "step": 428,
+          "tip_z": 0.11877622067652659,
+          "ball_z": -0.7300273008056631,
+          "offset": 0.6967638596036573,
+          "axis": -0.5122765883191664,
+          "width": -0.4722844197195797,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.8275,
+            0.2367
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          238
+        ],
+        [
+          "drop",
+          353
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1377,
+        0.1699
+      ],
+      "category": "dropped",
+      "episode": 135,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 427,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 150,
+          "tip_z": 0.014934508105505326,
+          "ball_z": 0.01997269919438948,
+          "offset": 0.010394018003001845,
+          "axis": -0.00962288529215211,
+          "width": 0.003928827929651422,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2144,
+            0.0877
+          ]
+        },
+        {
+          "step": 395,
+          "tip_z": 0.13440419089181016,
+          "ball_z": 0.022632536907768418,
+          "offset": 0.15161488716077282,
+          "axis": -0.03433029790545412,
+          "width": 0.147677028188194,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1684,
+            -0.1978
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          188
+        ],
+        [
+          "in_bin",
+          308
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2144,
+        0.0877
+      ],
+      "category": "success",
+      "episode": 136,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 472,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 209,
+          "tip_z": 0.012076483036752836,
+          "ball_z": 0.019972699194192235,
+          "offset": 0.005699993910178586,
+          "axis": -0.004473700932180437,
+          "width": 0.003532128330834097,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2461,
+            0.053
+          ]
+        },
+        {
+          "step": 445,
+          "tip_z": 0.11483618580560379,
+          "ball_z": 0.022630722881388118,
+          "offset": 0.16558157933666864,
+          "axis": -0.07072448044475987,
+          "width": 0.1497174247756228,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1913,
+            -0.2154
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          242
+        ],
+        [
+          "in_bin",
+          367
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2461,
+        0.053
+      ],
+      "category": "success",
+      "episode": 137,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 454,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 194,
+          "tip_z": 0.010311732466835047,
+          "ball_z": 0.0194078831008589,
+          "offset": 0.007070793558162757,
+          "axis": -0.005796877682857575,
+          "width": -0.004048744332770808,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1831,
+            0.1888
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.12388353932024349,
+          "ball_z": 0.022632818157870455,
+          "offset": 0.19045340339676034,
+          "axis": -0.04476141803433894,
+          "width": 0.18511864930623356,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1598,
+            -0.2362
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          229
+        ],
+        [
+          "in_bin",
+          348
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1839,
+        0.1892
+      ],
+      "category": "success",
+      "episode": 138,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 422,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 159,
+          "tip_z": 0.013156406601219417,
+          "ball_z": 0.019972699194434035,
+          "offset": 0.004959488822093118,
+          "axis": -0.004918237469062457,
+          "width": -0.0006383334351079417,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1414,
+            0.1968
+          ]
+        },
+        {
+          "step": 395,
+          "tip_z": 0.13094151824548084,
+          "ball_z": 0.02263281815797965,
+          "offset": 0.14766439615072646,
+          "axis": -0.03294286180742692,
+          "width": 0.1439428419425414,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1661,
+            -0.196
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          193
+        ],
+        [
+          "in_bin",
+          315
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1414,
+        0.1968
+      ],
+      "category": "success",
+      "episode": 139,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 464,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 184,
+          "tip_z": 0.011894322130527768,
+          "ball_z": 0.019051995378880294,
+          "offset": 0.0074847551480940475,
+          "axis": -0.007334837729530301,
+          "width": 0.001490541884141177,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2087,
+            -0.0629
+          ]
+        },
+        {
+          "step": 437,
+          "tip_z": 0.11111148872037141,
+          "ball_z": 0.022632818157693843,
+          "offset": 0.1804092636078228,
+          "axis": -0.04138720284994193,
+          "width": 0.17559784120476726,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1534,
+            -0.2271
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          222
+        ],
+        [
+          "in_bin",
+          355
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2095,
+        -0.0633
+      ],
+      "category": "success",
+      "episode": 140,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 435,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 173,
+          "tip_z": 0.012873797713371618,
+          "ball_z": 0.01997269919445932,
+          "offset": 0.004579948862190177,
+          "axis": -0.004579801646892815,
+          "width": 3.672132071364499e-05,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2055,
+            0.1331
+          ]
+        },
+        {
+          "step": 413,
+          "tip_z": 0.10795493672539058,
+          "ball_z": 0.02263281848813741,
+          "offset": 0.18932900328099023,
+          "axis": -0.026571305553930807,
+          "width": 0.18745516051720973,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1419,
+            -0.2278
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          204
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2055,
+        0.1331
+      ],
+      "category": "success",
+      "episode": 141,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": false,
+      "steps": 900,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 188,
+          "tip_z": 0.01321480924848123,
+          "ball_z": 0.019972699194228543,
+          "offset": 0.04507339435722411,
+          "axis": -0.02810918911056561,
+          "width": -0.03523470400653738,
+          "nearest": "sky blue",
+          "near_target": false,
+          "ball_xy": [
+            0.266,
+            0.0168
+          ]
+        },
+        {
+          "step": 400,
+          "tip_z": 0.11296941510787446,
+          "ball_z": -0.7300273008164766,
+          "offset": 0.45019662386439796,
+          "axis": -0.25591672379398533,
+          "width": -0.3703830863058615,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.5544,
+            0.208
+          ]
+        }
+      ],
+      "events": [],
+      "ever_lifted": false,
+      "start_xy": [
+        0.2387,
+        -0.0179
+      ],
+      "category": "closes_elsewhere",
+      "episode": 142,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 440,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 184,
+          "tip_z": 0.010214438998299352,
+          "ball_z": 0.017999878967824363,
+          "offset": 0.008069011135161766,
+          "axis": 0.0014980412210149191,
+          "width": -0.00792873339187948,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.177,
+            -0.056
+          ]
+        },
+        {
+          "step": 415,
+          "tip_z": 0.11557012318143314,
+          "ball_z": 0.02263281815770853,
+          "offset": 0.18127416858892778,
+          "axis": -0.035438973725756905,
+          "width": 0.17777627327310055,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1474,
+            -0.2266
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          339
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.192,
+        -0.0624
+      ],
+      "category": "success",
+      "episode": 143,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 453,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 186,
+          "tip_z": 0.009570584302617341,
+          "ball_z": 0.01997269919446866,
+          "offset": 0.007775804807887798,
+          "axis": -0.0061010739408021986,
+          "width": -0.004820792173412513,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1994,
+            -0.0537
+          ]
+        },
+        {
+          "step": 429,
+          "tip_z": 0.10404954204680915,
+          "ball_z": 0.022632818157803342,
+          "offset": 0.15614551377994862,
+          "axis": -0.05897395044017859,
+          "width": 0.144580408918648,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1902,
+            -0.1937
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          225
+        ],
+        [
+          "in_bin",
+          351
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1994,
+        -0.0537
+      ],
+      "category": "success",
+      "episode": 144,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 472,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 188,
+          "tip_z": 0.010783164218850588,
+          "ball_z": 0.01992164016473667,
+          "offset": 0.004381496219288284,
+          "axis": -0.004371830795079733,
+          "width": -0.0002908687312689884,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1622,
+            0.1731
+          ]
+        },
+        {
+          "step": 445,
+          "tip_z": 0.0965871459524491,
+          "ball_z": 0.022632818157307086,
+          "offset": 0.1504677331717035,
+          "axis": -0.00816396362794468,
+          "width": 0.15024609287336743,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.136,
+            -0.1831
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          219
+        ],
+        [
+          "in_bin",
+          371
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1622,
+        0.1732
+      ],
+      "category": "success",
+      "episode": 145,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 449,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 171,
+          "tip_z": 0.010241201727717947,
+          "ball_z": 0.01936487199904528,
+          "offset": 0.007246245096187191,
+          "axis": -0.007152203644061914,
+          "width": 0.001163636982862091,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2196,
+            0.0829
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.10012812667277174,
+          "ball_z": 0.02263281815776383,
+          "offset": 0.12939321863431363,
+          "axis": -0.039014385199511725,
+          "width": 0.12337132071940952,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1616,
+            -0.179
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          202
+        ],
+        [
+          "in_bin",
+          342
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2202,
+        0.0833
+      ],
+      "category": "success",
+      "episode": 146,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 446,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 195,
+          "tip_z": 0.012403130331622284,
+          "ball_z": 0.01918837998706897,
+          "offset": 0.007310909021111554,
+          "axis": -0.006286889241565496,
+          "width": -0.0037315431632581053,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.1828,
+            -0.0741
+          ]
+        },
+        {
+          "step": 428,
+          "tip_z": 0.09708903569814367,
+          "ball_z": 0.022632818157752577,
+          "offset": 0.17505036816788647,
+          "axis": -0.028154961722126212,
+          "width": 0.17277132148055768,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1358,
+            -0.2164
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          224
+        ],
+        [
+          "in_bin",
+          349
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.1841,
+        -0.0751
+      ],
+      "category": "success",
+      "episode": 147,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 454,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 193,
+          "tip_z": 0.01058275571208886,
+          "ball_z": 0.018679229866253234,
+          "offset": 0.009363067615080347,
+          "axis": -0.008662230123196418,
+          "width": -0.0035542656706209997,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2169,
+            0.0927
+          ]
+        },
+        {
+          "step": 425,
+          "tip_z": 0.12261928739758579,
+          "ball_z": 0.022632818157431844,
+          "offset": 0.178939140001256,
+          "axis": -0.07162855500414102,
+          "width": 0.16397733359342026,
+          "nearest": "red",
+          "near_target": false,
+          "ball_xy": [
+            0.1962,
+            -0.2235
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          232
+        ],
+        [
+          "in_bin",
+          352
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2181,
+        0.0934
+      ],
+      "category": "success",
+      "episode": 148,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    },
+    {
+      "success": true,
+      "steps": 438,
+      "n_closes": 2,
+      "closes": [
+        {
+          "step": 204,
+          "tip_z": 0.011572573720293994,
+          "ball_z": 0.0193922629686227,
+          "offset": 0.009992303849186309,
+          "axis": -0.00786848534571641,
+          "width": -0.00615898324228193,
+          "nearest": "sky blue",
+          "near_target": true,
+          "ball_xy": [
+            0.2557,
+            -0.0574
+          ]
+        },
+        {
+          "step": 408,
+          "tip_z": 0.09713390587088865,
+          "ball_z": 0.022632820861469397,
+          "offset": 0.17000958580828324,
+          "axis": -0.0250514752820691,
+          "width": 0.1681537476623578,
+          "nearest": "black",
+          "near_target": false,
+          "ball_xy": [
+            0.1494,
+            -0.2031
+          ]
+        }
+      ],
+      "events": [
+        [
+          "lift",
+          237
+        ],
+        [
+          "in_bin",
+          338
+        ]
+      ],
+      "ever_lifted": true,
+      "start_xy": [
+        0.2564,
+        -0.0575
+      ],
+      "category": "success",
+      "episode": 149,
+      "color": "sky blue",
+      "command": "Grab the blue ball."
+    }
+  ]
+}
