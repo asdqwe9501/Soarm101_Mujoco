@@ -120,7 +120,7 @@ def evaluate_sequential(policy, n_trials, seed=0, render=False, commands="canoni
             if i == 0:
                 obs, _ = env.reset(seed=seed + t, options=_options(color, commands, cmd_rng))
             else:
-                if env.ball_in_bin(color):  # 앞 명령 뒤 이 공이 굴러 통에 들어갔다: 명령할 수 없으므로 실패로 센다
+                if not env.ball_on_table(color):  # 앞 명령 뒤 이 공이 통에 들어가거나 책상 밖으로 밀려났다: 실패로 센다
                     ok = False
                     break
                 obs, _ = env.reset(options=_options(color, commands, cmd_rng, keep_scene=True))
