@@ -120,3 +120,29 @@ def test_command_color_understands_paraphrases():
     assert command_color("Take the black-colored ball.") == "black"
     assert command_color("pick up the red one") == "red"
     assert command_color("move it") is None
+
+
+@pytest.mark.parametrize("retreat", ["lift", "half"])
+def test_short_retreat_retries_faster_and_rechecks(env, retreat):
+    """짧은 후퇴: 그리퍼를 연 채 넘겨주므로 다음 닫기도 다시 확인하고, 제자리 후퇴보다 빨리 맞는 공에 시도한다."""
+    steps = {}
+    for mode in ("home", retreat):
+        policy = AimedExpert(["black", "red"])
+        guard = ColorGuard(policy, retreat=mode)
+        info = run(env, guard, "red")
+        assert guard.stats["rejections"] == 1 and policy.n_resets == 2
+        assert info["first_attempt"] == "target" and info["attempt_color"] == "red"
+        assert len(guard.stats["checks"]) == 2 and guard.stats["checks"][1]["seen"] == "red"
+        steps[mode] = guard.t
+    assert steps[retreat] < steps["home"] - {"lift": 30, "half": 15}[retreat]  # half는 후퇴 45스텝의 절반을 줄인다
+
+
+def test_short_retreat_keeps_gripper_open_at_handoff():
+    from policies.color_guard import GRIP_OPEN
+
+    g = ColorGuard(AimedExpert(["red"]), retreat="lift")
+    g.history = list(np.full((10, 6), 30.0, np.float32))
+    plan = g._retreat_plan(np.full(6, 30.0, np.float32))
+    assert all(a[5] == GRIP_OPEN for a in plan)
+    with pytest.raises(ValueError):
+        ColorGuard(AimedExpert(["red"]), retreat="bogus")

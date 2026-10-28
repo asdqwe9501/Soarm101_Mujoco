@@ -145,6 +145,7 @@ def main():
     ap.add_argument("--commands", choices=["canonical", "basic", "train", "heldout"], default="canonical",
                     help="명령문 종류 (새 모델은 basic/heldout 권장)")
     ap.add_argument("--guard", action="store_true", help="손목 카메라 색 확인 + 재시도(ColorGuard)로 감싼다")
+    ap.add_argument("--guard-retreat", choices=["home", "half", "lift"], default="home", help="가드 거부 뒤 후퇴 방식")
     args = ap.parse_args()
     if args.policy == "smolvla":
         from policies.smolvla_policy import SmolVLAPolicyAdapter
@@ -159,7 +160,7 @@ def main():
     if args.guard:
         from policies.color_guard import ColorGuard
 
-        policy = ColorGuard(policy)
+        policy = ColorGuard(policy, retreat=args.guard_retreat)
     render = args.policy in ("smolvla", "dsrl") or args.guard
     result = {"single": evaluate(policy, args.n_per_color, args.seed, render=render, video_dir=args.video_dir, commands=args.commands)}
     if args.sequential:

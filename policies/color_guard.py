@@ -34,6 +34,7 @@ GRIP_OPEN = 60.0
 # 후퇴 끝 그리퍼 명령. 시연의 시작 자세(제자리, 그리퍼 닫힘 ≈1.5)에 가깝게 하되 20 미만으로 내리면
 # 잡기 시도로 판정되므로 바로 위에 둔다. 제자리에서 열린 채 시작하면 정책이 '놓은 뒤 복귀'로 보고 곧바로 닫았다.
 GRIP_PARK = 21.0
+RETREAT_FRAC = {"home": 1.0, "half": 0.5, "lift": 0.0}  # 들어 올린 뒤 제자리 쪽으로 가는 비율
 
 # 집게 사이 공이 보이는 영역 (480×640 손목 영상, 잡기 직전 공 중심 ≈ (x375, y370), 반지름 ≈ 100px)
 ROI = (slice(250, 480), slice(255, 495))  # (행 y, 열 x)
@@ -92,9 +93,19 @@ def command_color(task):
 class ColorGuard:
     """평가기 프로토콜 reset(env), act(obs)를 따르는 정책 감싸개."""
 
-    def __init__(self, policy, max_retries=MAX_RETRIES, retreat_steps=RETREAT_STEPS, home=SIM_HOME_NORM):
+    def __init__(self, policy, max_retries=MAX_RETRIES, retreat_steps=RETREAT_STEPS, home=SIM_HOME_NORM,
+                 retreat="home"):
+        """retreat: 거부 뒤 후퇴 방식.
+        home: 들어 올린 뒤 제자리 자세까지 가서 그리퍼를 GRIP_PARK로 닫고 넘겨준다(기존).
+        half: 들어 올린 뒤 제자리 쪽으로 절반만 가서, 그리퍼를 연 채 넘겨준다.
+        lift: 들어 올린 자리에서 그리퍼를 연 채 바로 넘겨준다.
+        half/lift는 그리퍼가 열린 채 넘어가므로 정책의 다음 닫기도 다시 확인한다.
+        """
+        if retreat not in RETREAT_FRAC:
+            raise ValueError(f"unknown retreat {retreat!r}")
         self.policy, self.max_retries, self.retreat_steps = policy, max_retries, retreat_steps
         self.home = np.asarray(home, dtype=np.float32)
+        self.retreat_mode = retreat
 
     def reset(self, env):
         self.env = env
@@ -114,9 +125,15 @@ class ColorGuard:
         plan = [a.copy() for a in rewind]
         for a in plan:
             a[5] = GRIP_OPEN
+        frac = RETREAT_FRAC[self.retreat_mode]
         start, end = plan[-1], self.home.copy()
-        end[5] = GRIP_PARK
-        plan += [min_jerk(start, end, (i + 1) / self.retreat_steps) for i in range(self.retreat_steps)]
+        if frac < 1.0:  # 그리퍼를 연 채 제자리 쪽으로 frac만큼만 간다
+            end = start + frac * (end - start)
+            end[5] = GRIP_OPEN
+        else:
+            end[5] = GRIP_PARK
+        n = int(round(frac * self.retreat_steps))
+        plan += [min_jerk(start, end, (i + 1) / n) for i in range(n)]
         return [a.astype(np.float32) for a in plan]
 
     def _next(self, obs):
@@ -124,7 +141,7 @@ class ColorGuard:
             a = self.retreat.pop(0)
             if not self.retreat:
                 self.policy.reset(self.env)  # 큐 비우기 + 새 노이즈
-                self.park_grip = True
+                self.park_grip = self.retreat_mode == "home"
             return a
         a = np.array(self.policy.act(obs), dtype=np.float32)
         if self.park_grip:
