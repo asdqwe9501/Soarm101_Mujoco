@@ -61,7 +61,7 @@ def main():
     ap.add_argument('--seed', type=int, default=20000)
     ap.add_argument('--out', default=None)
     ap.add_argument('--guard', action='store_true')
-    ap.add_argument('--guard-retreat', choices=['home', 'half', 'lift'], default='home', help='가드 거부 뒤 후퇴 방식')
+    ap.add_argument('--guard-retreat', choices=['home', 'reset', 'half', 'lift'], default='home', help='가드 거부 뒤 후퇴 방식')
     ap.add_argument('--records', action='store_true', help='에피소드별 기록(명령문, 결과, 공·통 위치)을 결과에 넣는다')
     ap.add_argument('--commands', choices=['canonical', 'basic', 'train', 'heldout'], default='canonical',
                     help="명령문: canonical(예전 고정 문장), basic(Grab the X ball.), train(학습 배분대로), heldout(평가 전용 표현)")

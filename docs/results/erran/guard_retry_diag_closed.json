@@ -1,0 +1,192 @@
+{
+  "park_closed": {
+    "counts": {
+      "target": 27,
+      "none": 2,
+      "timeout": 1
+    },
+    "median_step_to_attempt": 185.0,
+    "episodes": [
+      {
+        "seed": 30000,
+        "color": "red",
+        "outcome": "target",
+        "step": 198
+      },
+      {
+        "seed": 30001,
+        "color": "black",
+        "outcome": "none",
+        "step": 153
+      },
+      {
+        "seed": 30002,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 178
+      },
+      {
+        "seed": 30003,
+        "color": "red",
+        "outcome": "target",
+        "step": 185
+      },
+      {
+        "seed": 30004,
+        "color": "black",
+        "outcome": "target",
+        "step": 194
+      },
+      {
+        "seed": 30005,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 264
+      },
+      {
+        "seed": 30006,
+        "color": "red",
+        "outcome": "target",
+        "step": 191
+      },
+      {
+        "seed": 30007,
+        "color": "black",
+        "outcome": "target",
+        "step": 342
+      },
+      {
+        "seed": 30008,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 158
+      },
+      {
+        "seed": 30009,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30010,
+        "color": "black",
+        "outcome": "target",
+        "step": 181
+      },
+      {
+        "seed": 30011,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 159
+      },
+      {
+        "seed": 30012,
+        "color": "red",
+        "outcome": "target",
+        "step": 220
+      },
+      {
+        "seed": 30013,
+        "color": "black",
+        "outcome": "target",
+        "step": 175
+      },
+      {
+        "seed": 30014,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 170
+      },
+      {
+        "seed": 30015,
+        "color": "red",
+        "outcome": "target",
+        "step": 176
+      },
+      {
+        "seed": 30016,
+        "color": "black",
+        "outcome": "target",
+        "step": 233
+      },
+      {
+        "seed": 30017,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 182
+      },
+      {
+        "seed": 30018,
+        "color": "red",
+        "outcome": "target",
+        "step": 197
+      },
+      {
+        "seed": 30019,
+        "color": "black",
+        "outcome": "target",
+        "step": 203
+      },
+      {
+        "seed": 30020,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 230
+      },
+      {
+        "seed": 30021,
+        "color": "red",
+        "outcome": "target",
+        "step": 160
+      },
+      {
+        "seed": 30022,
+        "color": "black",
+        "outcome": "target",
+        "step": 193
+      },
+      {
+        "seed": 30023,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 187
+      },
+      {
+        "seed": 30024,
+        "color": "red",
+        "outcome": "target",
+        "step": 254
+      },
+      {
+        "seed": 30025,
+        "color": "black",
+        "outcome": "target",
+        "step": 166
+      },
+      {
+        "seed": 30026,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 185
+      },
+      {
+        "seed": 30027,
+        "color": "red",
+        "outcome": "target",
+        "step": 170
+      },
+      {
+        "seed": 30028,
+        "color": "black",
+        "outcome": "target",
+        "step": 201
+      },
+      {
+        "seed": 30029,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 184
+      }
+    ]
+  }
+}

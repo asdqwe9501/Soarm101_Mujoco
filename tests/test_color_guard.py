@@ -146,3 +146,24 @@ def test_short_retreat_keeps_gripper_open_at_handoff():
     assert all(a[5] == GRIP_OPEN for a in plan)
     with pytest.raises(ValueError):
         ColorGuard(AimedExpert(["red"]), retreat="bogus")
+
+
+def test_reset_retreat_closes_gripper_at_home_and_retries(env):
+    """reset 후퇴: 제자리에서 그리퍼를 시작 값까지 닫아 넘기고, 다시 연 뒤의 닫기를 확인해 맞는 공으로 성공한다."""
+    from calib import SIM_HOME_NORM
+
+    policy = AimedExpert(["black", "red"])
+    guard = ColorGuard(policy, retreat="reset")
+    obs, _ = env.reset(seed=0, options={"target": "red"})
+    guard.reset(env)
+    success = False
+    for _ in range(MAX_STEPS):
+        a = guard.act(obs)
+        if guard.retreat == [] and guard.stats["rejections"] == 1 and policy.n_resets == 2 and not hasattr(guard, "_handoff"):
+            guard._handoff = a  # 후퇴의 마지막 행동
+        obs, _, success, trunc, _ = env.step(a)
+        if success or trunc:
+            break
+    assert guard.stats["rejections"] == 1 and policy.n_resets == 2
+    assert [c["seen"] for c in guard.stats["checks"]] == ["black", "red"]
+    assert abs(guard._handoff[5] - SIM_HOME_NORM[5]) < 1e-3 and success

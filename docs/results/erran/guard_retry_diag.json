@@ -1,0 +1,573 @@
+{
+  "fresh": {
+    "counts": {
+      "target": 28,
+      "none": 2
+    },
+    "median_step_to_attempt": 188.5,
+    "episodes": [
+      {
+        "seed": 30000,
+        "color": "red",
+        "outcome": "target",
+        "step": 200
+      },
+      {
+        "seed": 30001,
+        "color": "black",
+        "outcome": "target",
+        "step": 184
+      },
+      {
+        "seed": 30002,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 177
+      },
+      {
+        "seed": 30003,
+        "color": "red",
+        "outcome": "target",
+        "step": 247
+      },
+      {
+        "seed": 30004,
+        "color": "black",
+        "outcome": "none",
+        "step": 190
+      },
+      {
+        "seed": 30005,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 184
+      },
+      {
+        "seed": 30006,
+        "color": "red",
+        "outcome": "target",
+        "step": 191
+      },
+      {
+        "seed": 30007,
+        "color": "black",
+        "outcome": "target",
+        "step": 182
+      },
+      {
+        "seed": 30008,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 237
+      },
+      {
+        "seed": 30009,
+        "color": "red",
+        "outcome": "target",
+        "step": 178
+      },
+      {
+        "seed": 30010,
+        "color": "black",
+        "outcome": "target",
+        "step": 193
+      },
+      {
+        "seed": 30011,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 160
+      },
+      {
+        "seed": 30012,
+        "color": "red",
+        "outcome": "target",
+        "step": 157
+      },
+      {
+        "seed": 30013,
+        "color": "black",
+        "outcome": "target",
+        "step": 263
+      },
+      {
+        "seed": 30014,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 204
+      },
+      {
+        "seed": 30015,
+        "color": "red",
+        "outcome": "target",
+        "step": 188
+      },
+      {
+        "seed": 30016,
+        "color": "black",
+        "outcome": "target",
+        "step": 186
+      },
+      {
+        "seed": 30017,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 199
+      },
+      {
+        "seed": 30018,
+        "color": "red",
+        "outcome": "target",
+        "step": 191
+      },
+      {
+        "seed": 30019,
+        "color": "black",
+        "outcome": "target",
+        "step": 189
+      },
+      {
+        "seed": 30020,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 221
+      },
+      {
+        "seed": 30021,
+        "color": "red",
+        "outcome": "target",
+        "step": 195
+      },
+      {
+        "seed": 30022,
+        "color": "black",
+        "outcome": "target",
+        "step": 153
+      },
+      {
+        "seed": 30023,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 190
+      },
+      {
+        "seed": 30024,
+        "color": "red",
+        "outcome": "target",
+        "step": 229
+      },
+      {
+        "seed": 30025,
+        "color": "black",
+        "outcome": "target",
+        "step": 187
+      },
+      {
+        "seed": 30026,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 187
+      },
+      {
+        "seed": 30027,
+        "color": "red",
+        "outcome": "target",
+        "step": 182
+      },
+      {
+        "seed": 30028,
+        "color": "black",
+        "outcome": "target",
+        "step": 169
+      },
+      {
+        "seed": 30029,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 188
+      }
+    ]
+  },
+  "park": {
+    "counts": {
+      "other": 6,
+      "target": 6,
+      "timeout": 13,
+      "none": 5
+    },
+    "median_step_to_attempt": 245.0,
+    "episodes": [
+      {
+        "seed": 30000,
+        "color": "red",
+        "outcome": "other",
+        "step": 372
+      },
+      {
+        "seed": 30001,
+        "color": "black",
+        "outcome": "target",
+        "step": 156
+      },
+      {
+        "seed": 30002,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 342
+      },
+      {
+        "seed": 30003,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30004,
+        "color": "black",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30005,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30006,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30007,
+        "color": "black",
+        "outcome": "other",
+        "step": 203
+      },
+      {
+        "seed": 30008,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 401
+      },
+      {
+        "seed": 30009,
+        "color": "red",
+        "outcome": "target",
+        "step": 153
+      },
+      {
+        "seed": 30010,
+        "color": "black",
+        "outcome": "none",
+        "step": 147
+      },
+      {
+        "seed": 30011,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 114
+      },
+      {
+        "seed": 30012,
+        "color": "red",
+        "outcome": "none",
+        "step": 151
+      },
+      {
+        "seed": 30013,
+        "color": "black",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30014,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30015,
+        "color": "red",
+        "outcome": "target",
+        "step": 245
+      },
+      {
+        "seed": 30016,
+        "color": "black",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30017,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30018,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30019,
+        "color": "black",
+        "outcome": "none",
+        "step": 159
+      },
+      {
+        "seed": 30020,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30021,
+        "color": "red",
+        "outcome": "other",
+        "step": 191
+      },
+      {
+        "seed": 30022,
+        "color": "black",
+        "outcome": "other",
+        "step": 391
+      },
+      {
+        "seed": 30023,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30024,
+        "color": "red",
+        "outcome": "other",
+        "step": 289
+      },
+      {
+        "seed": 30025,
+        "color": "black",
+        "outcome": "none",
+        "step": 409
+      },
+      {
+        "seed": 30026,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30027,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30028,
+        "color": "black",
+        "outcome": "other",
+        "step": 397
+      },
+      {
+        "seed": 30029,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 340
+      }
+    ]
+  },
+  "park_open": {
+    "counts": {
+      "other": 5,
+      "none": 18,
+      "timeout": 4,
+      "target": 3
+    },
+    "median_step_to_attempt": 96.0,
+    "episodes": [
+      {
+        "seed": 30000,
+        "color": "red",
+        "outcome": "other",
+        "step": 325
+      },
+      {
+        "seed": 30001,
+        "color": "black",
+        "outcome": "none",
+        "step": 54
+      },
+      {
+        "seed": 30002,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 46
+      },
+      {
+        "seed": 30003,
+        "color": "red",
+        "outcome": "none",
+        "step": 94
+      },
+      {
+        "seed": 30004,
+        "color": "black",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30005,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 97
+      },
+      {
+        "seed": 30006,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30007,
+        "color": "black",
+        "outcome": "none",
+        "step": 48
+      },
+      {
+        "seed": 30008,
+        "color": "sky blue",
+        "outcome": "other",
+        "step": 297
+      },
+      {
+        "seed": 30009,
+        "color": "red",
+        "outcome": "target",
+        "step": 218
+      },
+      {
+        "seed": 30010,
+        "color": "black",
+        "outcome": "none",
+        "step": 96
+      },
+      {
+        "seed": 30011,
+        "color": "sky blue",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30012,
+        "color": "red",
+        "outcome": "target",
+        "step": 403
+      },
+      {
+        "seed": 30013,
+        "color": "black",
+        "outcome": "none",
+        "step": 55
+      },
+      {
+        "seed": 30014,
+        "color": "sky blue",
+        "outcome": "target",
+        "step": 319
+      },
+      {
+        "seed": 30015,
+        "color": "red",
+        "outcome": "none",
+        "step": 78
+      },
+      {
+        "seed": 30016,
+        "color": "black",
+        "outcome": "none",
+        "step": 50
+      },
+      {
+        "seed": 30017,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 96
+      },
+      {
+        "seed": 30018,
+        "color": "red",
+        "outcome": "none",
+        "step": 234
+      },
+      {
+        "seed": 30019,
+        "color": "black",
+        "outcome": "none",
+        "step": 84
+      },
+      {
+        "seed": 30020,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 296
+      },
+      {
+        "seed": 30021,
+        "color": "red",
+        "outcome": "timeout",
+        "step": 450
+      },
+      {
+        "seed": 30022,
+        "color": "black",
+        "outcome": "other",
+        "step": 449
+      },
+      {
+        "seed": 30023,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 85
+      },
+      {
+        "seed": 30024,
+        "color": "red",
+        "outcome": "other",
+        "step": 233
+      },
+      {
+        "seed": 30025,
+        "color": "black",
+        "outcome": "none",
+        "step": 95
+      },
+      {
+        "seed": 30026,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 84
+      },
+      {
+        "seed": 30027,
+        "color": "red",
+        "outcome": "none",
+        "step": 300
+      },
+      {
+        "seed": 30028,
+        "color": "black",
+        "outcome": "other",
+        "step": 339
+      },
+      {
+        "seed": 30029,
+        "color": "sky blue",
+        "outcome": "none",
+        "step": 54
+      }
+    ]
+  }
+}

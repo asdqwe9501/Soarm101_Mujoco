@@ -34,7 +34,7 @@ GRIP_OPEN = 60.0
 # 후퇴 끝 그리퍼 명령. 시연의 시작 자세(제자리, 그리퍼 닫힘 ≈1.5)에 가깝게 하되 20 미만으로 내리면
 # 잡기 시도로 판정되므로 바로 위에 둔다. 제자리에서 열린 채 시작하면 정책이 '놓은 뒤 복귀'로 보고 곧바로 닫았다.
 GRIP_PARK = 21.0
-RETREAT_FRAC = {"home": 1.0, "half": 0.5, "lift": 0.0}  # 들어 올린 뒤 제자리 쪽으로 가는 비율
+RETREAT_FRAC = {"home": 1.0, "reset": 1.0, "half": 0.5, "lift": 0.0}  # 들어 올린 뒤 제자리 쪽으로 가는 비율
 
 # 집게 사이 공이 보이는 영역 (480×640 손목 영상, 잡기 직전 공 중심 ≈ (x375, y370), 반지름 ≈ 100px)
 ROI = (slice(250, 480), slice(255, 495))  # (행 y, 열 x)
@@ -99,6 +99,9 @@ class ColorGuard:
         home: 들어 올린 뒤 제자리 자세까지 가서 그리퍼를 GRIP_PARK로 닫고 넘겨준다(기존).
         half: 들어 올린 뒤 제자리 쪽으로 절반만 가서, 그리퍼를 연 채 넘겨준다.
         lift: 들어 올린 자리에서 그리퍼를 연 채 바로 넘겨준다.
+        reset: 제자리 자세까지 가서 그리퍼를 시작 자세 값(home[5])까지 닫아, 에피소드 시작과 같은 상태로 넘겨준다.
+          진단(tools/guard_retry_diag.py): GRIP_PARK(21)로 넘기면 정책이 30회 중 13회 멈췄고, 닫아서 넘기면 정상 시작과 같았다.
+          단, StagedReward는 이 닫기를 '공 없는 곳 시도'로 센다(반사실 시험에는 맞지 않음, 전체 작업 평가용).
         half/lift는 그리퍼가 열린 채 넘어가므로 정책의 다음 닫기도 다시 확인한다.
         """
         if retreat not in RETREAT_FRAC:
@@ -130,7 +133,7 @@ class ColorGuard:
         if frac < 1.0:  # 그리퍼를 연 채 제자리 쪽으로 frac만큼만 간다
             end = start + frac * (end - start)
             end[5] = GRIP_OPEN
-        else:
+        elif self.retreat_mode == "home":
             end[5] = GRIP_PARK
         n = int(round(frac * self.retreat_steps))
         plan += [min_jerk(start, end, (i + 1) / n) for i in range(n)]

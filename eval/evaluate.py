@@ -120,6 +120,9 @@ def evaluate_sequential(policy, n_trials, seed=0, render=False, commands="canoni
             if i == 0:
                 obs, _ = env.reset(seed=seed + t, options=_options(color, commands, cmd_rng))
             else:
+                if env.ball_in_bin(color):  # 앞 명령 뒤 이 공이 굴러 통에 들어갔다: 명령할 수 없으므로 실패로 센다
+                    ok = False
+                    break
                 obs, _ = env.reset(options=_options(color, commands, cmd_rng, keep_scene=True))
             _, info, _ = run_episode(env, policy, obs)
             cmd_ok += info["success"]
@@ -145,7 +148,7 @@ def main():
     ap.add_argument("--commands", choices=["canonical", "basic", "train", "heldout"], default="canonical",
                     help="명령문 종류 (새 모델은 basic/heldout 권장)")
     ap.add_argument("--guard", action="store_true", help="손목 카메라 색 확인 + 재시도(ColorGuard)로 감싼다")
-    ap.add_argument("--guard-retreat", choices=["home", "half", "lift"], default="home", help="가드 거부 뒤 후퇴 방식")
+    ap.add_argument("--guard-retreat", choices=["home", "reset", "half", "lift"], default="home", help="가드 거부 뒤 후퇴 방식")
     args = ap.parse_args()
     if args.policy == "smolvla":
         from policies.smolvla_policy import SmolVLAPolicyAdapter
