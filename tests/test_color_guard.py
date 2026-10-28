@@ -216,3 +216,17 @@ def test_reset_retreat_closes_gripper_at_home_and_retries(env):
     assert guard.stats["rejections"] == 1 and policy.n_resets == 2
     assert [c["seen"] for c in guard.stats["checks"]] == ["black", "red"]
     assert abs(guard._handoff[5] - SIM_HOME_NORM[5]) < 1e-3 and success
+
+
+def test_guard_rejects_close_when_color_unknown():
+    """잡기 시도 순간(20 미만)까지 색을 확인하지 못하면 닫지 않는다(명령한 색을 확인한 경우에만 잡는다)."""
+    from types import SimpleNamespace
+
+    guard = ColorGuard(Scripted([60] * 3 + [30, 5]))
+    guard.reset(SimpleNamespace(task="grab the red ball"))
+    obs = {"observation.images.top": np.full((480, 640, 3), 128, np.uint8),
+           "observation.state": np.full(6, 60.0, np.float32)}
+    out = [guard.act(obs) for _ in range(5)]
+    assert out[3][5] == 30  # 20 이상이면 다음 스텝에 다시 본다
+    assert out[4][5] > 40 and guard.stats["rejections"] == 1
+    assert guard.stats["checks"][0]["seen"] is None and guard.stats["checks"][0]["rejected"]

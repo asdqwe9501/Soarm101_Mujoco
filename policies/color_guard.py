@@ -2,10 +2,10 @@
 
 감싼 정책이 그리퍼를 닫기 시작하면(명령이 40을 넘었다가 40 아래로 내려가면) 그 행동을 실행하기 전에
 현재 손목 영상(observation.images.top)의 집게 사이 영역 색을 판별한다. 판별이 불확실하면 다음 스텝에 다시 보고,
-명령이 20 아래로 내려가는 순간(StagedReward의 잡기 시도 판정 시점)까지 확실한 판별이 없으면 그대로 닫는다.
+명령이 20 아래로 내려가는 순간(StagedReward의 잡기 시도 판정 시점)까지 명령한 색을 확인하지 못하면 닫지 않는다.
 (20 미만 시점에서야 거부하면 집게가 이미 공에 닿아 있어 다시 열 때 공을 튕긴다. 40 시점은 아직 닿기 전이다.)
-- 명령한 색이거나 판별 불가(None) → 그대로 실행
-- 다른 색으로 판별 → 닫지 않는다. 그리퍼를 연 채 (1) OPEN_STEPS 동안 제자리에서 열고 (2) 최근 REWIND_STEPS개의
+- 명령한 색 → 그대로 실행
+- 다른 색, 또는 20 아래로 내려갈 때까지 판별 불가(None) → 닫지 않는다. 그리퍼를 연 채 (1) OPEN_STEPS 동안 제자리에서 열고 (2) 최근 REWIND_STEPS개의
   관절 상태를 거꾸로 되짚어 들어 올린 뒤(공을 쳐서 굴리지 않도록) (3) RETREAT_STEPS 동안 제자리 자세로 돌아가며 그리퍼를 GRIP_PARK까지 닫는다.
   그 다음 감싼 정책을 리셋(새 노이즈)해 다시 시도하게 한다. 횟수 제한 없이 매번 거부한다(틀린 공은 절대 잡지 않는다).
 - 명령한 색을 확인하고 닫은 뒤에는 더 보지 않는다(통 위에서 놓은 뒤 제자리로 가며 닫는 것은 잡기가 아니다).
@@ -163,7 +163,7 @@ class ColorGuard:
             if seen is None and a[5] >= GRIP_CLOSE_CMD:
                 return a  # 아직 잡기 시도 전: 다음 스텝에 다시 본다
             self.decided = True
-            reject = seen is not None and seen != self.target
+            reject = seen != self.target  # 확인하지 못한 경우(None)도 닫지 않는다
             self.stats["checks"].append(
                 {"step": self.t, "commanded": self.target, "seen": seen, "rejected": reject}
             )
