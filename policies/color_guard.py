@@ -7,8 +7,9 @@
 - 명령한 색이거나 판별 불가(None) → 그대로 실행
 - 다른 색으로 판별 → 닫지 않는다. 그리퍼를 연 채 (1) OPEN_STEPS 동안 제자리에서 열고 (2) 최근 REWIND_STEPS개의
   관절 상태를 거꾸로 되짚어 들어 올린 뒤(공을 쳐서 굴리지 않도록) (3) RETREAT_STEPS 동안 제자리 자세로 돌아가며 그리퍼를 GRIP_PARK까지 닫는다.
-  그 다음 감싼 정책을 리셋(새 노이즈)해 다시 시도하게 한다. 최대 max_retries회. 그 뒤에는 그대로 통과시킨다.
+  그 다음 감싼 정책을 리셋(새 노이즈)해 다시 시도하게 한다. 횟수 제한 없이 매번 거부한다(틀린 공은 절대 잡지 않는다).
 - 명령한 색을 확인하고 닫은 뒤에는 더 보지 않는다(통 위에서 놓은 뒤 제자리로 가며 닫는 것은 잡기가 아니다).
+  단, 닫힌 동안 집게가 끝까지 닫혔으면(관절값이 명령값에 붙음 = 빈손) 놓친 것으로 보고, 다음 닫기의 색을 다시 확인한다.
 쓰는 입력은 손목 영상, 관절 상태, 정책의 행동 명령, 명령문(env.task)뿐이다(시뮬레이터 정답 없음).
 
 관심 영역과 임계값은 시뮬레이션 손목 영상(시연 데이터의 잡기 직전 프레임)으로 정했다.
@@ -25,7 +26,6 @@ from calib import SIM_HOME_NORM
 from expert.scripted import min_jerk
 from rl.staged_reward import GRIP_CLOSE_CMD, GRIP_OPEN_CMD
 
-MAX_RETRIES = 3
 OPEN_STEPS = 5
 REWIND_STEPS = 60  # 최근 2초의 하강 경로를 되짚는다
 REWIND_STRIDE = 2  # 되짚을 때 2배 속도
@@ -34,6 +34,9 @@ GRIP_OPEN = 60.0
 # 후퇴 끝 그리퍼 명령. 시연의 시작 자세(제자리, 그리퍼 닫힘 ≈1.5)에 가깝게 하되 20 미만으로 내리면
 # 잡기 시도로 판정되므로 바로 위에 둔다. 제자리에서 열린 채 시작하면 정책이 '놓은 뒤 복귀'로 보고 곧바로 닫았다.
 GRIP_PARK = 21.0
+# 공을 쥐면 집게가 공에 막혀 관절값이 명령값보다 크다(시뮬레이션: 명령 5에 관절 ≈14.5, 빈손이면 ≈5).
+# 닫힌 동안 (관절값 - 명령값)이 이보다 작으면 빈손. 실제 로봇에서는 공을 쥔 그리퍼 관절값으로 다시 확인한다.
+HOLD_GAP = 4.0
 RETREAT_FRAC = {"home": 1.0, "reset": 1.0, "half": 0.5, "lift": 0.0}  # 들어 올린 뒤 제자리 쪽으로 가는 비율
 
 # 집게 사이 공이 보이는 영역 (480×640 손목 영상, 잡기 직전 공 중심 ≈ (x375, y370), 반지름 ≈ 100px)
@@ -93,7 +96,7 @@ def command_color(task):
 class ColorGuard:
     """평가기 프로토콜 reset(env), act(obs)를 따르는 정책 감싸개."""
 
-    def __init__(self, policy, max_retries=MAX_RETRIES, retreat_steps=RETREAT_STEPS, home=SIM_HOME_NORM,
+    def __init__(self, policy, retreat_steps=RETREAT_STEPS, home=SIM_HOME_NORM,
                  retreat="home"):
         """retreat: 거부 뒤 후퇴 방식.
         home: 들어 올린 뒤 제자리 자세까지 가서 그리퍼를 GRIP_PARK로 닫고 넘겨준다(기존).
@@ -106,7 +109,7 @@ class ColorGuard:
         """
         if retreat not in RETREAT_FRAC:
             raise ValueError(f"unknown retreat {retreat!r}")
-        self.policy, self.max_retries, self.retreat_steps = policy, max_retries, retreat_steps
+        self.policy, self.retreat_steps = policy, retreat_steps
         self.home = np.asarray(home, dtype=np.float32)
         self.retreat_mode = retreat
 
@@ -117,10 +120,12 @@ class ColorGuard:
         self.decided = False  # 이번 닫기에 대해 판별을 마쳤는가
         self.confirmed = False  # 명령한 색을 확인하고 닫았다 → 이후(통에 놓기, 제자리 복귀)의 닫기는 보지 않는다
         self.armed = False  # 실행된 행동 기준: 그리퍼를 연 뒤 아직 닫지 않음 (StagedReward와 같음)
+        self.holding = False  # 마지막으로 본 닫힌 상태에서 집게가 공에 막혀 있었는가
         self.park_grip = False  # 후퇴 뒤 정책이 스스로 다시 열 때까지 그리퍼 명령을 GRIP_PARK 이상으로 묶는다
         self.retreat = []
         self.history = deque(maxlen=REWIND_STEPS)  # 최근 관절 상태
         self.t = 0
+        self.prev_cmd = self.floor_cmd = GRIP_OPEN
         self.stats = {"rejections": 0, "checks": []}
 
     def _retreat_plan(self, state):
@@ -158,7 +163,7 @@ class ColorGuard:
             if seen is None and a[5] >= GRIP_CLOSE_CMD:
                 return a  # 아직 잡기 시도 전: 다음 스텝에 다시 본다
             self.decided = True
-            reject = seen is not None and seen != self.target and self.stats["rejections"] < self.max_retries
+            reject = seen is not None and seen != self.target
             self.stats["checks"].append(
                 {"step": self.t, "commanded": self.target, "seen": seen, "rejected": reject}
             )
@@ -170,11 +175,19 @@ class ColorGuard:
         return a
 
     def act(self, obs):
-        self.history.append(np.asarray(obs["observation.state"], dtype=np.float32))
+        state = np.asarray(obs["observation.state"], dtype=np.float32)
+        self.history.append(state)
+        # 직전 명령이 이번 닫힘의 가장 작은 값 근처일 때만 본다(여는 중에는 관절값이 명령을 늦게 따라가 틀린다)
+        if not self.armed and self.prev_cmd < GRIP_CLOSE_CMD and self.prev_cmd <= self.floor_cmd + 1.0:
+            self.holding = state[5] - self.prev_cmd > HOLD_GAP
         a = self._next(obs)
         if a[5] > GRIP_OPEN_CMD:
+            if self.confirmed and not self.armed and not self.holding:
+                self.confirmed = False  # 빈손으로 다시 연다 = 놓쳤다 → 다음 닫기를 다시 확인
             self.armed, self.decided = True, False
         elif a[5] < GRIP_CLOSE_CMD:
             self.armed = False
+        self.prev_cmd = float(a[5])
+        self.floor_cmd = GRIP_OPEN if self.armed else min(self.floor_cmd, self.prev_cmd)
         self.t += 1
         return a

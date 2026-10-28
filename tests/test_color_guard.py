@@ -103,12 +103,61 @@ def test_guard_blocks_wrong_close_then_retries(env):
     assert info["first_attempt"] == "target" and info["attempt_color"] == "red" and info["stage"] >= 1
 
 
-def test_guard_gives_up_after_max_retries(env):
-    guard = ColorGuard(AimedExpert(["sky blue"]), max_retries=1)  # 시도 시간 제한(600스텝) 안에 끝나도록 1회
-    info = run(env, guard, "red")
-    assert guard.stats["rejections"] == 1
-    # 재시도를 다 쓴 뒤에는 그대로 통과시키므로 그때 처음으로 시도가 기록된다
-    assert info["first_attempt"] == "other" and info["attempt_color"] == "sky blue"
+def _img(rgb):
+    img = np.full((480, 640, 3), 128, np.uint8)
+    img[300:480, 300:450] = rgb
+    return img
+
+
+class Scripted:
+    def __init__(self, acts):
+        self.acts, self.i = acts, 0
+
+    def reset(self, env):
+        pass
+
+    def act(self, obs):
+        a = self.acts[min(self.i, len(self.acts) - 1)]
+        self.i += 1
+        return np.array([0, 0, 0, 0, 0, a], np.float32)
+
+
+def test_guard_never_lets_wrong_ball_through():
+    """틀린 색만 노리는 정책: 횟수 제한 없이 매번 거부해 틀린 공을 한 번도 잡지 않는다."""
+    from types import SimpleNamespace
+
+    class Loop(Scripted):
+        def reset(self, env):
+            self.i = 0
+
+    guard = ColorGuard(Loop([60] * 3 + [5] * 5))
+    guard.reset(SimpleNamespace(task="grab the red ball"))
+    obs = {"observation.images.top": _img((90, 180, 240)), "observation.state": np.full(6, 60.0, np.float32)}
+    grips = [guard.act(obs)[5] for _ in range(2000)]
+    assert guard.stats["rejections"] >= 6
+    assert min(grips) >= 20  # 한 번도 잡기 시도(20 미만)로 닫지 않았다
+
+
+@pytest.mark.parametrize("held_grip, rejected", [(5.0, True), (14.5, False)])
+def test_guard_rechecks_after_missed_grasp(held_grip, rejected):
+    """명령한 색을 확인하고 닫았는데 집게가 끝까지 닫혔으면(빈손) 놓친 것이다 → 다음 닫기의 색을 다시 확인한다.
+    공을 쥔 채 열었으면(놓기) 그 뒤의 닫기는 보지 않는다."""
+    from types import SimpleNamespace
+
+    red, blue = _img((220, 20, 20)), _img((90, 180, 240))
+    # 열기 → 빨강을 보며 닫기 → 닫힌 채 유지 → 다시 열기 → 파랑을 보며 닫기
+    grips = [60] * 3 + [5] * 10 + [60] * 3 + [5]
+    guard = ColorGuard(Scripted(grips))
+    guard.reset(SimpleNamespace(task="grab the red ball"))
+    out = []
+    for k, g in enumerate(grips):
+        img = red if k < 13 else blue
+        state = np.zeros(6, np.float32)
+        state[5] = held_grip if 3 < k <= 13 else 60.0  # 관절값은 직전 명령의 결과
+        out.append(guard.act({"observation.images.top": img, "observation.state": state}))
+    assert guard.stats["checks"][0]["seen"] == "red"
+    assert (out[-1][5] > 40) == rejected  # 거부하면 닫지 않고 연다
+    assert guard.stats["rejections"] == int(rejected)
 
 
 def test_command_color_understands_paraphrases():

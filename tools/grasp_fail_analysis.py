@@ -132,6 +132,8 @@ def main():
             obs, _ = env.reset(seed=args.seed + k, options=_options(color, args.commands, cmd_rng))
             frames = [] if args.video_dir else None
             ep = dict(run(env, policy, obs, frames), episode=k, color=color, command=env.task)
+            if args.guard:
+                ep["guard_checks"] = policy.stats["checks"]
             eps.append(ep)
             cat = ep["category"]
             if frames and cat != "success" and saved[cat] < 2:
