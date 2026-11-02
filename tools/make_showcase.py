@@ -82,40 +82,51 @@ def save(frames, out, name):
     print("saved", name, len(frames), "frames", flush=True)
 
 
-def counterfactual(env, policy, out, seed, tries):
-    """같은 배치(seed)에서 세 명령. 세 화면을 위아래로 쌓는다."""
+def counterfactual(env, policy, out, seed, tries, seeds=20):
+    """같은 배치에서 세 명령. 세 화면을 위아래로 쌓는다. 세 명령이 모두 성공한 배치만 저장한다."""
     cmds = [("red", "Grab the red ball."), ("black", "Grab the black ball."), ("sky blue", "Grab the blue ball.")]
-    clips = []
-    for color, cmd in cmds:
-        for _ in range(tries):
-            frames = []
-            obs, _ = env.reset(seed=seed, options={"target": color, "command": cmd})
-            ok, _, _ = run(env, policy, obs, f'Same scene, command: "{cmd}"', frames)
-            if ok:
-                break
-        clips.append(frames)
-    n = max(len(c) for c in clips)
-    clips = [c + [c[-1]] * (n - len(c)) for c in clips]
-    save([np.concatenate([c[i] for c in clips], 0) for i in range(n)], out, "counterfactual_same_scene")
-
-
-def sequential(env, policy, out, seed, tries):
-    cmds = [("black", "Grab the black ball."), ("sky blue", "bring the blue one to the box"),
-            ("red", "lift the red ball and drop it in the box")]
-    for _ in range(tries):
-        frames, ok_all = [], True
-        for i, (color, cmd) in enumerate(cmds):
-            opts = {"target": color, "command": cmd}
-            if i:
-                opts["keep_scene"] = True
-            obs, _ = env.reset(seed=seed if i == 0 else None, options=opts)
-            ok, _, _ = run(env, policy, obs, f'Command {i + 1}/3: "{cmd}"', frames)
-            ok_all &= ok
+    for s in range(seed, seed + seeds):
+        clips = []
+        for color, cmd in cmds:
+            for _ in range(tries):
+                frames = []
+                obs, _ = env.reset(seed=s, options={"target": color, "command": cmd})
+                ok, _, _ = run(env, policy, obs, f'Same scene, command: "{cmd}"', frames)
+                if ok:
+                    break
             if not ok:
                 break
-        if ok_all:
-            break
-    save(frames, out, "sequential_three_commands")
+            clips.append(frames)
+        print("counterfactual seed", s, len(clips), "/ 3", flush=True)
+        if len(clips) == 3:
+            n = max(len(c) for c in clips)
+            clips = [c + [c[-1]] * (n - len(c)) for c in clips]
+            save([np.concatenate([c[i] for c in clips], 0) for i in range(n)], out, "counterfactual_same_scene")
+            return
+    print("no all-success counterfactual scene")
+
+
+def sequential(env, policy, out, seed, tries, seeds=20):
+    """한 장면에서 세 명령을 연달아. 세 명령이 모두 성공한 시행만 저장한다."""
+    cmds = [("black", "Grab the black ball."), ("sky blue", "bring the blue one to the box"),
+            ("red", "lift the red ball and drop it in the box")]
+    for s in range(seed, seed + seeds):
+        for _ in range(tries):
+            frames, ok_all = [], True
+            for i, (color, cmd) in enumerate(cmds):
+                opts = {"target": color, "command": cmd}
+                if i:
+                    opts["keep_scene"] = True
+                obs, _ = env.reset(seed=s if i == 0 else None, options=opts)
+                ok, _, _ = run(env, policy, obs, f'Command {i + 1}/3: "{cmd}"', frames)
+                ok_all &= ok
+                if not ok:
+                    break
+            print("sequential seed", s, ok_all, flush=True)
+            if ok_all:
+                save(frames, out, "sequential_three_commands")
+                return
+    print("no all-success sequential run")
 
 
 def guard(env, policy, out, seed, color, cmd, tries):
