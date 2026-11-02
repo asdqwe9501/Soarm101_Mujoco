@@ -1,375 +1,375 @@
-# SO101 공 분류 프로젝트 보고서 (2026-10-10 ~ 10-29)
+# SO101 Ball Sort Project Report (2026-10-10 to 10-29)
 
-## 1. 한눈에 보기
+## 1. Summary
 
-**목표:** 말로 명령하면 SO101 팔이 해당 색 공(빨강 / 검정 / 하늘색, 하늘색은 "blue"로도 부름)을 집어 통에 넣고 제자리로 돌아온다. 이를 반복한다. 시뮬레이션에서 먼저 완성한 뒤 실제 로봇으로 옮긴다.
+**Goal:** Given a spoken command, the SO101 arm picks the ball of that color (red / black / sky blue, where sky blue is also called "blue"), drops it in the bin, and returns home, then repeats. The work is finished in simulation first, then moved to the real robot.
 
-**현재 상태 (시뮬레이션):**
+**Current status (simulation):**
 
-| 항목 | 결과 |
+| Item | Result |
 |---|---|
-| 색 구분 (틀린 공을 잡은 횟수) | **0 / 600회** |
-| 작업 성공 (잡기 → 통에 넣기 → 복귀) | **86.3%** (518 / 600회) |
-| 반복 실행 루프 (연속 명령) | 30 / 30 성공 |
-| 실제 로봇 | 코드 준비 완료. 카메라 색 보정부터 시작 |
+| Color accuracy (wrong ball grasped) | **0 / 600** |
+| Task success (grasp → bin → home) | **86.3%** (518 / 600) |
+| Command loop (consecutive commands) | 30 / 30 |
+| Real robot | Code ready. Starts with camera color calibration |
 
-**최종 구성:**
-- 정책: IRL v2 = SmolVLA(sft_aux2 복사본) + 노이즈 조종 정책
-- 색 가드 v2: 손목 카메라로 색을 확인한 뒤에만 잡는다
+**Final setup:**
+- Policy: IRL v2 = SmolVLA (copy of sft_aux2) + noise-steering policy
+- Color guard v2: grasps only after confirming the color with the wrist camera
 
-**남은 문제:** 실패의 대부분은 잡기 실패다(600회 중 82회). 색 문제는 아니다.
+**Remaining problem:** Most failures are grasp failures (82 of 600), not color errors.
 
-**상세:** 모델은 7절, 학습 방식은 8절, 데이터셋은 9절, 평가 방식은 10절에 있다.
+**Details:** models in Section 7, training in Section 8, dataset in Section 9, evaluation in Section 10.
 
 ---
 
-## 2. 시스템 구성
+## 2. System
 
-| 부분 | 내용 | 파일 |
+| Part | Description | Files |
 |---|---|---|
-| 시뮬레이터 | MuJoCo로 실제 작업대를 재현했다. 카메라 위치, 통 위치, 관절 보정은 실제 녹화 10개에 맞췄다. 공 3개를 무작위로 배치한다(최소 간격 7cm). | `sim/env.py`, `calib.py` |
-| 시연 스크립트 | 정답 좌표와 역기구학으로 시연을 만든다. 성공률은 150 / 150이다. | `expert/scripted.py` |
-| 시연 데이터 | LeRobot 형식이며 실제 데이터와 같다. 최종본(v8)은 1,500개다. | `data/` |
-| 기본 모델 | SmolVLA를 시연으로 학습했다(sft_aux2). | `train/sft_aux.py` |
-| 추가 학습 | 역강화학습(IRL)으로 노이즈 조종 정책을 학습했다. 원본 모델은 바꾸지 않았다. | `train/irl.py`, `rl/` |
-| 색 가드 | 그리퍼를 닫기 직전에 손목 카메라로 색을 확인한다. 색이 틀리면 거부하고 다시 시도한다. | `policies/color_guard.py` |
-| 반복 실행 루프 | 대기 → 명령 → 작업 → 복귀 → 다음 명령. 시뮬레이션과 실제 로봇 모두 지원한다. | `run/loop.py` |
+| Simulator | Rebuilds the real workspace in MuJoCo. Camera pose, bin position and joint calibration were fit to 10 real recordings. Three balls are placed randomly (minimum spacing 7 cm). | `sim/env.py`, `calib.py` |
+| Scripted expert | Generates demos from ground-truth positions and inverse kinematics. 150 / 150 success. | `expert/scripted.py` |
+| Demo data | LeRobot format, same as real data. The final version (v8) has 1,500 episodes. | `data/` |
+| Base model | SmolVLA trained on the demos (sft_aux2). | `train/sft_aux.py` |
+| Additional training | A noise-steering policy trained with inverse RL (IRL). The base model is not changed. | `train/irl.py`, `rl/` |
+| Color guard | Checks the color with the wrist camera right before the gripper closes. Rejects a wrong color and retries. | `policies/color_guard.py` |
+| Command loop | Idle → command → task → return home → next command. Supports simulation and the real robot. | `run/loop.py` |
 
-**보상 (사용자 정의, 변경 금지):**
+**Reward (user-defined, not to be changed):**
 
-| 사건 | 보상 |
+| Event | Reward |
 |---|---|
-| 맞는 공에 잡기 시도 | +1 |
-| 들기 | +2 |
-| 통에 넣기 | +3 |
-| 복귀 | +1 |
-| 틀린 공 | −1 |
-| 빈 곳 | −0.5 |
+| Grasp attempt on the correct ball | +1 |
+| Lift | +2 |
+| Drop in bin | +3 |
+| Return home | +1 |
+| Wrong ball | −1 |
+| Empty grasp | −0.5 |
 
 ---
 
-## 3. 진행 과정
+## 3. Progress
 
-### 3.1 시뮬레이터와 시연 (Plan 1)
-- 실제 녹화에 맞춰 카메라, 통, 관절을 보정했다.
-- 시연 스크립트 성공률은 150 / 150이다.
+### 3.1 Simulator and demos (Plan 1)
+- Calibrated cameras, bin and joints against real recordings.
+- Scripted expert success: 150 / 150.
 
-### 3.2 첫 SFT: 실패 (Plan 2)
-- **sft_v1 성공률: 0.7%.**
-  - 원인: 모델이 영상과 명령을 무시했다. 현재 관절값만 보고 다음 동작을 따라 하는 지름길을 배웠다.
-- **잡기 허용 오차 개선 (Plan 2b):**
-  - 시뮬레이터 마찰 설정(noslip)을 고치고, 빗나갔다가 바로잡는 보정 시연을 추가했다.
-  - 1.5cm 어긋남에서 잡기 성공이 1 / 12에서 10 / 12로 올랐다.
-- **sft_v3: 성공 58.7%.**
-  - 잡기와 운반은 거의 해결됐다.
-  - 남은 병목은 **색 선택 (약 23%가 틀린 공)**이었다.
+### 3.2 First SFT: failure (Plan 2)
+- **sft_v1 success: 0.7%.**
+  - Cause: the model ignored images and the command. It learned a shortcut of following the current joint state.
+- **Grasp tolerance improvement (Plan 2b):**
+  - Fixed the simulator friction setting (noslip) and added correction demos that miss and then recover.
+  - Grasp success at a 1.5 cm offset went from 1 / 12 to 10 / 12.
+- **sft_v3: 58.7% success.**
+  - Grasping and carrying were mostly solved.
+  - The remaining bottleneck was **color selection (about 23% wrong balls)**.
 
-### 3.3 색 구분 개선 시도: 대부분 실패 (Plan 3~5)
+### 3.3 Color grounding attempts: mostly failed (Plans 3–5)
 
-같은 배치에서 세 가지 명령을 각각 내리고 첫 시도를 본 결과다.
+Each of the three color commands is given in the same layout; the first attempt is checked.
 
-| 시도 | 맞는 공 | 틀린 공 |
+| Attempt | Correct ball | Wrong ball |
 |---|---|---|
 | sft_v3 | 71% | 23% |
-| DSRL v2 (노이즈 조종 강화학습) | 69% | 26% |
-| sft_v5 (지름길 제거 데이터만) | 21% | 44% |
-| LoRA2 (언어 모델 부분 미세조정) | 62% | 23% |
+| DSRL v2 (noise-steering RL) | 69% | 26% |
+| sft_v5 (shortcut-removal data only) | 21% | 44% |
+| LoRA2 (partial language-model fine-tuning) | 62% | 23% |
 
-**배운 점:** 데이터나 학습 방식만 바꿔서는 틀린 공 비율이 23% 근처에서 내려가지 않았다.
+**Lesson:** Changing only the data or the training method did not push the wrong-ball rate below about 23%.
 
-### 3.4 돌파: 보조 과제 (Plan 6, sft_aux2)
+### 3.4 Breakthrough: auxiliary task (Plan 6, sft_aux2)
 
-**방법:**
-- 팔이 움직이기 전 첫 프레임에서 "명령한 색 공의 위치"를 맞히는 보조 과제를 함께 학습했다.
-- 이때 관절값을 지워서 지름길을 막았다.
-- 시연 1,500개에 명령 표현을 다양화했다.
+**Method:**
+- Jointly trained an auxiliary task: predict the commanded ball's position from the first frame, before the arm moves.
+- Joint state is masked in that task to block the shortcut.
+- 1,500 demos with diverse command phrasings.
 
-**결과 (첫 시도, 기본 명령과 처음 듣는 명령 모두 같음):**
-- 맞는 공 92.2%, 틀린 공 **3.3%** (sft_v3는 23%)
+**Result (first attempt, same for basic and unseen commands):**
+- Correct ball 92.2%, wrong ball **3.3%** (sft_v3: 23%)
 
-**전체 작업:**
-- 단일 명령 성공 82~85%
-- 색 가드를 붙이면 87.3%
+**Full task:**
+- Single-command success 82–85%
+- 87.3% with the color guard
 
-### 3.5 강화학습 추가
+### 3.5 Adding RL
 
-| 방법 | 결과 |
+| Method | Result |
 |---|---|
-| DSRL v3 | **성능이 떨어졌다** (단일 성공 82% → 63%). 기본 모델이 이미 강하면 오히려 해롭다. |
-| KL 정규화 | 기본 모델에서 멀어지지 않게 묶었다. IRL에 이 방식을 썼다. |
-| **IRL v1** | 판별기가 시연을 보고 보상을 추론한다. 처음에는 판별기가 색이 아니라 움직임 스타일을 배웠다(AUC 0.54). 시연의 명령만 다른 색으로 바꾼 "바꿔치기 음성 표본"을 넣자 색을 구분했다(AUC 0.89). 단일 성공 90%, 기본 명령 첫 시도에서 틀린 공 0%. |
-| **IRL v2** | 명령 표현을 30종으로 늘렸다. 평가 전용 표현은 따로 두었다. 단일 성공은 기본 명령 92%, 처음 듣는 명령 85%. |
+| DSRL v3 | **Performance dropped** (single success 82% → 63%). Harmful when the base model is already strong. |
+| KL regularization | Keeps the policy close to the base model. Used for IRL. |
+| **IRL v1** | A discriminator infers the reward from demos. At first it learned motion style, not color (AUC 0.54). Adding "swapped-command negatives" (demos with only the command changed to another color) made it separate colors (AUC 0.89). Single success 90%, 0% wrong balls on basic commands (first attempt). |
+| **IRL v2** | Expanded to 30 command phrasings, with evaluation-only phrasings held out. Single success 92% on basic commands, 85% on unseen commands. |
 
-### 3.6 틀린 공의 원인 분석
+### 3.6 Root cause of wrong balls
 
-- **공끼리 가까울 때만 틀린다:**
+- **Errors happen only when balls are close together:**
 
-  | 가장 가까운 공과의 거리 | 틀린 공 비율 |
+  | Distance to nearest ball | Wrong-ball rate |
   |---|---|
-  | 12cm 이상 | 0 / 630 |
-  | 8~9cm | 4.5% |
-  | 7~8cm | 11.2% |
+  | ≥ 12 cm | 0 / 630 |
+  | 8–9 cm | 4.5% |
+  | 7–8 cm | 11.2% |
 
-- **틀린 공은 대부분 이웃한 공이다** (62건 중 56건). 색을 헷갈리는 것보다 공간 정밀도 문제에 가깝다.
-- **대부분 우연이다.** 틀린 장면을 노이즈만 바꿔 다시 하면 43~78%는 맞는다.
-- **결론:** 학습만으로 0%를 만들기는 어렵다. 그래서 **카메라 확인(색 가드)**으로 막기로 했다.
+- **The wrong ball is almost always the neighbor** (56 of 62 cases). This is closer to a spatial precision problem than color confusion.
+- **Mostly chance.** Replaying a wrong case with only the noise changed gives the right ball 43–78% of the time.
+- **Conclusion:** Reaching 0% by training alone is hard, so errors are blocked with a **camera check (color guard)**.
 
-### 3.7 색 가드 v1 (10-27)
+### 3.7 Color guard v1 (10-27)
 
-- **방식:** 손목 카메라 영상의 집게 사이 영역에서 색 픽셀 비율을 잰다. 틀린 색이면 닫지 않고 물러났다가 다시 시도한다.
-- **결과:**
-  - 첫 시도 색 정확도 97.9% → 99.3% (기본 명령), 96.9% → 99.6% (처음 듣는 명령)
-  - 전체 작업에서 틀린 공 300회 중 6회
-- **재시도 방식 비교** (home / half / lift / reset): 차이가 표본 오차 안이었다.
+- **How it works:** Measures the share of color pixels in the region between the gripper jaws in the wrist image. On a wrong color it does not close; it backs off and retries.
+- **Results:**
+  - First-attempt color accuracy 97.9% → 99.3% (basic), 96.9% → 99.6% (unseen)
+  - Full task: 6 wrong balls in 300 episodes
+- **Retry strategy comparison** (home / half / lift / reset): differences were within sampling error.
 
-### 3.8 잡기 실패 분석 (10-28)
+### 3.8 Grasp failure analysis (10-28)
 
-150회씩 측정했다.
+150 episodes each.
 
-| 분류 | 기본 | 처음 듣는 | 보완 방법 |
+| Category | Basic | Unseen | Fix |
 |---|---|---|---|
-| 성공 | 131 | 127 | |
-| 옆으로 1.7~2.2cm 어긋나게 닫음 | 4 | 4 | 하드웨어 |
-| 내려가다 공을 밀어냄 | 4 | 3 | 하드웨어 + 학습 |
-| 공 위 허공에서 닫음 | 2 | 0 | 학습 |
-| 공 근처에서 닫지 않음 / 멈춤 | 6 | 6 | 학습 |
-| 든 뒤 실패 (떨어뜨림, 시간 초과) | 1 | 5 | 하드웨어 / 시간 |
-| 틀린 공 | 2 | 4 | 가드 개선 (→ 3.9) |
+| Success | 131 | 127 | |
+| Closed 1.7–2.2 cm off to the side | 4 | 4 | hardware |
+| Pushed the ball away while descending | 4 | 3 | hardware + training |
+| Closed in the air above the ball | 2 | 0 | training |
+| Did not close near the ball / stalled | 6 | 6 | training |
+| Failed after lifting (dropped, timeout) | 1 | 5 | hardware / time |
+| Wrong ball | 2 | 4 | guard fix (→ 3.9) |
 
-- **집게 끝 폭(8~10mm)이 공(지름 4cm)에 비해 좁다.** 옆으로 1.5cm 넘게 어긋나면 공이 빠진다. 집게 끝을 넓히거나 패드를 붙이면 일부 해결된다.
-- **실패한 에피소드는 모두 30초를 다 쓰며 2~4번 재시도했다.** 놓친 공은 테이블 밖으로 굴러간 경우가 많았다.
+- **The gripper tips (8–10 mm wide) are narrow for a 4 cm ball.** The ball slips out if the close is more than 1.5 cm off to the side. Wider tips or pads would fix part of this.
+- **Every failed episode used the full 30 s with 2–4 retries.** A missed ball often rolled off the table.
 
-### 3.9 색 가드 v2: 색 구분 100% (10-29)
+### 3.9 Color guard v2: 100% color accuracy (10-29)
 
-**가드 v1이 틀린 공을 통과시킨 경로 4가지와 수정:**
+**Four ways guard v1 let a wrong ball through, and the fixes:**
 
-| 구멍 | 이전 | 수정 |
+| Hole | Before | Fix |
 |---|---|---|
-| ① 맞는 색을 한 번 확인한 뒤 놓친 경우 | 그 뒤로는 검사하지 않아, 재시도 때 다른 공을 잡아도 통과했다. **주 원인.** | 그리퍼 관절값으로 빈손인지 판단한다. 공을 쥐면 집게가 공에 막혀 관절값이 약 9.5 높고, 끝까지 닫히면 빈손이다. 빈손이면 다음 닫기를 다시 검사한다. |
-| ② 3번 거부한 뒤 | 그대로 통과시켰다. | 횟수 제한 없이 거부한다. |
-| ③ 닫는 순간까지 색을 판별하지 못한 경우 | 그대로 닫았다. | 닫지 않는다. **명령한 색을 확인했을 때만 잡는다.** |
-| ④ 검정 오판 | 시뮬레이션의 테이블 밖 검은 배경을 검정 공으로 봤다. | 완전한 검정(밝기 0)을 제외했다. 검정 공 픽셀은 99.7%가 밝기 3 이상이다. |
+| ① Correct color confirmed once, then the grasp missed | No more checks afterwards, so grasping another ball on the retry passed. **Main cause.** | Detects an empty gripper from the gripper joint value. Holding a ball blocks the jaws, so the joint reads about 9.5 higher; a full close means empty. If empty, the next close is checked again. |
+| ② After 3 rejections | Let it through. | Rejects every time, no limit. |
+| ③ Color still unknown at the moment of closing | Closed anyway. | Does not close. **Grasps only when the commanded color is confirmed.** |
+| ④ Black misdetection | Saw the black background beyond the table in simulation as a black ball. | Excludes pure black (brightness 0). 99.7% of black-ball pixels have brightness ≥ 3. |
 
-**결과 (전체 작업, 실제로 들리거나 통에 들어간 공 기준):**
+**Results (full task, based on the ball actually lifted or placed in the bin):**
 
-| 세트 | 성공 | 틀린 공 |
+| Set | Success | Wrong ball |
 |---|---|---|
-| 기본 명령, 이전과 같은 장면 | 134 / 150 (이전 131) | **0** (이전 2) |
-| 처음 듣는 명령, 이전과 같은 장면 | 127 / 150 (이전 127) | **0** (이전 4) |
-| 기본 명령, 새 장면 | 132 / 150 | **0** |
-| 처음 듣는 명령, 새 장면 | 125 / 150 | **0** |
-| **합계** | **518 / 600 (86.3%)** | **0 / 600** |
+| Basic commands, same scenes as before | 134 / 150 (before 131) | **0** (before 2) |
+| Unseen commands, same scenes as before | 127 / 150 (before 127) | **0** (before 4) |
+| Basic commands, new scenes | 132 / 150 | **0** |
+| Unseen commands, new scenes | 125 / 150 | **0** |
+| **Total** | **518 / 600 (86.3%)** | **0 / 600** |
 
-**추가 검증:**
-- **정책이 실제로 닫는 순간의 손목 영상 4,251장:** 다른 색으로 판별한 경우가 0이었다.
-- **스트레스 시험 600회:** 공 간격이 10cm 이하인 배치에서 일부러 이웃 공 쪽으로 0~3.5cm 빗나가게 닫았다. 가드 판정과 실제로 들린 공이 다른 경우는 0이었다(들림 348회).
-- **같은 배치 × 세 명령 첫 시도 (300회씩):**
-  - 처음 듣는 명령은 다른 색 0회였다.
-  - 기본 명령은 1회였다. 이 1회는 시뮬레이터의 "가장 가까운 공" 기준으로 센 것이다. 이 기준은 실제로 들린 공과 다를 때가 있어서(13 / 600), 실제 오류인지는 확인하지 못했다.
+**Additional checks:**
+- **4,251 wrist frames at the moments the policy actually closes:** 0 classified as another color.
+- **Stress test, 600 episodes:** on layouts with balls ≤ 10 cm apart, closes were deliberately shifted 0–3.5 cm toward the neighbor. The guard's verdict never disagreed with the ball actually lifted (348 lifts).
+- **Same layout × three commands, first attempt (300 each):**
+  - Unseen commands: 0 other-color attempts.
+  - Basic commands: 1. This one was counted with the simulator's "nearest ball" criterion, which sometimes differs from the ball actually lifted (13 / 600), so whether it was a real error is unconfirmed.
 
-**대가:**
-- 판별하지 못한 닫기도 거부하므로 재시도가 늘었다. 첫 시도 시험의 시간 초과가 2~5%에서 7~8%로 늘었다.
-- 전체 작업 성공률은 그대로다.
+**Cost:**
+- Unknown-color closes are also rejected, so retries increased. Timeouts in the first-attempt test rose from 2–5% to 7–8%.
+- Full-task success is unchanged.
 
-### 3.10 반복 실행 루프 (10-28)
+### 3.10 Command loop (10-28)
 
-- **흐름:** 제자리 → 명령 입력 → 작업 → 제자리 복귀 → 다음 명령
-- **작업 끝 판정:** 실제 로봇에는 정답 신호가 없으므로 동작만 본다. 잡기 → 놓기 → 제자리에 0.5초 머무르면 끝이다.
-- **시뮬레이션 검증:** 장면 10개 × 연속 명령 3개 = **30 / 30 성공**. 작업 끝 판정도 30번 모두 시뮬레이션 정답과 일치했다.
+- **Flow:** home → command input → task → return home → next command
+- **End-of-task detection:** The real robot has no ground-truth signal, so only the motion is used. Grasp → release → staying home for 0.5 s means done.
+- **Simulation check:** 10 scenes × 3 consecutive commands = **30 / 30 success**. End-of-task detection matched the simulator ground truth all 30 times.
 
 ---
 
-## 4. 색 구분 정확도 변화 요약
+## 4. Color accuracy over time
 
-| 단계 | 틀린 공 비율 |
+| Stage | Wrong-ball rate |
 |---|---|
-| sft_v3 (첫 시도) | 23% |
-| sft_aux2 (보조 과제, 첫 시도) | 3.3% |
-| IRL v2 (첫 시도) | 2.0~3.0% |
-| IRL v2 + 가드 v1 (첫 시도) | 0.3~0.7% |
-| IRL v2 + 가드 v2 (전체 작업) | **0 / 600** |
+| sft_v3 (first attempt) | 23% |
+| sft_aux2 (auxiliary task, first attempt) | 3.3% |
+| IRL v2 (first attempt) | 2.0–3.0% |
+| IRL v2 + guard v1 (first attempt) | 0.3–0.7% |
+| IRL v2 + guard v2 (full task) | **0 / 600** |
 
-**"100%"의 의미와 한계:**
-- 600회 중 0회는 "오류율이 0.5% 미만일 가능성이 높다"는 뜻이다. 0%의 증명은 아니다.
-- 시뮬레이션 기준이다. 실제 카메라에서는 다시 확인해야 한다.
-- 정책 자체의 색 구분은 약 97~98%다. 나머지는 가드가 막는다. 따라서 **가드의 색 판별이 정확하다는 것이 전제**다.
-- 이론상 남은 빈틈: 두 공이 집게 사이에 함께 들어왔는데 카메라에 명령한 색만 크게 보이는 경우. 시험에서는 한 번도 나오지 않았다.
-
----
-
-## 5. 실제 로봇으로 옮기기: 할 일
-
-1. **연결 정보 확인:** 로봇 시리얼 포트(예: COM5), 손목 카메라 번호, 정면 카메라 번호
-2. **색 가드 보정:**
-   - `python tools/guard_calibrate.py capture --wrist-cam <번호>`
-   - 공을 집게 사이에 두고 색별로 20장 이상 찍는다. 조명과 위치를 바꿔 가며 찍는다. 공 없는 사진도 찍는다.
-   - `python tools/guard_calibrate.py check` → 정확도가 100%가 될 때까지 판별 영역(ROI)과 색 기준값을 조정한다.
-3. **빈손 판단 기준(HOLD_GAP) 확인:** 실제 공을 쥐었을 때와 빈손으로 닫았을 때 그리퍼 관절값 차이를 잰다.
-4. **실행:**
-   - `python -m run.loop --backend real --port <포트> --wrist-cam <번호> --front-cam <번호>`
-   - 처음에는 `--max-relative-target`을 작게 두고, 비상정지를 손 가까이에 둔다.
-5. **하드웨어 (선택):** 집게 끝을 넓히거나 미끄럼 방지 패드를 붙인다. 잡기 실패의 약 절반에 해당한다.
-
-**시뮬레이션과 실제가 다를 수 있는 점:**
-- 카메라 색감과 조명
-- 공의 실제 색과 반사
-- 그리퍼 관절값
-- 공이 굴러가는 정도
-- 실제 시연 데이터의 제자리 자세는 시뮬레이션과 wrist_flex만 28 단위 다르다(`calib.py`). 루프는 시뮬레이션 제자리로 옮긴 뒤 시작한다.
+**What "100%" means and its limits:**
+- 0 of 600 means the error rate is likely below 0.5%. It is not a proof of 0%.
+- These are simulation results. They must be re-checked with the real camera.
+- The policy alone is about 97–98% accurate on color; the guard blocks the rest. So **the guard's color classification being accurate is a premise**.
+- A theoretical gap remains: two balls between the jaws where only the commanded color is prominent in the image. This never occurred in testing.
 
 ---
 
-## 6. 파일 위치
+## 5. Moving to the real robot: to-do
 
-| 내용 | 위치 |
+1. **Connection info:** robot serial port (e.g. COM5), wrist camera index, front camera index
+2. **Color guard calibration:**
+   - `python tools/guard_calibrate.py capture --wrist-cam <index>`
+   - Place a ball between the jaws and take 20+ photos per color, varying lighting and position. Also take photos with no ball.
+   - `python tools/guard_calibrate.py check` → adjust the ROI and color thresholds until accuracy is 100%.
+3. **Check the empty-gripper threshold (HOLD_GAP):** measure the gripper joint value when holding a real ball vs. closing empty.
+4. **Run:**
+   - `python -m run.loop --backend real --port <port> --wrist-cam <index> --front-cam <index>`
+   - Start with a small `--max-relative-target` and keep the emergency stop within reach.
+5. **Hardware (optional):** widen the gripper tips or add anti-slip pads. This covers about half of grasp failures.
+
+**Where simulation and reality may differ:**
+- Camera color rendering and lighting
+- Real ball color and reflections
+- Gripper joint values
+- How far balls roll
+- The home pose in real demo data differs from simulation only in wrist_flex, by 28 units (`calib.py`). The loop moves to the simulation home pose before starting.
+
+---
+
+## 6. File locations
+
+| Content | Location |
 |---|---|
-| 색 가드 v2 결과 | `docs/results/guard2/analysis.md`, `docs/results/guard2/*.json` |
-| 잡기 실패 분석 | `docs/results/grasp/analysis.md` |
-| 틀린 공 원인 분석 | `docs/results/erran/analysis.md` |
-| 색 구분 시도 전체 기록 | `docs/results/color_grounding_attempts.md` |
-| 계획 문서 (Plan 1~9) | `docs/superpowers/plans/` |
-| 평가 영상 (가드 v2, 실패 분류별) | `outputs/guard2/videos_{basic,heldout}_s{0,5000}/` |
-| 평가 영상 (IRL v2 + 가드 v1, 성공 / 실패) | `outputs/irl/videos_irl2_guard_{basic,heldout}/` |
-| 잡기 실패 영상 | `outputs/grasp/videos_{basic,heldout}/` |
-| 모델 | `outputs/train/sft_aux2_irl/pretrained_model` + `outputs/irl/irl2/last.pt` |
+| Color guard v2 results | `docs/results/guard2/analysis.md`, `docs/results/guard2/*.json` |
+| Grasp failure analysis | `docs/results/grasp/analysis.md` |
+| Wrong-ball root cause | `docs/results/erran/analysis.md` |
+| All color grounding attempts | `docs/results/color_grounding_attempts.md` |
+| Plans (Plan 1–9) | `docs/superpowers/plans/` |
+| Evaluation videos (guard v2, by failure type) | `outputs/guard2/videos_{basic,heldout}_s{0,5000}/` |
+| Evaluation videos (IRL v2 + guard v1, success / failure) | `outputs/irl/videos_irl2_guard_{basic,heldout}/` |
+| Grasp failure videos | `outputs/grasp/videos_{basic,heldout}/` |
+| Model | `outputs/train/sft_aux2_irl/pretrained_model` + `outputs/irl/irl2/last.pt` |
 
-각 영상 폴더의 `videos.txt`에는 파일별 명령문이 들어 있다.
+Each video folder's `videos.txt` lists the command for each file. (`outputs/` is not in the repository.)
 
 ---
 
-## 7. 사용한 모델
+## 7. Models
 
-### 7.1 SmolVLA (기본 정책)
+### 7.1 SmolVLA (base policy)
 
-| 항목 | 값 |
+| Item | Value |
 |---|---|
-| 출발점 | `lerobot/smolvla_base` (LeRobot 0.4.4) |
-| 언어·시각 모델 | SmolVLM2-500M-Video-Instruct, 앞 16층만 사용 |
-| 행동 생성 | 흐름 정합(flow matching) "행동 전문가". 노이즈에서 출발해 10단계로 행동을 만든다. |
-| 출력 | 행동 묶음 50스텝(30Hz 기준 1.7초) × 관절 6개. 50스텝을 모두 실행한 뒤 다시 추론한다. |
-| 입력 | 손목 영상(`observation.images.top`), 정면 영상(`observation.images.front`), 관절값 6개, 명령문 |
-| 영상 처리 | 512×512로 패딩 리사이즈. 세 번째 카메라 자리는 빈 칸(`empty_cameras=1`) |
-| 학습 범위 | 시각 인코더와 언어 모델은 고정. 행동 전문가와 상태 투영층만 학습한다. |
-| 추가한 부분 | 보조 출력층(`aux_head`). 학습할 때만 쓰고, 실행 때는 무시된다. |
+| Starting point | `lerobot/smolvla_base` (LeRobot 0.4.4) |
+| Vision-language model | SmolVLM2-500M-Video-Instruct, first 16 layers only |
+| Action generation | Flow-matching "action expert". Starts from noise and produces actions in 10 steps. |
+| Output | Action chunk of 50 steps (1.7 s at 30 Hz) × 6 joints. All 50 steps are executed before the next inference. |
+| Input | Wrist image (`observation.images.top`), front image (`observation.images.front`), 6 joint values, command text |
+| Image processing | Pad-resize to 512×512. The third camera slot is empty (`empty_cameras=1`). |
+| Trained parts | Vision encoder and language model frozen. Only the action expert and state projection are trained. |
+| Added part | Auxiliary head (`aux_head`). Used only during training, ignored at run time. |
 
-### 7.2 노이즈 조종 정책 (IRL에서 학습)
+### 7.2 Noise-steering policy (trained with IRL)
 
-- **아이디어:** SmolVLA는 그대로 둔다. 행동을 만들 때 넣는 **출발 노이즈만** 골라서 행동을 바꾼다(DSRL 방식).
-  - 노이즈는 50스텝 × 6관절 = 300차원이다. 정책은 12차원만 정한다(관절 6개 × 시간 성분 2개: 일정한 값, 완만한 기울기). 나머지는 무작위로 채운다.
-- **입력 특징 (2,438차원):** SmolVLA 내부에서 뽑는다.
+- **Idea:** SmolVLA stays unchanged. Only the **initial noise** fed into action generation is chosen, which changes the action (DSRL approach).
+  - The noise is 50 steps × 6 joints = 300 dimensions. The policy sets only 12 (6 joints × 2 temporal components: constant and slow slope); the rest is filled randomly.
+- **Input features (2,438 dims):** extracted inside SmolVLA.
 
-  | 블록 | 차원 | 만드는 방법 |
+  | Block | Dims | How |
   |---|---|---|
-  | 손목 영상 | 960 | 토큰 평균 |
-  | 정면 영상 | 512 | 4×4 칸 평균 → 칸마다 32차원 |
-  | 명령문 | 960 | 토큰 평균 |
-  | 관절값 | 6 | |
+  | Wrist image | 960 | token mean |
+  | Front image | 512 | 4×4 grid mean → 32 dims per cell |
+  | Command | 960 | token mean |
+  | Joint state | 6 | |
 
-- **정책망:** 은닉층 512인 MLP. 평균과 분산을 내는 가우시안 정책이다(KL 정규화 actor-critic). Q 함수는 두 개를 두고 작은 값을 쓴다.
-- **학습률:** actor 1e-4, critic 3e-4, 할인율 0.99
-- **기준 분포 N(0, I)에서 벗어나는 만큼 벌점(β = 1):** 마지막 층을 0으로 초기화한다. 그래서 학습 전에는 원래 SmolVLA와 똑같이 행동한다.
+- **Network:** MLP with 512 hidden units. Gaussian policy outputting mean and variance (KL-regularized actor-critic). Two Q functions, taking the minimum.
+- **Learning rates:** actor 1e-4, critic 3e-4, discount 0.99
+- **Penalty for deviating from the reference N(0, I) (β = 1):** the last layer is zero-initialized, so before training it behaves exactly like the original SmolVLA.
 
-### 7.3 판별기 (IRL 보상 모델)
+### 7.3 Discriminator (IRL reward model)
 
-- **입력:** RL 한 스텝 전후의 특징 쌍 (s, s'), 2 × 2,438차원
-- **구조:** LayerNorm → 256 → 256 → 1. 드롭아웃 0.2, R1 벌점 10, 학습률 1e-4
-- **보상:** log D(s, s'). 항상 0 이하이고, 시범과 비슷할수록 0에 가깝다.
+- **Input:** feature pair (s, s') before and after one RL step, 2 × 2,438 dims
+- **Architecture:** LayerNorm → 256 → 256 → 1. Dropout 0.2, R1 penalty 10, learning rate 1e-4
+- **Reward:** log D(s, s'). Always ≤ 0; closer to 0 the more demo-like.
 
-### 7.4 색 가드 (규칙 기반, 학습 없음)
+### 7.4 Color guard (rule-based, no training)
 
-- **판별 영역:** 손목 영상 480×640 중 집게 사이 영역(행 250~480, 열 255~495)
-- **색 판별:** HSV 규칙으로 색별 픽셀 비율을 잰다.
-  - 빨강: 색상 < 15° 또는 > 345°, 채도 > 0.6, 밝기 > 0.3
-  - 검정: 0.01 < 밝기 < 0.2
-  - 하늘색: 색상 185~225°, 채도 > 0.25, 밝기 > 0.45
-- **판정:** 가장 많은 색이 15% 이상이고 두 번째 색의 2배 이상이면 그 색이다. 아니면 "모름"이다. 화면 위·왼쪽·오른쪽 가장자리에 닿는 덩어리는 배경으로 보고 제외한다.
+- **Region:** the area between the jaws in the 480×640 wrist image (rows 250–480, columns 255–495)
+- **Color classification:** HSV rules measure the pixel share of each color.
+  - Red: hue < 15° or > 345°, saturation > 0.6, value > 0.3
+  - Black: 0.01 < value < 0.2
+  - Sky blue: hue 185–225°, saturation > 0.25, value > 0.45
+- **Decision:** the top color wins if it is ≥ 15% and at least twice the second color; otherwise "unknown". Blobs touching the top, left or right edge are treated as background and excluded.
 
 ---
 
-## 8. 학습 방식
+## 8. Training
 
-### 8.1 SFT: 시연 모방 + 보조 과제 (sft_aux2)
+### 8.1 SFT: imitation + auxiliary task (sft_aux2)
 
-| 항목 | 값 |
+| Item | Value |
 |---|---|
-| 데이터 | v8, 시연 1,500개 (→ 9.2) |
-| 스텝 / 배치 | 30,000 / 16 |
-| 최적화 | AdamW, 학습률 1e-4, 워밍업 1,000스텝, 코사인 감소(최저 2.5e-6), 기울기 자르기 10 |
-| 시간 | 약 14시간 (RTX 5070 Laptop 8GB) |
-| 손실 | 흐름 손실 + 0.1 × 보조 손실 |
+| Data | v8, 1,500 demos (→ 9.2) |
+| Steps / batch | 30,000 / 16 |
+| Optimizer | AdamW, lr 1e-4, 1,000 warmup steps, cosine decay (min 2.5e-6), gradient clipping 10 |
+| Time | about 14 h (RTX 5070 Laptop 8 GB) |
+| Loss | flow loss + 0.1 × auxiliary loss |
 
-**보조 과제:**
-- 명령한 색 공의 (x, y) 위치를 맞히게 한다. 행동 전문가의 은닉 상태 평균을 MLP(256, GELU)에 넣어 예측한다. 좌표는 작업 공간 상자를 [−1, 1]로 정규화한다.
-- 정답을 엿보지 못하게 하는 장치 세 가지:
-  1. 팔이 움직이기 전 프레임(앞 10프레임)에서만 계산한다. 팔이 이미 공 쪽으로 움직였으면 위치를 맞히기 쉬워지기 때문이다.
-  2. 관절값을 0으로 넣는다(지름길 차단).
-  3. 행동은 순수 노이즈(t = 1) 상태에서 예측한다. 정답 행동이 섞이지 않게 하기 위해서다.
-- 위 프레임만 따로 뽑는 데이터 로더(배치 16)를 둔다.
-- **결과:** 보조 위치 오차가 학습 초 9.4cm에서 끝에 0.25cm로 줄었다.
+**Auxiliary task:**
+- Predict the (x, y) position of the commanded ball. The mean of the action expert's hidden states goes into an MLP (256, GELU). Coordinates are normalized to [−1, 1] over the workspace box.
+- Three safeguards against peeking at the answer:
+  1. Computed only on frames before the arm moves (first 10 frames). Once the arm has moved toward the ball, the position is easy to guess.
+  2. Joint state is fed as zeros (shortcut blocked).
+  3. Actions are predicted from pure noise (t = 1), so no ground-truth action leaks in.
+- A separate data loader (batch 16) samples only those frames.
+- **Result:** auxiliary position error went from 9.4 cm at the start to 0.25 cm at the end.
 
-**이전 실패에서 배운 점:**
-- sft_v1 (보조 과제 없음): 관절값만 보고 따라 하는 지름길을 배웠다.
-- sft_aux1 (모든 프레임에 보조 손실): 학습에서는 0.9cm였지만 첫 프레임에서는 8cm였다. 이미 움직인 팔을 보고 위치를 맞혔기 때문이다.
+**Lessons from earlier failures:**
+- sft_v1 (no auxiliary task): learned the shortcut of following joint state.
+- sft_aux1 (auxiliary loss on all frames): 0.9 cm in training but 8 cm on the first frame, because it read the position from the already-moving arm.
 
-### 8.2 IRL v2: 역강화학습 (sft_aux2 복사본 위에서)
+### 8.2 IRL v2: inverse RL (on a copy of sft_aux2)
 
-**절차:**
-1. **시범 수집:** 시연 스크립트를 600번 실행하며 RL 한 스텝(50 env 스텝)마다 (s, s') 특징 쌍을 기록한다. 명령은 학습 표현 + IRL 확장 표현에서 고른다(30종).
-2. **판별기 사전 학습 (3,000번):**
-   - 양성 표본: 시범
-   - 음성 표본: 이전 DSRL v3 정책 경험
-   - **바꿔치기 음성 표본 (음성 배치의 50%):** 시범의 움직임은 그대로 두고 명령 특징만 다른 색 명령으로 바꾼다. 그래야 판별기가 동작 스타일이 아니라 "명령과 행동이 맞는가"를 배운다.
-3. **정책 학습 (2,000 에피소드):**
-   - 에피소드는 작업 성공 또는 900스텝(30초)에서 끝난다.
-   - 에피소드마다 판별기를 20번 갱신한다. 음성 표본은 최근 5,000 전이와 바꿔치기 표본이다.
-   - critic을 먼저 2,000번 학습한 뒤 actor를 학습한다. 배치는 256이다.
-   - 보상은 표본을 뽑을 때마다 현재 판별기로 다시 계산한다.
-   - **사용자 정의 단계별 보상(+1/+2/+3/+1/−1/−0.5)은 학습에 쓰지 않았다.** 기록과 평가에만 썼다.
-4. **결과:**
-   - 학습 시간 약 3시간, 1,084,014 env 스텝
-   - 기준 분포와의 거리(KL) 0.16, 마지막 50 에피소드 성공률 82%
+**Procedure:**
+1. **Collect demonstrations:** run the scripted expert 600 times, recording (s, s') feature pairs every RL step (50 env steps). Commands are drawn from training phrasings + IRL extension phrasings (30 kinds).
+2. **Pretrain the discriminator (3,000 updates):**
+   - Positives: demonstrations
+   - Negatives: experience from the earlier DSRL v3 policy
+   - **Swapped-command negatives (50% of each negative batch):** keep the demo motion, replace only the command features with another color's command. This makes the discriminator learn "does the action match the command" rather than motion style.
+3. **Policy training (2,000 episodes):**
+   - An episode ends on task success or at 900 steps (30 s).
+   - The discriminator is updated 20 times per episode. Negatives are the latest 5,000 transitions plus swapped samples.
+   - The critic trains alone for 2,000 updates before the actor starts. Batch 256.
+   - Rewards are recomputed with the current discriminator at every sample.
+   - **The user-defined staged reward (+1/+2/+3/+1/−1/−0.5) was not used for training.** It was used only for logging and evaluation.
+4. **Results:**
+   - About 3 h of training, 1,084,014 env steps
+   - KL to the reference 0.16, success over the last 50 episodes 82%
 
-**학습 전 보상 관문:** 같은 장면에서 맞는 색 시범과 틀린 색 시범을 판별기가 구분하는지 먼저 확인했다.
-- 기본 GAIL: AUC 0.54 (실패)
-- 바꿔치기 음성 표본 추가: AUC 0.89
-- 처음 듣는 표현: AUC 0.81, 같은 장면 짝 비교 100%
+**Reward gate before training:** first checked that the discriminator separates correct-color from wrong-color demos in the same scene.
+- Plain GAIL: AUC 0.54 (fail)
+- With swapped-command negatives: AUC 0.89
+- Unseen phrasings: AUC 0.81, same-scene pair comparison 100%
 
-### 8.3 시도했지만 쓰지 않은 학습
+### 8.3 Training tried but not used
 
-| 방법 | 결과 | 이유 |
+| Method | Result | Reason |
 |---|---|---|
-| sft_v1~v3 (보조 과제 없음) | 틀린 공 23% | 색과 위치를 영상에서 읽지 않았다. |
-| sft_v5 / v6 (지름길 제거 데이터) | 틀린 공 17~44% | 공 없는 곳 집기가 늘었다. |
-| LoRA1 / 2 (언어 모델 부분 미세조정) | 틀린 공 23~26% | 개선이 없었다. |
-| DSRL v1~v3 (SAC, 단계별 보상) | 붕괴 / 효과 없음 / 성능 하락 | 강한 기본 모델에서 너무 멀리 벗어났다. |
+| sft_v1–v3 (no auxiliary task) | 23% wrong balls | Did not read color and position from images. |
+| sft_v5 / v6 (shortcut-removal data) | 17–44% wrong balls | Empty grasps increased. |
+| LoRA1 / 2 (partial language-model fine-tuning) | 23–26% wrong balls | No improvement. |
+| DSRL v1–v3 (SAC, staged reward) | collapse / no effect / worse | Drifted too far from a strong base model. |
 
 ---
 
-## 9. 데이터셋 만드는 방식
+## 9. Dataset generation
 
-### 9.1 시연 생성 (`expert/scripted.py`, `data/collect.py`)
+### 9.1 Demo generation (`expert/scripted.py`, `data/collect.py`)
 
-**시연 스크립트:**
-- 시뮬레이터의 정답 공 위치와 역기구학(감쇠 최소제곱, 여러 출발점)으로 관절 궤적을 만든다.
-- 구간: 제자리 → 공 위 7cm → 1.2cm까지 하강 → 닫기 → 8cm 들기 → 통 위 9cm → 열기 → 제자리 → 대기
-- 각 구간은 최소 저크 곡선으로 잇는다. 구간 길이를 ±15% 무작위로 바꾼다.
-- 공 위치에 ±5mm 무작위 오차를 준다.
-- 로봇 바로 앞의 공은 어깨와 부딪히지 않게 손끝을 몸쪽으로 기울인다(최대 30°).
+**Scripted expert:**
+- Builds joint trajectories from the simulator's ground-truth ball positions and inverse kinematics (damped least squares, multiple starts).
+- Segments: home → 7 cm above the ball → descend to 1.2 cm → close → lift 8 cm → 9 cm above the bin → open → home → wait
+- Segments are joined with minimum-jerk curves; segment durations are randomized ±15%.
+- Ball positions get ±5 mm random error.
+- For balls right in front of the robot, the hand tilts toward the body (up to 30°) to avoid hitting the shoulder.
 
-**DART 노이즈:**
-- 실행하는 행동에는 작은 노이즈(σ 0.5)를 넣고, 저장하는 정답 라벨은 깨끗한 궤적으로 둔다.
-- 그래서 모델이 "조금 벗어난 상태에서 돌아오는 법"을 배운다.
-- 하강과 닫기 구간에는 새 노이즈를 넣지 않는다.
+**DART noise:**
+- Small noise (σ 0.5) is added to executed actions, while the stored labels stay on the clean trajectory.
+- So the model learns how to recover from slightly off states.
+- No new noise during the descend and close segments.
 
-**보정 시연 (correction):**
-- 일부러 2~4cm 빗나간 지점으로 간다. 0.3~0.6초 멈춘 뒤 올바른 위치로 고쳐 간다.
-- 빗나간 구간의 라벨은 "지금 위치에서 올바른 위치로 가는 한 스텝"이다.
+**Correction demos:**
+- Deliberately go to a point 2–4 cm off, pause 0.3–0.6 s, then correct to the right position.
+- Labels in the off segment are "one step from the current position toward the correct one".
 
-**저장:**
-- 성공한 에피소드만 저장한다.
-- 형식은 LeRobot v3이며 실제 로봇 데이터와 같다: 관절 6개(정규화 단위), 영상 2개 480×640, 30Hz.
+**Storage:**
+- Only successful episodes are saved.
+- LeRobot v3 format, same as real robot data: 6 joints (normalized units), two 480×640 images, 30 Hz.
 
-### 9.2 최종 데이터셋 v8 (sft_aux2 학습용)
+### 9.2 Final dataset v8 (for sft_aux2)
 
 ```
 python -m data.collect --same-layout --randomize --mode-mix --modes default,correction --scene-mix \
@@ -377,109 +377,109 @@ python -m data.collect --same-layout --randomize --mode-mix --modes default,corr
   --n-per-color 500 --seed 500000
 ```
 
-| 항목 | 값 |
+| Item | Value |
 |---|---|
-| 규모 | 1,500개 (색별 500), 662,721프레임 (약 6.1시간) |
-| 같은 배치 | 한 배치에 세 색 명령을 각각 수행한다. 같은 장면에서 명령만 달라지므로, 명령을 봐야만 맞힐 수 있다. |
-| 장면 구성 | 공 3개 1,060 / 공 2개(하나는 치움) 219 / 하나는 이미 통 안 221 |
-| 실행 방식 | 기본 764 / 보정 736 |
-| 시각 무작위화 | 밝기 ×0.6~1.4, 색온도 ±15%, 책상 색 ±0.15, 바닥 회색 0.3~0.8, 공 색 ±0.05, 통 위치 ±2cm |
-| 공 배치 | x 12~28cm, y −10~+20cm, 공 사이 최소 7cm, 통과 12cm 이상 |
-| 보조 라벨 | 프레임마다 명령한 공의 (x, y). 학습 손실에만 쓰고 정책 입력은 아니다. |
-| 실패로 버린 시연 | 5개 |
+| Size | 1,500 episodes (500 per color), 662,721 frames (about 6.1 h) |
+| Same layout | Each layout is run with all three color commands. Only the command differs in the same scene, so the command must be read to succeed. |
+| Scene types | 3 balls: 1,060 / 2 balls (one removed): 219 / one already in the bin: 221 |
+| Execution mode | default 764 / correction 736 |
+| Visual randomization | brightness ×0.6–1.4, color temperature ±15%, desk color ±0.15, floor gray 0.3–0.8, ball color ±0.05, bin position ±2 cm |
+| Ball placement | x 12–28 cm, y −10 to +20 cm, ≥ 7 cm between balls, ≥ 12 cm from the bin |
+| Auxiliary labels | (x, y) of the commanded ball per frame. Used only in the loss, not as policy input. |
+| Demos discarded as failures | 5 |
 
-### 9.3 명령문 다양화 (`sim/commands.py`)
+### 9.3 Command diversity (`sim/commands.py`)
 
-| 분류 | 색별 개수 | 예 |
+| Category | Per color | Examples |
 |---|---|---|
-| 기본 | 300 | `Grab the blue ball.` |
-| 유사 (6종) | 150 | `pick up the red one`, `take the black ball and place it in the box` |
-| 드문 (3종) | 50 | `put the blue ball in the box`, `the red one, please` |
-| IRL 확장 (18종, IRL에서만) | | `grasp the red ball`, `I want the black ball in the box` |
-| **평가 전용 (3종, 학습에 쓰지 않음)** | | `get the {c} ball`, `lift the {c} ball and drop it in the box`, `bring the {c} one to the box` |
+| Basic | 300 | `Grab the blue ball.` |
+| Similar (6 kinds) | 150 | `pick up the red one`, `take the black ball and place it in the box` |
+| Rare (3 kinds) | 50 | `put the blue ball in the box`, `the red one, please` |
+| IRL extension (18 kinds, IRL only) | | `grasp the red ball`, `I want the black ball in the box` |
+| **Evaluation only (3 kinds, never used in training)** | | `get the {c} ball`, `lift the {c} ball and drop it in the box`, `bring the {c} one to the box` |
 
-- 색 표현은 `red` / `red-colored` 같은 두 가지를 쓴다. 하늘색은 `blue`로 부른다.
-- 대소문자와 마침표를 무작위로 바꾼다.
-- 평가 전용 표현의 동사(get / lift / bring / drop)는 학습 표현에 쓰지 않았다. 처음 듣는 명령을 공정하게 시험하기 위해서다.
+- Two color forms are used, such as `red` / `red-colored`. Sky blue is called `blue`.
+- Capitalization and the final period are randomized.
+- The verbs in the evaluation-only phrasings (get / lift / bring / drop) are never used in training phrasings, for a fair test of unseen commands.
 
-### 9.4 데이터셋 변천
+### 9.4 Dataset history
 
-| 버전 | 규모 | 내용 |
+| Version | Size | Content |
 |---|---|---|
-| sim (v1) | 600 | 기본 시연, 고정 명령문 |
-| corr | 600 | 보정 시연 |
-| all (v3 학습) | 1,200 | 위 둘을 합침 |
-| v5 | 300 | 지름길 제거(같은 배치, 무작위화, 잘못된 공 접근 시연) |
-| **v8** | **1,500** | **최종.** 명령 다양화와 보조 라벨 추가, 잘못된 공 접근 시연 제외 |
+| sim (v1) | 600 | basic demos, fixed command |
+| corr | 600 | correction demos |
+| all (v3 training) | 1,200 | the two above combined |
+| v5 | 300 | shortcut removal (same layout, randomization, wrong-ball approach demos) |
+| **v8** | **1,500** | **Final.** Diverse commands and auxiliary labels, wrong-ball approach demos removed |
 
 ---
 
-## 10. 벤치마크 (평가 방식)
+## 10. Benchmarks (evaluation)
 
-모든 평가는 시뮬레이션에서 하고, 학습에 쓰지 않은 seed를 쓴다. 평가 때 시각 무작위화는 하지 않는다.
+All evaluation runs in simulation with seeds not used in training. No visual randomization during evaluation.
 
-### 10.1 공통 판정 기준
+### 10.1 Common criteria
 
-| 판정 | 기준 |
+| Verdict | Criterion |
 |---|---|
-| 작업 성공 | 명령한 공이 통 안(중심 수평 4.5cm, 높이 7cm 이내)에 있고, 다른 공은 통 안에 없고, 팔이 제자리(관절 오차 5 이내)에 있다. 30초(900스텝) 안에 해야 한다. |
-| 잡기 시도 | 그리퍼 명령이 40을 넘었다가 20 아래로 내려간 순간 |
-| 노린 공 | 그 순간 집게 끝에서 수평 3.5cm 이내(높이 7cm 이하)에서 가장 가까운 공 |
-| 들림 | 공 높이 5cm 이상 |
+| Task success | The commanded ball is in the bin (within 4.5 cm horizontally of the center, 7 cm high), no other ball is in the bin, and the arm is home (joint error ≤ 5). Must happen within 30 s (900 steps). |
+| Grasp attempt | The moment the gripper command goes above 40 and then below 20 |
+| Aimed ball | The nearest ball within 3.5 cm horizontally (≤ 7 cm high) of the gripper tip at that moment |
+| Lifted | Ball height ≥ 5 cm |
 
-### 10.2 반사실 시험: 색 선택 (`tools/counterfactual_eval.py`)
+### 10.2 Counterfactual test: color selection (`tools/counterfactual_eval.py`)
 
-- **방법:** 같은 배치에서 세 가지 색 명령을 각각 내린다. **첫 잡기 시도**가 어느 공이었는지 본다.
-- **규모와 seed:** 배치 30개(90회)로 시작했고, 이후 배치 100개(300회, seed 30000)로 늘렸다.
-- **명령:** 기본(`Grab the X ball.`) / 처음 듣는 표현
-- **지표:**
-  - 맞는 공, 다른 색, 공 없는 곳, 시간 초과(20초)의 비율
-  - 세 명령을 모두 맞힌 배치 수
-  - 가드를 쓰면 거부 기록도 남긴다.
-- **목적:** 위치나 순서 같은 지름길로는 맞힐 수 없다. 명령을 이해해야만 세 번 모두 맞힌다.
+- **Method:** In the same layout, each of the three color commands is given. The ball of the **first grasp attempt** is checked.
+- **Scale and seed:** started with 30 layouts (90 runs), later 100 layouts (300 runs, seed 30000).
+- **Commands:** basic (`Grab the X ball.`) / unseen phrasings
+- **Metrics:**
+  - Share of correct ball, other color, empty, timeout (20 s)
+  - Number of layouts with all three commands correct
+  - Guard rejections are logged when the guard is used.
+- **Purpose:** Shortcuts like position or order cannot get all three right. Only understanding the command can.
 
-### 10.3 전체 작업 평가 (`eval/evaluate.py`)
+### 10.3 Full-task evaluation (`eval/evaluate.py`)
 
-- **단일 명령:** 색별 50회, 모두 150회(seed 10000~). 성공률과 실패 유형(틀린 공 / 잡기 실패 / 놓기 실패 / 복귀 실패)을 낸다.
-- **연속 명령:** 20번. 한 장면에서 공 3개를 무작위 순서로 연달아 명령한다. 지표는 "3개 모두 성공"과 "명령 단위 성공률"이다.
-- **영상:** 색별 성공 2개와 실패를 저장하고, 명령문 목록을 함께 남긴다.
+- **Single command:** 50 per color, 150 in total (seed 10000+). Reports success and failure types (wrong ball / grasp failure / release failure / return failure).
+- **Consecutive commands:** 20 runs. All three balls in one scene are commanded one after another in random order. Metrics: "all three succeeded" and per-command success.
+- **Videos:** 2 successes per color plus failures are saved, with a list of commands.
 
-### 10.4 실패 원인 분석
+### 10.4 Failure analysis
 
-| 도구 | 하는 일 |
+| Tool | What it does |
 |---|---|
-| `tools/grasp_fail_analysis.py` | 닫는 순간 집게와 공의 상대 위치(닫는 축 / 폭 방향 / 높이)와 공의 움직임을 기록한다. 실패를 11가지로 나누고 분류별 영상을 남긴다. 가드 판정 기록도 포함한다. |
-| `tools/cf_error_analysis.py` | 틀린 공 사례를 공 간격, 명령 표현, 모델 간 공통 여부로 분석한다. |
-| `tools/cf_repeat.py` | 같은 장면과 같은 명령에서 노이즈만 바꿔 10번 반복한다. 오류가 우연인지 체계적인지 가린다. |
+| `tools/grasp_fail_analysis.py` | Records the gripper–ball relative position at closing (closing axis / width axis / height) and ball motion. Classifies failures into 11 types and saves videos per type. Also logs guard decisions. |
+| `tools/cf_error_analysis.py` | Analyzes wrong-ball cases by ball spacing, command phrasing and overlap across models. |
+| `tools/cf_repeat.py` | Repeats the same scene and command 10 times with only the noise changed, to tell chance from systematic errors. |
 
-### 10.5 색 가드 분류기 시험
+### 10.5 Color guard classifier tests
 
-| 도구 | 하는 일 |
+| Tool | What it does |
 |---|---|
-| `tools/policy_close_frames.py` | 정책이 실제로 닫는 순간의 손목 프레임 4,251장을 모은다(200 배치 × 3 명령, seed 70000). 라벨은 노린 공이다. |
-| `tools/guard_stress_frames.py` | 공 간격 10cm 이하 배치 600회에서 이웃 공 쪽으로 0~3.5cm 빗나가 닫는다(seed 90000). 라벨은 **실제로 들린 공**이다. |
-| `tools/guard_calibrate.py` | 실제 손목 카메라 사진으로 판별을 확인한다. ROI와 색 마스크를 겹친 이미지를 저장한다. |
+| `tools/policy_close_frames.py` | Collects 4,251 wrist frames at the moments the policy actually closes (200 layouts × 3 commands, seed 70000). Label: the aimed ball. |
+| `tools/guard_stress_frames.py` | 600 closes shifted 0–3.5 cm toward the neighbor on layouts with balls ≤ 10 cm apart (seed 90000). Label: **the ball actually lifted**. |
+| `tools/guard_calibrate.py` | Checks classification on real wrist-camera photos. Saves images with the ROI and color masks overlaid. |
 
-### 10.6 기타 시험
+### 10.6 Other tests
 
-| 시험 | 내용 |
+| Test | Description |
 |---|---|
-| 시연 스크립트 | 150 / 150, 연속 20 / 20. 평가기 자체를 검증하는 기준이다. |
-| 잡기 허용 오차 (`tools/grasp_tolerance.py`) | 공 위치를 반경 r만큼 12방향으로 어긋나게 계획해 성공 수를 센다. |
-| DSRL 상한 (`tools/dsrl_upper_bound.py`) | 노이즈 8개를 시도해 하나라도 맞는 공에 닿는 비율을 잰다. 결과 100%. |
-| IRL 보상 관문 (`tools/irl_reward_gate.py`) | 판별기 AUC와 같은 장면 짝 비교 |
-| 반복 실행 루프 (`run/loop.py`) | 장면 10개 × 연속 명령 3개. 작업 끝 판정이 시뮬레이션 정답과 일치하는지 본다. |
-| 단위 테스트 | `tests/` (pytest). 색 가드 15개, 루프 3개 등 |
+| Scripted expert | 150 / 150, consecutive 20 / 20. The baseline that validates the evaluator itself. |
+| Grasp tolerance (`tools/grasp_tolerance.py`) | Plans the ball position offset by radius r in 12 directions and counts successes. |
+| DSRL upper bound (`tools/dsrl_upper_bound.py`) | Tries 8 noises and measures how often at least one reaches the correct ball. Result: 100%. |
+| IRL reward gate (`tools/irl_reward_gate.py`) | Discriminator AUC and same-scene pair comparison |
+| Command loop (`run/loop.py`) | 10 scenes × 3 consecutive commands. Checks that end-of-task detection matches simulator ground truth. |
+| Unit tests | `tests/` (pytest). 15 for the color guard, 3 for the loop, etc. |
 
-### 10.7 seed 구역 (학습과 평가가 겹치지 않게)
+### 10.7 Seed ranges (no overlap between training and evaluation)
 
-| 용도 | seed |
+| Use | Seed |
 |---|---|
-| 전체 작업 평가 | 10000~ |
-| 잡기 실패 분석 / 가드 v2 측정 | 0~ / 5000~ |
-| 반사실 시험 | 20000~ / 30000~ |
-| 분류기 프레임 | 70000~ / 90000~ |
-| DSRL 학습 | 100000~ |
-| v8 시연 | 500000~ |
-| IRL 시범 / 관문 | 700000~ / 740000~ |
-| IRL 학습 | 800000~ |
+| Full-task evaluation | 10000+ |
+| Grasp failure analysis / guard v2 measurement | 0+ / 5000+ |
+| Counterfactual test | 20000+ / 30000+ |
+| Classifier frames | 70000+ / 90000+ |
+| DSRL training | 100000+ |
+| v8 demos | 500000+ |
+| IRL demonstrations / gate | 700000+ / 740000+ |
+| IRL training | 800000+ |

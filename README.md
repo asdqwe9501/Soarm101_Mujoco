@@ -74,10 +74,10 @@ Methods that were tried without effect are documented too: DSRL (RL) three times
 | Failure analysis | Classifies failures into 11 types by gripper–ball position at the moment of closing. |
 | Color guard stress | 600 deliberately off-target closes on layouts with nearby balls, compared against the ball actually lifted. |
 
-## Documents (Korean)
+## Documents
 
 - **[Project report](docs/report/2026-10-29-project-report.md):** full process, models, training, dataset generation, benchmarks, real-robot transfer plan
-- [Color guard v2 results](docs/results/guard2/analysis.md) · [Grasp failure analysis](docs/results/grasp/analysis.md) · [Wrong-ball root cause](docs/results/erran/analysis.md) · [Color grounding attempts](docs/results/color_grounding_attempts.md)
+- Working notes (Korean): [Color guard v2 results](docs/results/guard2/analysis.md) · [Grasp failure analysis](docs/results/grasp/analysis.md) · [Wrong-ball root cause](docs/results/erran/analysis.md) · [Color grounding attempts](docs/results/color_grounding_attempts.md)
 - [Plans (Plan 1–9)](docs/superpowers/plans/)
 
 ## Repository layout
